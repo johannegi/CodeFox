@@ -49,20 +49,60 @@ namespace CodeFox.Services
             return UserView;
         }
 
-        public EditorViewModel GetEditorViewModel(int ProjectID)
+        public EditorViewModel GetEditorViewModel(int? ProjectID)
         {
             EditorViewModel projectView = new EditorViewModel();
 
             Project CurrProject = db.Projects.Find(ProjectID);
+            projectView.Files = new List<File>();
+            projectView.SharedWith = new List<UserInfo>();
 
             projectView.Name = CurrProject.Name;
             projectView.Owner = CurrProject.Owner;
             projectView.ReadMe = CurrProject.ReadMe;
             projectView.Type = CurrProject.Type;
 
+            var FilesProject = db.FilesInProjects.Where(x => x.FileProject.ID == CurrProject.ID).ToList();
+            if (FilesProject != null)
+            {
+                foreach (var item in FilesProject)
+                {
+                    File tmp = item.ProjectFile;
+                    projectView.Files.Add(tmp);
+                }
+            }
 
+            var Shared = db.ProjectShares.Where(x => x.ShareProject.ID == CurrProject.ID).ToList();
+            if (Shared != null)
+            {
+                foreach (var item in Shared)
+                {
+                    UserInfo tmp = item.ShareUser;
+                    projectView.SharedWith.Add(tmp);
+                }
+            }
+            
 
             return projectView;
+        }
+
+        public bool CanUserOpenProject(EditorViewModel model, string Username)
+        {
+            if (model.Owner.Username == Username)
+            {
+                return true;
+            }
+            else
+            {
+                foreach (var item in model.SharedWith)
+                {
+                    if (item.Username == Username)
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
         }
 
     }

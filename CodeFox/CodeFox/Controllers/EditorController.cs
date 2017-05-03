@@ -1,4 +1,5 @@
-﻿using CodeFox.Services;
+﻿using CodeFox.Models.ViewModels;
+using CodeFox.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,9 +13,16 @@ namespace CodeFox.Controllers
         private ProjectService service = new ProjectService();
 
         // GET: Editor
-        public ActionResult Index(int ProjectID)
+        [Authorize]
+        public ActionResult Index(int? id)
         {
-            return View(service.GetEditorViewModel(ProjectID));
+            EditorViewModel EdiorView = service.GetEditorViewModel(id);
+            string Username = User.Identity.Name;
+            if (!service.CanUserOpenProject(EdiorView, Username))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            return View(EdiorView);
         }
     }
 }
