@@ -162,8 +162,18 @@ color:red;
     font-size: 40px;
 }
 
-footer{
-    position: fixed;
-    bottom: 0px;
-    width: 100%;
+a.attempt:hover{
+    color: red;
 }
+
+
+
+
+#content
+{
+    clear:both;
+	  width: 950px;
+	  position:relative;
+	  min-height:330px;
+}
+
