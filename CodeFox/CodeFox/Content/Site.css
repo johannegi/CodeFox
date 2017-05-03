@@ -161,3 +161,37 @@ color:red;
     font-family: 'Open Sans Condensed', sans-serif;
     font-size: 40px;
 }
+
+a.attempt:hover{
+    color: red;
+}
+
+
+
+
+#content
+{
+    clear:both;
+	  width: 950px;
+	  position:relative;
+	  min-height:330px;
+}
+.footer
+{
+    position:relative;
+    height: 5em;
+    margin-bottom:-5em;
+    /* bottom:3px;
+    z-index:05px;
+    margin-top:-5em; */
+    background-image:url('bg_footer111.gif');
+    background-repeat:no-repeat;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 10px;
+    font-weight: bold;
+    color:#FFFFFF;
+    left:5px;
+    right:-5px;
+    width: 982px;
+ 
+}
