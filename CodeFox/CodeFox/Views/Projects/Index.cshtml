@@ -12,13 +12,16 @@
 {
     <h2>Projects</h2>
     <div class="OwnProjects col-sm-12">
-        @foreach (var item in Model.Projects)
-        {
-            <div class="Project col-sm-2">
-                <p>@Html.ActionLink(Html.DisplayFor(model => item.Name).ToString(),"Index","Editor",  new {id=item.ID },null)</p>
-            </div>
-        }
-    </div>
+        <div class="Project col-sm-2">
+            @Html.ActionLink("Create new", "Create", "Projects")
+        </div>
+            @foreach (var item in Model.Projects)
+            {
+                <div class="Project col-sm-2">
+                    <p>@Html.ActionLink(Html.DisplayFor(model => item.Name).ToString(), "Index", "Editor", new { id = item.ID }, null)</p>
+                </div>
+            }
+        </div>
 }
 
 @if (Model.SharedProjects.Count != 0)

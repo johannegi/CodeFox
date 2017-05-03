@@ -161,3 +161,9 @@ color:red;
     font-family: 'Open Sans Condensed', sans-serif;
     font-size: 40px;
 }
+
+footer{
+    position: fixed;
+    bottom: 0px;
+    width: 100%;
+}
