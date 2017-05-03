@@ -1,0 +1,163 @@
+﻿body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+.MainPageCenter {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+.FooterPosition{
+    float: right;
+    list-style-type: none; 
+    text-decoration: none;
+
+}
+.FooterLinkAppearance:hover{
+    text-decoration: none;
+
+}
+.navbar-inverse
+ {
+     background-color: white !important; 
+}
+
+.MainPageImage img
+{
+   display:block;
+   margin:0 auto;
+   width:900px;
+   padding: 20px;
+
+}
+
+.float-left 
+{
+float:left;
+width:300px; /* or 33% for equal width independent of parent width*/
+}
+
+/*This is the section where we talk nicely about CodeFox on the main page*/
+section {
+  padding: 100px 0;
+}
+section h2.section-heading {
+  font-size: 40px;
+  margin-top: 0;
+  margin-bottom: 15px;
+}
+
+section h3.section-subheading {
+  font-size: 16px;
+  font-family: "Droid Serif", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  text-transform: none;
+  font-style: italic;
+  font-weight: 400;
+  margin-bottom: 75px;
+}   
+
+.service-heading
+{
+  margin: 15px 0;
+  text-transform: none;
+}
+
+/**********************************************************************************/
+/*styles for Projectview*/
+
+.Project
+{
+    height: 80px;
+    border: 1px solid black;
+}
+
+.OwnProjects
+{   
+    padding-top: 15px;
+    padding-bottom: 15px;
+    overflow:hidden;
+    height:1%;
+    border: 1px solid black;
+}
+
+.SharedProject
+{
+    padding-top: 15px;
+    padding-bottom: 15px;
+    overflow:hidden;
+    height:1%;
+    border: 1px solid black;
+}
+
+/**********************************************************************************/
+/*styles for About*/
+
+.OurGoals
+{
+    display: flex;
+    position: relative;
+    min-height: 350px;
+}
+.OurGoals p
+{
+    float: left;
+    width: 45%;
+}
+.OurGoals img{
+    display: block;
+    width: 55%;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 1000;
+  right: 0;
+    padding: 20px;
+    padding-top: 0px; 
+}
+
+.Developer img{
+    width: 40%;
+    float: left;
+    padding: 5px;
+}
+.Developer p
+{
+    width: 60%;
+    float: left;
+    padding: 5px;
+}
+
+/*Ends*/
+
+.top_nav ul li a:hover{
+
+color:red;
+
+}
+
+#MainPageSlogan
+{
+    font-family: 'Open Sans Condensed', sans-serif;
+    font-size: 40px;
+}
