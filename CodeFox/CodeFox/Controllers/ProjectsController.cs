@@ -29,6 +29,7 @@ namespace CodeFox.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(Project NewProject)
         {
+            NewProject.DateCreated = DateTime.Now;
             return View();
         }
 
