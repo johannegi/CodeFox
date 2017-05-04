@@ -26,13 +26,7 @@
             @Html.LabelFor(model => model.Type, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownListFor(model => model.Type, new SelectList(
-                  new List<Object>
-                    {
-                    new { value = "bla" , text = "C++"  },
-                    new { value = "bla" , text = "html" },
-                    new { value = "bla" , text = "annad"},
-                    new { value = "bla" , text = "vaw"},
-                    },
+                  Model.TypeList.Select(x => new { Value = x, Text = x }),
                   "value",
                   "text",
                    2), new { @class = "form-control" })

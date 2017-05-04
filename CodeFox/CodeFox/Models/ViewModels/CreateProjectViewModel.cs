@@ -8,6 +8,8 @@ namespace CodeFox.Models.ViewModels
 {
     public class CreateProjectViewModel
     {
+        public List<string> TypeList;
+
         [Required]
         public string Name { get; set; }
         [Required]
