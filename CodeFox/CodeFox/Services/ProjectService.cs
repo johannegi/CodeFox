@@ -126,5 +126,14 @@ namespace CodeFox.Services
             db.SaveChanges();
         }
 
+        public Project GetProjectFromID(int? ProjectID)
+        {
+            Project ProjectWithID = db.Projects.Where(x => x.ID == ProjectID).SingleOrDefault();
+            if(ProjectWithID == null)
+            {
+                //TODO:implement error
+            }
+            return ProjectWithID;
+        }
     }
 }

@@ -14,7 +14,17 @@
 </div>
 <div class="EditorButtons"> @Html.ActionLink("Delete project", "Share", "Editor", new { @class = "btn btn-danger DeleteButton" })</div>
 
+<<<<<<< HEAD
 <div class="EditorArea">   
+=======
+<div>
+    <h1>@Html.DisplayFor(model => model.Name)</h1>
+
+    <div>
+        <!-- Nav bar where SAVE EXPORT SHARE ADD FILE CLOSE AND DELETE PROJECT WILL BE-->
+        @Html.ActionLink("Share with your foxes!", "Share", "Editor", null, new { @class = "EditorButtons", ProjectID = Model.ID})
+    </div>
+>>>>>>> 280cc2fbb3fc7c18204aecebca2e9df12dfd921a
     <div class="container">
         <!-- DIV AROUND THE FILE TREE VIEW AND EDITOR-->
         <div class="panel panel-default">
