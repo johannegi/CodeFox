@@ -9,12 +9,13 @@ using System.Web.Mvc;
 
 namespace CodeFox.Controllers
 {
+    [Authorize]
     public class ProjectsController : Controller
     {
         private ProjectService PService = new ProjectService();
 
         // GET: Project
-        [Authorize]
+        
         public ActionResult Index()
         {
             string Username = User.Identity.Name;
