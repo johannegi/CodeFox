@@ -20,12 +20,7 @@
                 <h3 class="panel-title">Editor</h3>
             </div>
             <div class="panel-body">
-                <pre id="Editor">function foo(items) {
-                var i;
-                for (i = 0; i &lt; items.length; i++) {
-                    alert("Ace Rocks " + items[i]);
-                }
-            }</pre>
+                <pre id="Editor">@Html.DisplayFor(model => model.ReadMe.Location).ToString()</pre>
             </div>
         </div>
         <div class="text-center">---End of editor---</div>
@@ -33,9 +28,9 @@
 
     <script src="~/scripts/AceEditor/ace.js" type="text/javascript" charset="utf-8"> </script>
     <script>
-                var editor = ace.edit("Editor");
-                editor.setTheme("ace/theme/twilight");
-                editor.session.setMode("ace/mode/javascript");
+                var Editor = ace.edit("Editor");
+                Editor.setTheme("ace/theme/twilight");
+                Editor.session.setMode("ace/mode/Text");
     </script>
    <!-- <div class="BorderEditor">
         <!-- DIV AROUND THE FILE TREE VIEW AND EDITOR

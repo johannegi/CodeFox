@@ -11,15 +11,24 @@
 
 <h2>Projects</h2>
 <div class="OwnProjects col-sm-12">
-    <div class="Project col-sm-2">
-        @Html.ActionLink("Create new", "Create", "Projects")
+    <div class="col-sm-2">
+        <button class="Create card" onclick="location.href='@Url.Action("Create", "Projects")';return false;">
+            <img class="card-img" src="~/Content/Images/plus.png" data-holder-rendered="true">
+            <h4 class="card-title">@Html.ActionLink("Create new", "Create", "Projects")</h4>
+        </button>
     </div>
     @if (Model.Projects.Count != 0)
     {
         foreach (var item in Model.Projects)
         {
-            <div class="Project col-sm-2">
-                <p>@Html.ActionLink(Html.DisplayFor(model => item.Name).ToString(), "Index", "Editor", new { id = item.ID }, null)</p>
+            <div class="col-sm-2">
+                <button class="Project card card-inverse" onclick="location.href='@Url.Action("Index", "Editor", new { id = item.ID })';return false;">
+                    <img class="card-img" src="~/Content/Images/tester.jpg" data-holder-rendered="true">
+                    <div class="card-img-overlay">
+                        <h4 class="card-title">@Html.ActionLink(Html.DisplayFor(model => item.Name).ToString(), "Index", "Editor", new { id = item.ID }, null)</h4>
+                        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                    </div>
+                </button>
             </div>
         }
     }
@@ -31,9 +40,18 @@
     <div class="SharedProjects col-sm-12">
         @foreach (var item in Model.SharedProjects)
         {
-            <div class="Project col-sm-2">
-                <p>@Html.ActionLink(Html.DisplayFor(model => item.Name).ToString(), "Index", "Editor", new { id = item.ID }, null)</p>
+            <div class="col-sm-2">
+                <button class="Project card card-inverse" onclick="location.href='@Url.Action("Index", "Editor", new { id = item.ID })';return false;">
+                    <img class="card-img" src="~/Content/Images/tester.jpg" data-holder-rendered="true">
+                    <div class="card-img-overlay">
+                        <h4 class="card-title">@Html.ActionLink(Html.DisplayFor(model => item.Name).ToString(), "Index", "Editor", new { id = item.ID }, null)</h4>
+                        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                    </div>
+                </button>
             </div>
         }
     </div>
 }
+<button class="btn dropdown-toggle" type="button" data-toggle="dropdown" aria-label="Left allign">
+    <span class="glyphicon glyphicon-align-justify" aria-hidden="true"></span>
+</button>

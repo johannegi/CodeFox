@@ -25,6 +25,8 @@ namespace CodeFox.Controllers
         public ActionResult Create()
         {
             CreateProjectViewModel Model = new CreateProjectViewModel();
+            string path = Server.MapPath("~/Content/Lists/ProjectTypes.txt");
+            Model.TypeList = new List<string>(System.IO.File.ReadLines(path).ToList());
             return View(Model);
         }
 
