@@ -24,5 +24,10 @@ namespace CodeFox.Controllers
             }
             return View(EdiorView);
         }
+
+        public ActionResult Share()
+        {
+            return View("ShareTemplate");
+        }
     }
 }

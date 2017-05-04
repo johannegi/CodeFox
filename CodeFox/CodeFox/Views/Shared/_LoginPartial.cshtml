@@ -7,16 +7,27 @@
 
     <ul class="nav navbar-nav navbar-right">
         <li>
-            @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+            <!--Gamla sem ég commentaði út:-->
+            <!--Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })-->
+            @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", null,  new { @class = "HoverEffect", title="Manage" })
         </li>
-        <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
+        <li>
+            @Html.ActionLink("Projects", "Index", "Projects", routeValues: null, htmlAttributes: new { @class = "HoverEffect" })
+        </li>
+        <li>
+            <a href="javascript:document.getElementById('logoutForm').submit()" class="HoverEffect">Log off</a>
+        </li>
     </ul>
     }
 }
 else
 {
     <ul class="nav navbar-nav navbar-right">
-        <li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
-        <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+        <li>
+            @Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink", @class = "HoverEffect" })            
+        </li>
+        <li>
+            @Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink", @class = "HoverEffect" })
+        </li>
     </ul>
 }

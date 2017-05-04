@@ -1,6 +1,6 @@
 ﻿body {
     padding-top: 50px;
-    padding-bottom: 20px;
+    padding-bottom:60px;   /* Height of the footer */
 }
 
 /* Set padding to keep content from hitting the edges */
@@ -29,11 +29,11 @@ textarea {
     text-align: center;
 }
 .FooterPosition{
-    float: right;
     list-style-type: none; 
     text-decoration: none;
-
+    text-align: right;
 }
+
 .FooterLinkAppearance:hover{
     text-decoration: none;
 
@@ -84,7 +84,7 @@ section h3.section-subheading {
 }
 
 /**********************************************************************************/
-/*styles for Projectview*/
+/*Styles for Projectview*/
 
 .Project
 {
@@ -111,7 +111,7 @@ section h3.section-subheading {
 }
 
 /**********************************************************************************/
-/*styles for About*/
+/*Styles for About*/
 
 .OurGoals
 {
@@ -173,13 +173,44 @@ a.attempt:hover{
 	min-height:330px;
 }
 
+.LineAbove {
+    border: 4px solid red;
+}
+
 /**********************************************************************************/
+/*Styles for Navbar*/
+
+.navbar-inverse #NavBarHamburger {
+    background-color: palevioletred;
+}
+
+.navbar-inverse #NavBarHamburger:hover {
+    background-color: aliceblue;
+}
+
+.HoverEffect {
+    color: #808080;
+    text-decoration: none;
+    padding-top: 15px;
+    height: 100%;
+}
+
+.navbar-inverse .navbar-nav > li >.HoverEffect:hover,
+.navbar-inverse .HoverEffect:hover {
+    color: blue;
+}
+/**********************************************************************************/
+<<<<<<< HEAD
 /*styles for Editor*/
 .BorderEditor
 {
     border: 3px solid red;
     padding: 20px;
 }
+=======
+/*Styles for Editor*/
+
+>>>>>>> 291cc5076e1445ad5173c97ecec8afb85970769b
 .AceEditor
 {
     height:600px;
@@ -196,4 +227,50 @@ a.attempt:hover{
     bottom: 0;
     left: 0;
     right: 0;
+}
+
+/**********************************************************************************/
+/*Styles for Share*/
+
+.lr {
+    height: 25px;
+    width: 1px;
+    margin-left: 35px;
+    background-color: #222;
+    transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+    z-index: 1051;
+}
+
+.rl {
+    height: 25px;
+    width: 1px;
+    background-color: #222;
+    transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    -webkit-transform: rotate(90deg);
+    z-index: 1052;
+}
+
+.ShareWindow {
+    text-align: center;
+    padding: 0 0 20px 0;
+    border: 1px solid black;
+    border-radius: 1%;
+    margin-top: 50px;
+    margin-bottom: 300px;
+}
+
+.InputField {
+    padding: 10px;
+    margin-bottom: 30px;
+}
+
+.InputField  label{
+    margin-bottom: 20px;
+}
+
+.CloseShare {
+    text-align:right;
 }

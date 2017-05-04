@@ -15,37 +15,30 @@
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <button type="button" id="NavBarHamburger" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("CodeFox", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("CodeFox", "Index", "Home", new { area = "" }, new { @class = "navbar-brand HoverEffect" })
             </div>
             <div class="navbar-collapse collapse">
-                
-                    <ul class="nav navbar-nav">
-                        <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                        <li>@Html.ActionLink("About", "About", "Home")</li>
-                        <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                    </ul>
                 @Html.Partial("_LoginPartial")
             </div>
         </div>
     </div>
     <div class="container body-content">
         @RenderBody()
-        <hr />
-        <footer>
-
-            <p>&copy; @DateTime.Now.Year - CodeFox</p>
-            <ul class="FooterPosition">  
-                <li>@Html.ActionLink("About", "About", "Home",new { @class = "FooterLinkAppearance" })</li>
-                <li>@Html.ActionLink("Contact", "Contact", "Home", new { @class = "FooterLinkAppearance" })</li>
-            </ul>
-            <p></p> 
-        </footer>
     </div>
+    <footer>
+        <hr />
+        <p class="col-md-6 col-sm-6">&copy; @DateTime.Now.Year - CodeFox</p>
+        <ul class="FooterPosition col-md-6 col-sm-6">
+            <li>@Html.ActionLink("About", "About", "Home", new { @class = "FooterLinkAppearance" })</li>
+            <li>@Html.ActionLink("Contact", "Contact", "Home", new { @class = "FooterLinkAppearance" })</li>
+        </ul>
+        <p></p>
+    </footer>
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
