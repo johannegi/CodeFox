@@ -6,6 +6,7 @@
 <div class="EditorButtons">
     <!-- Class created to construct the look of the buttons on EditorPage -->
     <!-- Nav bar where SAVE EXPORT SHARE ADD FILE CLOSE AND DELETE PROJECT WILL BE-->
+    <button class="testclick">Test</button>
     @Html.ActionLink("Save", "Share", "Editor", new { @class = "btn btn-info" })
     @Html.ActionLink("Export", "Share", "Editor", new { @class = "btn btn-info" })
     @Html.ActionLink("Share with your foxes!", "Share", "Editor", new { @class = "btn btn-info" })
@@ -34,12 +35,22 @@
         </div>
         <div class="text-center">---Possibly add who shared with, or when last change was made---</div>
     </div>
-
+    @section scripts{
     <script src="~/scripts/AceEditor/ace.js" type="text/javascript" charset="utf-8"> </script>
     <script>
+
+
                 var Editor = ace.edit("Editor");
                 Editor.setTheme("ace/theme/twilight");
                 Editor.session.setMode("ace/mode/Text");
+
+                $(function () {
+                    $(".testclick").on("click", function () {
+                        var editorVal = ace.edit("Editor").getValue();
+                        console.log("test val = "+ editorVal);
+                    });
+                });
     </script>
+    }
 </div>
 
