@@ -35,5 +35,10 @@ namespace CodeFox.Services
             }
             return SharedUsers;
         }
+        public UserInfo GetUserByUsername(string Username)
+        {
+            UserInfo tmp = db.UsersInfo.Where(x => x.Username == Username).SingleOrDefault();
+            return tmp;
+        }
     }
 }
