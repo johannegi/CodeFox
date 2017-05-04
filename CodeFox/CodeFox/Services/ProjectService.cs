@@ -106,7 +106,7 @@ namespace CodeFox.Services
             return false;
         }
 
-        public bool CreateProject (CreateProjectViewModel NewCreateProject, string Username)
+        public void CreateProject (CreateProjectViewModel NewCreateProject, string Username)
         {
             UserInfo Owner = db.UsersInfo.Where(x => x.Username == Username).SingleOrDefault();
             Project NewProject = new Project();
@@ -124,8 +124,6 @@ namespace CodeFox.Services
             POwner.OwnerProject = NewProject;
             db.ProjectOwners.Add(POwner);
             db.SaveChanges();
-
-            return true;
         }
 
     }
