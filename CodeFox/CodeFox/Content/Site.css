@@ -204,6 +204,14 @@ a.attempt:hover{
     color: blue;
 }
 /**********************************************************************************/
+
+/*styles for Editor*/
+.BorderEditor
+{
+    border: 3px solid red;
+    padding: 20px;
+}
+
 /*Styles for Editor*/
 
 .AceEditor
