@@ -7,6 +7,8 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using CodeFox.Models;
+using CodeFox.Services;
+using CodeFox.Models.Entities;
 
 namespace CodeFox.Controllers
 {
@@ -15,6 +17,7 @@ namespace CodeFox.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private UserService UService = new UserService();
 
         public ManageController()
         {
@@ -64,8 +67,13 @@ namespace CodeFox.Controllers
                 : "";
 
             var userId = User.Identity.GetUserId();
+            UserInfo tmp = UService.GetUserByUsername(User.Identity.Name);
             var model = new IndexViewModel
             {
+                Name = tmp.Name,
+                Username = tmp.Username,
+                Email = tmp.Email,
+                Country = tmp.Country,
                 HasPassword = HasPassword(),
                 PhoneNumber = await UserManager.GetPhoneNumberAsync(userId),
                 TwoFactor = await UserManager.GetTwoFactorEnabledAsync(userId),
