@@ -25,6 +25,8 @@ namespace CodeFox.Controllers
         public ActionResult Create()
         {
             CreateProjectViewModel Model = new CreateProjectViewModel();
+            string path = Server.MapPath("~/Content/Lists/ProjectTypes.txt");
+            Model.TypeList = new List<string>(System.IO.File.ReadLines(path).ToList());
             return View(Model);
         }
 
@@ -41,17 +43,6 @@ namespace CodeFox.Controllers
             return View(Model);
         }
 
-        //MUNA AÐ BREYTA!!!!
-        public ActionResult Share()
-        {
-            return View("ShareTemplate");
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Share(Project ShareProject)
-        {
-            return View();
-        }
+        
     }
 }

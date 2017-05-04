@@ -63,6 +63,8 @@ namespace CodeFox.Models
 
     public class RegisterViewModel
     {
+        public List<string> CountryList;
+
         [Required]
         [EmailAddress]
         [Display(Name = "Email")]

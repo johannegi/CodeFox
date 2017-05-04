@@ -2,61 +2,44 @@
 @{
     ViewBag.Title = "Index";
 }
-
-<div>
-    <h1>@Html.DisplayFor(model => model.Name)</h1>
+<h1 id="ProjectName">Project name: @Html.DisplayFor(model => model.Name)</h1>
+<div class="EditorButtons">
+    <!-- Class created to construct the look of the buttons on EditorPage -->
+    <!-- Nav bar where SAVE EXPORT SHARE ADD FILE CLOSE AND DELETE PROJECT WILL BE-->
+    @Html.ActionLink("Save", "Share", "Editor", new { @class = "btn btn-info" })
+    @Html.ActionLink("Export", "Share", "Editor", new { @class = "btn btn-info" })
+    @Html.ActionLink("Share with your foxes!", "Share", "Editor", new { @class = "btn btn-info" })
+    @Html.ActionLink("Add files", "Share", "Editor", new { @class = "btn btn-info" })
+    @Html.ActionLink("Close", "Index", "Projects", new { area = "" }, new { @class = "btn btn-info" })
+</div>
+<div class="EditorButtons"> @Html.ActionLink("Delete project", "Share", "Editor", new { @class = "btn btn-danger DeleteButton" })</div>
+<div class="EditorArea">   
 
     <div>
         <!-- Nav bar where SAVE EXPORT SHARE ADD FILE CLOSE AND DELETE PROJECT WILL BE-->
-        @Html.ActionLink("Share with your foxes!", "Share", "Editor", new { @class = "EditorButtons" })
     </div>
     <div class="container">
         <!-- DIV AROUND THE FILE TREE VIEW AND EDITOR-->
-        <div class="col-sm-2">
-            <!--FILETREE-->
-        </div>
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h3 class="panel-title">Editor</h3>
+                <h3 class="panel-title">FileName</h3>
+            </div>
+            <div class="col-lg-2">
+                <p>Insert FileTree</p>
             </div>
             <div class="panel-body">
-                <pre id="Editor">function foo(items) {
-                var i;
-                for (i = 0; i &lt; items.length; i++) {
-                    alert("Ace Rocks " + items[i]);
-                }
-            }</pre>
+             
+                <pre id="Editor">@Html.DisplayFor(model => model.ReadMe.Location).ToString()</pre>
             </div>
         </div>
-        <div class="text-center">---End of editor---</div>
+        <div class="text-center">---Possibly add who shared with, or when last change was made---</div>
     </div>
 
     <script src="~/scripts/AceEditor/ace.js" type="text/javascript" charset="utf-8"> </script>
     <script>
-                var editor = ace.edit("Editor");
-                editor.setTheme("ace/theme/twilight");
-                editor.session.setMode("ace/mode/javascript");
+                var Editor = ace.edit("Editor");
+                Editor.setTheme("ace/theme/twilight");
+                Editor.session.setMode("ace/mode/Text");
     </script>
-   <!-- <div class="BorderEditor">
-        <!-- DIV AROUND THE FILE TREE VIEW AND EDITOR
-        <div class="col-sm-2">
-            <!--FILETREE-
-        </div>
-        <div class="AceEditor col-sm-10">
-            <!--EDITOR
-            <pre id="Editor">function foo(items) {
-                var i;
-                for (i = 0; i &lt; items.length; i++) {
-                    alert("Ace Rocks " + items[i]);
-                }
-            }</pre>
-            <script src="~/scripts/AceEditor/ace.js" type="text/javascript" charset="utf-8"> </script>
-            <script>
-                var editor = ace.edit("Editor");
-                editor.setTheme("ace/theme/twilight");
-                editor.session.setMode("ace/mode/javascript");
-            </script>
-        </div>
-    </div>-->
 </div>
 

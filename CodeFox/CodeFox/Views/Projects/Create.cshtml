@@ -3,7 +3,7 @@
     ViewBag.Title = "Create new project";
 }
 
-<h2>plis enetr info</h2>
+<h2>please enter info</h2>
 
 
 @using (Html.BeginForm()) 
@@ -26,13 +26,7 @@
             @Html.LabelFor(model => model.Type, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownListFor(model => model.Type, new SelectList(
-                  new List<Object>
-                    {
-                    new { value = "bla" , text = "C++"  },
-                    new { value = "bla" , text = "html" },
-                    new { value = "bla" , text = "annad"},
-                    new { value = "bla" , text = "vaw"},
-                    },
+                  Model.TypeList.Select(x => new { Value = x, Text = x }),
                   "value",
                   "text",
                    2), new { @class = "form-control" })
@@ -43,7 +37,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.ReadMe, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.TextAreaFor(model => model.ReadMe, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.TextAreaFor(model => model.ReadMe, 8, 40, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.ReadMe, "", new { @class = "text-danger" })
             </div>
         </div>

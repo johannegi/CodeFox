@@ -7,6 +7,10 @@ namespace CodeFox.Models
 {
     public class IndexViewModel
     {
+        public string Name { get; set; }
+        public string Username { get; set; }
+        public string Email { get; set; }
+        public string Country { get; set; }
         public bool HasPassword { get; set; }
         public IList<UserLoginInfo> Logins { get; set; }
         public string PhoneNumber { get; set; }

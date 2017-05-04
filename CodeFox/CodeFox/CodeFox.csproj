@@ -216,10 +216,12 @@
     <Compile Include="Models\ViewModels\CreateProjectViewModel.cs" />
     <Compile Include="Models\ViewModels\EditorViewModel.cs" />
     <Compile Include="Models\ViewModels\ProjectsViewModel.cs" />
+    <Compile Include="Models\ViewModels\ShareProjectViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\FileService.cs" />
     <Compile Include="Services\FolderService.cs" />
     <Compile Include="Services\ProjectService.cs" />
+    <Compile Include="Services\UserService.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -291,7 +293,7 @@
     <Content Include="Views\Projects\Index.cshtml" />
     <Content Include="Views\Projects\Create.cshtml" />
     <Content Include="Views\Projects\Share.cshtml" />
-    <Content Include="Views\Editor\ShareTemplate.cshtml" />
+    <Content Include="Views\Editor\Share.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
