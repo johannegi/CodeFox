@@ -84,7 +84,7 @@ section h3.section-subheading {
 }
 
 /**********************************************************************************/
-/*styles for Projectview*/
+/*Styles for Projectview*/
 
 .Project
 {
@@ -111,7 +111,7 @@ section h3.section-subheading {
 }
 
 /**********************************************************************************/
-/*styles for About*/
+/*Styles for About*/
 
 .OurGoals
 {
@@ -177,3 +177,9 @@ a.attempt:hover{
 	  min-height:330px;
 }
 
+/**********************************************************************************/
+/*Styles for Navbar*/
+
+.HoverEffect:hover {
+    background: blue;
+}
