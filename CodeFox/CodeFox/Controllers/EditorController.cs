@@ -1,10 +1,12 @@
-﻿using CodeFox.Models.ViewModels;
+﻿using CodeFox.Models.Entities;
+using CodeFox.Models.ViewModels;
 using CodeFox.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
 
 namespace CodeFox.Controllers
 {
@@ -30,7 +32,7 @@ namespace CodeFox.Controllers
         public ActionResult Share(int? ProjectID)
         {
             ShareProjectViewModel Model = new ShareProjectViewModel();
-            Model.AllUsers = UService.GetAllUsers();
+            Model.AllUsers = UService.GetAllUsers(User.Identity.GetUserName());
             Model.SharedWith = UService.GetSharedUsersFromProject(ProjectID);
             Model.ShareProject = Pservice.GetProjectFromID(ProjectID);
             return View(Model);
@@ -38,9 +40,25 @@ namespace CodeFox.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Share()
+        public ActionResult Share(FormCollection collection)
         {
-            return View();
+            string Username = collection["AddUsername"];
+            if (Username == "Patti")
+            {
+                //
+                string cool = "cool beans";
+            }
+            return RedirectToAction("Index");
+        }
+
+      public ActionResult Autocomplete(string term)
+        {
+            var AllUsers = UService.GetAllUsers(User.Identity.GetUserName());
+
+            var PossibleOutComes = AllUsers.Where(s => s.Username.ToLower().Contains
+                                   (term.ToLower())).Select(w => w).ToList();
+
+            return Json(PossibleOutComes, JsonRequestBehavior.AllowGet);
         }
     }
 }

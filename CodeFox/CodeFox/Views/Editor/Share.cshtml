@@ -3,25 +3,61 @@
     ViewBag.Title = "ShareTemplate";
 }
 
-<div class="col-md-12 col-sm-12">
-    <div class="col-md-6 col-sm-6 ShareWindow col-md-offset-3 col-sm-offset-3">
-        <div class="col-md-12 col-sm-12 CloseShare">
-            <div class="lr pull-right">
-                <div class="rl pull-right">
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-autocomplete/1.0.7/jquery.auto-complete.js"></script>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="col-md-12 col-sm-12">
+        <div class="col-md-6 col-sm-6 ShareWindow col-md-offset-3 col-sm-offset-3">
+            <div class="col-md-12 col-sm-12 CloseShare">
+                <div class="lr pull-right">
+                    <div class="rl pull-right">
+                    </div>
                 </div>
             </div>
-        </div>
-        <h2>Share with fellow foxes</h2>
-        <div class="row InputField">
-            <label for="User">Add collaborator by Username</label> <br />
-            <div>
-                <table>
-
-                </table>
+            <h2>Share with fellow foxes</h2>
+            <div class="row InputField">
+                <label for="User">Add collaborator by Username</label> <br />
+                <div class="table-responsive">
+                    <table class="table table-striped col-sm-12 col-md-12">
+                        <thead>
+                            <tr>
+                                <th>Username</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.AllUsers)
+                            {
+                                <tr class="clickable-row">
+                                    <td>
+                                        @item.Username
+                                    </td>
+                                </tr>
+                            }
+                            <tr>
+                                <td>
+                                    <strong>Add collaborator</strong>                    
+                                    <input type="text" name="AddUsername" id="AddUsername"/>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
+            <button class="btn btn-default">Cancel</button>
+            <button class="btn btn-default">Share</button>
         </div>
-        <button class="btn btn-default">Cancel</button>
-        <button class="btn btn-default">Share</button>
     </div>
-</div>
+}
 
+<script type="text/javascript">
+    $(document).ready(function () { 
+        $('*[data-autocomplete-url]') 
+            .each(function () { 
+                $(this).autocomplete({ 
+                    source: $(this).data('autocomplete-url') 
+                }); 
+            }); 
+    });
+</script>  
