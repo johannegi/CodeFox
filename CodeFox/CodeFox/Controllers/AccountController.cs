@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Globalization;
 using System.Linq;
 using System.Security.Claims;
@@ -10,6 +11,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using CodeFox.Models;
 using CodeFox.Models.Entities;
+using System.Collections.Generic;
 
 namespace CodeFox.Controllers
 {
@@ -141,7 +143,10 @@ namespace CodeFox.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
-            return View();
+            RegisterViewModel Model = new RegisterViewModel();
+            string path = Server.MapPath("~/Content/Lists/Countries.txt");
+            Model.CountryList = new List<string>(System.IO.File.ReadLines(path).ToList());
+            return View(Model);
         }
 
         //
