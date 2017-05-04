@@ -2,6 +2,7 @@
 using CodeFox.Models.Entities;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 
@@ -35,6 +36,11 @@ namespace CodeFox.Services
         {
             UserInfo tmp = db.UsersInfo.Where(x => x.Username == Username).SingleOrDefault();
             return tmp;
+        }
+        public void EditUser(UserInfo User)
+        {
+            db.Entry(User).State = EntityState.Modified;
+            db.SaveChanges();
         }
     }
 }

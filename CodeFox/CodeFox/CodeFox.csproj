@@ -294,6 +294,9 @@
     <Content Include="Views\Projects\Create.cshtml" />
     <Content Include="Views\Projects\Share.cshtml" />
     <Content Include="Views\Editor\Share.cshtml" />
+    <Content Include="Views\Manage\ChangeName.cshtml" />
+    <Content Include="Views\Manage\ChangeEmail.cshtml" />
+    <Content Include="Views\Manage\ChangeCountry.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
