@@ -1,4 +1,5 @@
 ﻿using CodeFox.Models.Entities;
+using CodeFox.Models.ViewModels;
 using CodeFox.Services;
 using System;
 using System.Collections.Generic;
@@ -10,27 +11,33 @@ namespace CodeFox.Controllers
 {
     public class ProjectsController : Controller
     {
-        private ProjectService Service = new ProjectService();
+        private ProjectService PService = new ProjectService();
 
         // GET: Project
         [Authorize]
         public ActionResult Index()
         {
             string Username = User.Identity.Name;
-            return View(Service.GetProjectsViewModel(Username));
+            return View(PService.GetProjectsViewModel(Username));
         }
 
         public ActionResult Create()
         {
-            return View();
+            CreateProjectViewModel Model = new CreateProjectViewModel();
+            return View(Model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Project NewProject)
+        public ActionResult Create(CreateProjectViewModel Model)
         {
-            NewProject.DateCreated = DateTime.Now;
-            return View();
+            if (ModelState.IsValid)
+            {
+                string Username = User.Identity.Name;
+                PService.CreateProject(Model, Username);
+                return RedirectToAction("Index");
+            }
+            return View(Model);
         }
 
         public ActionResult Share()
