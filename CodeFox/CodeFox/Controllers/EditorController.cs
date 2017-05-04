@@ -11,6 +11,7 @@ namespace CodeFox.Controllers
     public class EditorController : Controller
     {
         private ProjectService Pservice = new ProjectService();
+        private UserService UService = new UserService();
 
         // GET: Editor
         [Authorize]
@@ -25,9 +26,21 @@ namespace CodeFox.Controllers
             return View(EdiorView);
         }
 
+        //MUNA AÐ BREYTA!!!!
+        public ActionResult Share(int? ProjectID)
+        {
+            ShareProjectViewModel Model = new ShareProjectViewModel();
+            Model.AllUsers = UService.GetAllUsers();
+            Model.SharedWith = UService.GetSharedUsersFromProject(ProjectID);
+            Model.ShareProject = Pservice.GetProjectFromID(ProjectID);
+            return View(Model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Share()
         {
-            return View("ShareTemplate");
+            return View();
         }
     }
 }
