@@ -32,7 +32,7 @@ namespace CodeFox.Controllers
             ShareProjectViewModel Model = new ShareProjectViewModel();
             Model.AllUsers = UService.GetAllUsers();
             Model.SharedWith = UService.GetSharedUsersFromProject(ProjectID);
-            Model.ShareProject = Pservice.GetProjectFromID(ProjectID)
+            Model.ShareProject = Pservice.GetProjectFromID(ProjectID);
             return View(Model);
         }
 
