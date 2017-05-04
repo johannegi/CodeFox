@@ -111,8 +111,6 @@ section h3.section-subheading {
     transition-duration: 0.4s;
 }
 
-
-
 .OwnProjects
 {   
     padding-top: 15px;
@@ -202,6 +200,8 @@ a.attempt:hover{
 /**********************************************************************************/
 /*Styles for Navbar*/
 
+
+
 .navbar-inverse #NavBarHamburger {
     background-color: palevioletred;
 }
@@ -221,21 +221,10 @@ a.attempt:hover{
 .navbar-inverse .HoverEffect:hover {
     color: blue;
 }
+
 /**********************************************************************************/
-<<<<<<< HEAD
-=======
 
->>>>>>> 0d4725fed844c6fa83a4ce669c6af5cc12c8b928
 /*styles for Editor*/
-.BorderEditor
-{
-    border: 1px solid red;
-}
-<<<<<<< HEAD
-=======
-
-/*Styles for Editor*/
->>>>>>> 0d4725fed844c6fa83a4ce669c6af5cc12c8b928
 
 .AceEditor
 {
@@ -248,11 +237,26 @@ a.attempt:hover{
     position: relative;
     height: 700px;
 }
+.EditorArea
+{
+    margin-top: 20px;
+}
 
 .EditorButtons
 {
     display: inline;
-    color:red;
+    margin-left: 18px;
+}
+.DeleteButton
+{
+    float: right;
+    margin-right: 18px;
+}
+
+#ProjectName
+{   
+    padding-left: 18px;
+    padding-bottom: 20px;
 }
 
 /**********************************************************************************/
