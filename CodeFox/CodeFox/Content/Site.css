@@ -138,12 +138,18 @@ section h3.section-subheading {
 .Developers img
 {
     padding: 5px;
-
+    float: left;
     position: relative;
     width:  200px;
     height: 200px;
-    background-repeat:   no-repeat;
-    background-size:     cover;
+    background-repeat: no-repeat;
+    background-size:  cover;
+}
+
+.Developers p
+{
+    display: inline-block;
+    float: right;
 }
 
 /*Ends*/
@@ -163,7 +169,3 @@ section h3.section-subheading {
 	min-height:330px;
 }
 
-.LineAbove{
-    border: 4px solid red;
-
-}
