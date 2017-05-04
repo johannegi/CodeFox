@@ -124,37 +124,36 @@ section h3.section-subheading {
     float: left;
     width: 45%;
 }
-.OurGoals img{
+.OurGoals img
+{
     display: block;
     width: 55%;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 1000;
-  right: 0;
+    position: absolute;
+    top: 0;
+    right: 0;
     padding: 20px;
     padding-top: 0px; 
 }
 
-.Developer img{
-    width: 40%;
-    float: left;
-    padding: 5px;
-}
-.Developer p
+.Developers img
 {
-    width: 60%;
-    float: left;
     padding: 5px;
+    float: left;
+    position: relative;
+    width:  200px;
+    height: 200px;
+    background-repeat: no-repeat;
+    background-size:  cover;
+}
+
+.Developers p
+{
+    display: inline-block;
+    float: right;
 }
 
 /*Ends*/
 
-.top_nav ul li a:hover{
-
-color:red;
-
-}
 
 #MainPageSlogan
 {
@@ -169,9 +168,9 @@ a.attempt:hover{
 #content
 {
     clear:both;
-	  width: 950px;
-	  position:relative;
-	  min-height:330px;
+	width: 950px;
+	position:relative;
+	min-height:330px;
 }
 
 /**********************************************************************************/
