@@ -86,11 +86,28 @@ section h3.section-subheading {
 /**********************************************************************************/
 /*Styles for Projectview*/
 
+.Create
+{
+    height: 199.2px;
+    border: 1px solid gray;
+    margin-bottom: 15px;
+    color: gray;
+}
+
 .Project
 {
-    height: 80px;
-    border: 1px solid black;
+    border: 1px solid gray;
+    margin-bottom: 15px;
+    color: gray;
 }
+
+.Project:hover
+{
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+    transition-duration: 0.4s;
+}
+
+
 
 .OwnProjects
 {   
@@ -98,17 +115,18 @@ section h3.section-subheading {
     padding-bottom: 15px;
     overflow:hidden;
     height:1%;
-    border: 1px solid black;
+    border: 1px solid lightgray;
 }
 
-.SharedProject
+.SharedProjects
 {
     padding-top: 15px;
     padding-bottom: 15px;
     overflow:hidden;
     height:1%;
-    border: 1px solid black;
+    border: 1px solid lightgray;
 }
+
 
 /**********************************************************************************/
 /*Styles for About*/
