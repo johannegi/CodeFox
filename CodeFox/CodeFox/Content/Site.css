@@ -138,12 +138,18 @@ section h3.section-subheading {
 .Developers img
 {
     padding: 5px;
-
+    float: left;
     position: relative;
     width:  200px;
     height: 200px;
-    background-repeat:   no-repeat;
-    background-size:     cover;
+    background-repeat: no-repeat;
+    background-size:  cover;
+}
+
+.Developers p
+{
+    display: inline-block;
+    float: right;
 }
 
 /*Ends*/
@@ -155,6 +161,10 @@ section h3.section-subheading {
     font-size: 40px;
 }
 
+a.attempt:hover{
+    color: red;
+}
+
 #content
 {
     clear:both;
@@ -163,6 +173,7 @@ section h3.section-subheading {
 	min-height:330px;
 }
 
+<<<<<<< HEAD
 .LineAbove {
     border: 4px solid red;
 }
@@ -189,3 +200,25 @@ section h3.section-subheading {
 .navbar-inverse .HoverEffect:hover {
     color: blue;
 }
+=======
+/**********************************************************************************/
+/*styles for Editor*/
+
+.AceEditor
+{
+    height:600px;
+    overflow: hidden;
+}
+
+#Editor
+{
+    height:100%;
+    width:100%;
+    margin: 0;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+>>>>>>> 6d97891f837a5d6e9145769779843358a12187c1

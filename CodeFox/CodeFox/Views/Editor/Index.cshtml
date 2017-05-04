@@ -5,17 +5,29 @@
 
 <div>
     <h1>@Html.DisplayFor(model => model.Name)</h1>
-    
+
     <div>
         <!-- Nav bar where SAVE EXPORT SHARE ADD FILE CLOSE AND DELETE PROJECT WILL BE-->
     </div>
     <div>
         <!-- DIV AROUND THE FILE TREE VIEW AND EDITOR-->
-        <div>
+        <div class="col-sm-2">
             <!--FILETREE-->
         </div>
-        <div>
+        <div class="AceEditor col-sm-10">
             <!--EDITOR-->
+            <pre id="Editor">function foo(items) {
+                var i;
+                for (i = 0; i &lt; items.length; i++) {
+                    alert("Ace Rocks " + items[i]);
+                }
+            }</pre>
+            <script src="~/scripts/AceEditor/ace.js" type="text/javascript" charset="utf-8"> </script>
+            <script>
+                var editor = ace.edit("Editor");
+                editor.setTheme("ace/theme/twilight");
+                editor.session.setMode("ace/mode/javascript");
+            </script>
         </div>
     </div>
 </div>
