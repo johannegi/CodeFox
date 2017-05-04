@@ -33,6 +33,10 @@ textarea {
     text-decoration: none;
     text-align: right;
 }
+.FooterPosition li{
+    display: inline;
+    padding-right: 40px;
+}
 
 .FooterLinkAppearance:hover{
     text-decoration: none;
