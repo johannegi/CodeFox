@@ -8,15 +8,42 @@
 
     <div>
         <!-- Nav bar where SAVE EXPORT SHARE ADD FILE CLOSE AND DELETE PROJECT WILL BE-->
-        @Html.ActionLink("Share with your foxes!", "Share", "Editor")
+        @Html.ActionLink("Share with your foxes!", "Share", "Editor", new { @class = "EditorButtons" })
     </div>
-    <div>
+    <div class="container">
         <!-- DIV AROUND THE FILE TREE VIEW AND EDITOR-->
         <div class="col-sm-2">
             <!--FILETREE-->
         </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Editor</h3>
+            </div>
+            <div class="panel-body">
+                <pre id="Editor">function foo(items) {
+                var i;
+                for (i = 0; i &lt; items.length; i++) {
+                    alert("Ace Rocks " + items[i]);
+                }
+            }</pre>
+            </div>
+        </div>
+        <div class="text-center">---End of editor---</div>
+    </div>
+
+    <script src="~/scripts/AceEditor/ace.js" type="text/javascript" charset="utf-8"> </script>
+    <script>
+                var editor = ace.edit("Editor");
+                editor.setTheme("ace/theme/twilight");
+                editor.session.setMode("ace/mode/javascript");
+    </script>
+   <!-- <div class="BorderEditor">
+        <!-- DIV AROUND THE FILE TREE VIEW AND EDITOR
+        <div class="col-sm-2">
+            <!--FILETREE-
+        </div>
         <div class="AceEditor col-sm-10">
-            <!--EDITOR-->
+            <!--EDITOR
             <pre id="Editor">function foo(items) {
                 var i;
                 for (i = 0; i &lt; items.length; i++) {
@@ -30,6 +57,6 @@
                 editor.session.setMode("ace/mode/javascript");
             </script>
         </div>
-    </div>
+    </div>-->
 </div>
 

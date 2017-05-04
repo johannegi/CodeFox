@@ -33,6 +33,10 @@ textarea {
     text-decoration: none;
     text-align: right;
 }
+.FooterPosition li{
+    display: inline;
+    padding-right: 40px;
+}
 
 .FooterLinkAppearance:hover{
     text-decoration: none;
@@ -218,24 +222,37 @@ a.attempt:hover{
     color: blue;
 }
 /**********************************************************************************/
+<<<<<<< HEAD
+=======
+
+>>>>>>> 0d4725fed844c6fa83a4ce669c6af5cc12c8b928
+/*styles for Editor*/
+.BorderEditor
+{
+    border: 1px solid red;
+}
+<<<<<<< HEAD
+=======
+
 /*Styles for Editor*/
+>>>>>>> 0d4725fed844c6fa83a4ce669c6af5cc12c8b928
 
 .AceEditor
 {
-    height:600px;
+    height: 1000px;
     overflow: hidden;
 }
 
 #Editor
 {
-    height:100%;
-    width:100%;
-    margin: 0;
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
+    position: relative;
+    height: 700px;
+}
+
+.EditorButtons
+{
+    display: inline;
+    color:red;
 }
 
 /**********************************************************************************/
