@@ -200,33 +200,28 @@ a.attempt:hover{
     color: blue;
 }
 /**********************************************************************************/
-<<<<<<< HEAD
 /*styles for Editor*/
 .BorderEditor
 {
-    border: 3px solid red;
-    padding: 20px;
+    border: 1px solid red;
 }
-=======
-/*Styles for Editor*/
 
->>>>>>> 291cc5076e1445ad5173c97ecec8afb85970769b
 .AceEditor
 {
-    height:600px;
+    height: 1000px;
     overflow: hidden;
 }
 
 #Editor
 {
-    height:100%;
-    width:100%;
-    margin: 0;
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
+    position: relative;
+    height: 700px;
+}
+
+.EditorButtons
+{
+    display: inline;
+    color:red;
 }
 
 /**********************************************************************************/
