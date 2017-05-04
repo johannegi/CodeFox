@@ -8,7 +8,7 @@
 
     <div>
         <!-- Nav bar where SAVE EXPORT SHARE ADD FILE CLOSE AND DELETE PROJECT WILL BE-->
-        @Html.ActionLink("Share with your foxes!", "Share", "Editor", new { @class = "EditorButtons" })
+        @Html.ActionLink("Share with your foxes!", "Share", "Editor", null, new { @class = "EditorButtons", ProjectID = Model.ID})
     </div>
     <div class="container">
         <!-- DIV AROUND THE FILE TREE VIEW AND EDITOR-->
