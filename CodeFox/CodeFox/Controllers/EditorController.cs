@@ -10,15 +10,15 @@ namespace CodeFox.Controllers
 {
     public class EditorController : Controller
     {
-        private ProjectService service = new ProjectService();
+        private ProjectService Pservice = new ProjectService();
 
         // GET: Editor
         [Authorize]
         public ActionResult Index(int? id)
         {
-            EditorViewModel EdiorView = service.GetEditorViewModel(id);
+            EditorViewModel EdiorView = Pservice.GetEditorViewModel(id);
             string Username = User.Identity.Name;
-            if (!service.CanUserOpenProject(EdiorView, Username))
+            if (!Pservice.CanUserOpenProject(EdiorView, Username))
             {
                 return RedirectToAction("Index", "Home");
             }

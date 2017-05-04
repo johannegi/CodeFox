@@ -213,6 +213,7 @@
     <Compile Include="Models\Entities\UserInfo.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\ViewModels\CreateProjectViewModel.cs" />
     <Compile Include="Models\ViewModels\EditorViewModel.cs" />
     <Compile Include="Models\ViewModels\ProjectsViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

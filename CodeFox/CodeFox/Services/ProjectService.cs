@@ -10,6 +10,7 @@ namespace CodeFox.Services
 {
     public class ProjectService
     {
+        private FileService FService = new FileService();
         private ApplicationDbContext db = new ApplicationDbContext();
 
         public ProjectsViewModel GetProjectsViewModel(string Username)
@@ -103,6 +104,28 @@ namespace CodeFox.Services
                 }
             }
             return false;
+        }
+
+        public bool CreateProject (CreateProjectViewModel NewCreateProject, string Username)
+        {
+            UserInfo Owner = db.UsersInfo.Where(x => x.Username == Username).SingleOrDefault();
+            Project NewProject = new Project();
+            NewProject.Name = NewCreateProject.Name;
+            NewProject.Type = NewCreateProject.Type;
+            NewProject.Owner = Owner;
+            NewProject.ReadMe = FService.CreateReadMe(NewCreateProject.ReadMe, NewCreateProject.Name);
+            NewProject.DateCreated = DateTime.Now;
+            NewProject.DateModified = DateTime.Now;
+
+            db.Projects.Add(NewProject);
+            db.SaveChanges();
+            ProjectOwner POwner = new ProjectOwner();
+            POwner.Owner = Owner;
+            POwner.OwnerProject = NewProject;
+            db.ProjectOwners.Add(POwner);
+            db.SaveChanges();
+
+            return true;
         }
 
     }
