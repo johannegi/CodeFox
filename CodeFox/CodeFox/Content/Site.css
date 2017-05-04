@@ -223,16 +223,13 @@ a.attempt:hover{
 }
 
 /**********************************************************************************/
-<<<<<<< HEAD
 
-/*styles for Editor*/
-=======
+
 /*styles for Editor*/
 .BorderEditor
 {
     border: 1px solid red;
 }
->>>>>>> 280cc2fbb3fc7c18204aecebca2e9df12dfd921a
 
 .AceEditor
 {

@@ -13,18 +13,11 @@
     @Html.ActionLink("Close", "Index", "Projects", new { area = "" }, new { @class = "btn btn-info" })
 </div>
 <div class="EditorButtons"> @Html.ActionLink("Delete project", "Share", "Editor", new { @class = "btn btn-danger DeleteButton" })</div>
-
-<<<<<<< HEAD
 <div class="EditorArea">   
-=======
-<div>
-    <h1>@Html.DisplayFor(model => model.Name)</h1>
 
     <div>
         <!-- Nav bar where SAVE EXPORT SHARE ADD FILE CLOSE AND DELETE PROJECT WILL BE-->
-        @Html.ActionLink("Share with your foxes!", "Share", "Editor", null, new { @class = "EditorButtons", ProjectID = Model.ID})
     </div>
->>>>>>> 280cc2fbb3fc7c18204aecebca2e9df12dfd921a
     <div class="container">
         <!-- DIV AROUND THE FILE TREE VIEW AND EDITOR-->
         <div class="panel panel-default">
@@ -48,26 +41,5 @@
                 Editor.setTheme("ace/theme/twilight");
                 Editor.session.setMode("ace/mode/Text");
     </script>
-   <!-- <div class="BorderEditor">
-        <!-- DIV AROUND THE FILE TREE VIEW AND EDITOR
-        <div class="col-sm-2">
-            <!--FILETREE-
-        </div>
-        <div class="AceEditor col-sm-10">
-            <!--EDITOR
-            <pre id="Editor">function foo(items) {
-                var i;
-                for (i = 0; i &lt; items.length; i++) {
-                    alert("Ace Rocks " + items[i]);
-                }
-            }</pre>
-            <script src="~/scripts/AceEditor/ace.js" type="text/javascript" charset="utf-8"> </script>
-            <script>
-                var editor = ace.edit("Editor");
-                editor.setTheme("ace/theme/twilight");
-                editor.session.setMode("ace/mode/javascript");
-            </script>
-        </div>
-    </div>-->
 </div>
 
