@@ -40,9 +40,10 @@ namespace CodeFox.Controllers
             return View(Model);
         }
 
+        //MUNA AÐ BREYTA!!!!
         public ActionResult Share()
         {
-            return View();
+            return View("ShareTemplate");
         }
 
         [HttpPost]

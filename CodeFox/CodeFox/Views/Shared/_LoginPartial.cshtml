@@ -12,6 +12,9 @@
             @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", null,  new { @class = "HoverEffect", title="Manage" })
         </li>
         <li>
+            @Html.ActionLink("Projects", "Index", "Projects", routeValues: null, htmlAttributes: new { @class = "HoverEffect" })
+        </li>
+        <li>
             <a href="javascript:document.getElementById('logoutForm').submit()" class="HoverEffect">Log off</a>
         </li>
     </ul>

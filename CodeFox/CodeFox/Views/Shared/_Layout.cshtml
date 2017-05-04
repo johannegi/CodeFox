@@ -29,17 +29,16 @@
     </div>
     <div class="container body-content">
         @RenderBody()
-        <hr />
-        <footer>
-
-            <p>&copy; @DateTime.Now.Year - CodeFox</p>
-            <ul class="FooterPosition">  
-                <li>@Html.ActionLink("About", "About", "Home",new { @class = "FooterLinkAppearance" })</li>
-                <li>@Html.ActionLink("Contact", "Contact", "Home", new { @class = "FooterLinkAppearance" })</li>
-            </ul>
-            <p></p> 
-        </footer>
     </div>
+    <footer>
+        <hr />
+        <p>&copy; @DateTime.Now.Year - CodeFox</p>
+        <ul class="FooterPosition">
+            <li>@Html.ActionLink("About", "About", "Home", new { @class = "FooterLinkAppearance" })</li>
+            <li>@Html.ActionLink("Contact", "Contact", "Home", new { @class = "FooterLinkAppearance" })</li>
+        </ul>
+        <p></p>
+    </footer>
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")

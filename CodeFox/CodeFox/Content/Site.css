@@ -1,6 +1,6 @@
 ﻿body {
     padding-top: 50px;
-    padding-bottom: 20px;
+    padding-bottom:60px;   /* Height of the footer */
 }
 
 /* Set padding to keep content from hitting the edges */
@@ -32,8 +32,8 @@ textarea {
     float: right;
     list-style-type: none; 
     text-decoration: none;
-
 }
+
 .FooterLinkAppearance:hover{
     text-decoration: none;
 
@@ -200,9 +200,8 @@ a.attempt:hover{
 .navbar-inverse .HoverEffect:hover {
     color: blue;
 }
-=======
 /**********************************************************************************/
-/*styles for Editor*/
+/*Styles for Editor*/
 
 .AceEditor
 {
@@ -221,4 +220,20 @@ a.attempt:hover{
     left: 0;
     right: 0;
 }
->>>>>>> 6d97891f837a5d6e9145769779843358a12187c1
+
+/**********************************************************************************/
+/*Styles for Share*/
+
+.ShareWindow {
+    text-align: center;
+    border: 1px solid black;
+}
+
+.InputField {
+    padding: 10px;
+    margin-bottom: 30px;
+}
+
+.InputField  label{
+    margin-bottom: 20px;
+}
