@@ -190,7 +190,6 @@ section h3.section-subheading {
 .Developers img
 {
     padding: 5px;
-    float: left;
     position: relative;
     width:  200px;
     height: 200px;
@@ -205,7 +204,7 @@ section h3.section-subheading {
 }
 
 /*Ends*/
-
+    
 
 #MainPageSlogan
 {
