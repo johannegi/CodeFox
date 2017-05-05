@@ -56,8 +56,11 @@ namespace CodeFox.Controllers
             string ProjectIDStr = collection["ProjectID"].ToString();
             int ProjectID = Int32.Parse(ProjectIDStr);
 
-            Pservice.AddCollaborator(Username, ProjectID);
-            return RedirectToAction("Index", new { id = ProjectID });
+            if(Pservice.AddCollaborator(Username, ProjectID))
+            {
+                return RedirectToAction("Index", new { id = ProjectID });
+            }
+            return Json("User not found", JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
@@ -77,8 +80,7 @@ namespace CodeFox.Controllers
 
                 if (PossibleOutComes == null)
                 {
-                    var NoOne = "No User Found by that name";
-                    return Json(NoOne, JsonRequestBehavior.AllowGet);
+                    return Json("", JsonRequestBehavior.AllowGet);
                 }
                 return Json(PossibleOutComes, JsonRequestBehavior.AllowGet);
             }
