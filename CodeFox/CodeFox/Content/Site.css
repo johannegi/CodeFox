@@ -112,20 +112,20 @@ section h3.section-subheading {
 
 .Project
 {
-    border: 1px solid gray;
+    .width: 2000px;
     margin-bottom: 15px;
-    background-color:whitesmoke;
-    color: gray;
+    .color: gray;
 }
+
 
 .ColumnSettings
 {
     display: block;
-    overflow: hidden;
-    white-space: nowrap;
-        text-overflow: ellipsis;
+    overflow: inherit;
+   text-overflow: clip;
 
 }
+
 
 .Project:hover
 {
