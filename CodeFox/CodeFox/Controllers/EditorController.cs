@@ -29,12 +29,13 @@ namespace CodeFox.Controllers
         }
 
         //MUNA AÐ BREYTA!!!!
-        public ActionResult Share(int? ProjectID)
+        [HttpGet]
+        public ActionResult Share(int? id)
         {
-            ShareProjectViewModel Model = new ShareProjectViewModel();
+           ShareProjectViewModel Model = new ShareProjectViewModel();
             Model.AllUsers = UService.GetAllUsers(User.Identity.GetUserName());
-            Model.SharedWith = UService.GetSharedUsersFromProject(ProjectID);
-            Model.ShareProject = Pservice.GetProjectFromID(ProjectID);
+            Model.SharedWith = UService.GetSharedUsersFromProject(id);
+            Model.ShareProject = Pservice.GetProjectFromID(id);
             return View(Model);
         }
 
@@ -42,13 +43,18 @@ namespace CodeFox.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Share(FormCollection collection)
         {
-            string Username = collection["AddUsername"];
-            if (Username == "Patti")
-            {
-                //
-                string cool = "cool beans";
+            string Username = collection["AddUsername"].ToString();
+            string ProjectIDStr = collection["ProjectID"].ToString();
+            int ProjectID = Int32.Parse(ProjectIDStr);
+            if (ProjectID != null)
+            { 
+                Pservice.AddCollaborator(Username, ProjectID);
             }
-            return RedirectToAction("Index");
+            ShareProjectViewModel Model = new ShareProjectViewModel();
+            Model.AllUsers = UService.GetAllUsers(User.Identity.GetUserName());
+            Model.SharedWith = UService.GetSharedUsersFromProject(ProjectID);
+            Model.ShareProject = Pservice.GetProjectFromID(ProjectID);
+            return View(Model);
         }
 
       public ActionResult Autocomplete(string term)

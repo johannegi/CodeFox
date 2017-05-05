@@ -9,7 +9,7 @@
     <button class="testclick">Test</button>
     @Html.ActionLink("Save", "Share", "Editor", new { @class = "btn btn-info" })
     @Html.ActionLink("Export", "Share", "Editor", new { @class = "btn btn-info" })
-    @Html.ActionLink("Share with your foxes!", "Share", "Editor", new { @class = "btn btn-info" })
+    @Html.ActionLink("Share with your foxes!", "Share", "Editor", new { id = Model.ID }, null)
     @Html.ActionLink("Add files", "Share", "Editor", new { @class = "btn btn-info" })
     @Html.ActionLink("Close", "Index", "Projects", new { area = "" }, new { @class = "btn btn-info" })
 </div>

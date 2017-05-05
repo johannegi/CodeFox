@@ -62,6 +62,7 @@ namespace CodeFox.Services
             projectView.Owner = CurrProject.Owner;
             projectView.ReadMe = CurrProject.ReadMe;
             projectView.Type = CurrProject.Type;
+            projectView.ID = (int)ProjectID;
 
             var FilesProject = db.FilesInProjects.Where(x => x.FileProject.ID == CurrProject.ID).ToList();
             if (FilesProject != null)
@@ -134,6 +135,20 @@ namespace CodeFox.Services
                 //TODO:implement error
             }
             return ProjectWithID;
+        }
+
+        public void AddCollaborator(string Username, int? ProjectID)
+        {
+            ProjectShare NewConnection = new ProjectShare();
+            NewConnection.ShareUser = db.UsersInfo.Where(x => x.Username == Username).SingleOrDefault();
+            NewConnection.ShareProject = db.Projects.Where(x => x.ID == ProjectID).SingleOrDefault();
+            NewConnection.ID = (from n in db.ProjectShares orderby n.ID descending select n.ID).FirstOrDefault();
+            NewConnection.ID++;
+            if(NewConnection != null)
+            {
+                db.ProjectShares.Add(NewConnection);
+                db.SaveChanges();
+            }
         }
     }
 }
