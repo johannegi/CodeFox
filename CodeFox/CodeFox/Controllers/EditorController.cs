@@ -7,6 +7,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
+using Newtonsoft.Json.Linq;
+using System.Web.Script.Serialization;
 
 namespace CodeFox.Controllers
 {
@@ -64,14 +66,29 @@ namespace CodeFox.Controllers
             return View(Model);
         }
 
+        [HttpPost]
       public ActionResult Autocomplete(string term)
         {
-            var AllUsers = UService.GetAllUsers(User.Identity.GetUserName());
+          var AllUsers = UService.GetAllUsers(User.Identity.GetUserName());
 
-            var PossibleOutComes = AllUsers.Where(s => s.Username.ToLower().Contains
-                                   (term.ToLower())).Select(w => w).ToList();
+            if(term == "")
+            {
+                return Json("", JsonRequestBehavior.AllowGet);
+            }
 
-            return Json(PossibleOutComes, JsonRequestBehavior.AllowGet);
+            if (term != null)
+            {
+                var PossibleOutComes = AllUsers.Where(s => s.Username.ToLower().StartsWith
+                                     (term.ToLower())).Select(w => w).ToList();
+
+                if (PossibleOutComes == null)
+                {
+                    var NoOne = "No User Found by that name";
+                    return Json(NoOne, JsonRequestBehavior.AllowGet);
+                }
+                return Json(PossibleOutComes, JsonRequestBehavior.AllowGet);
+            }
+            return Json("", JsonRequestBehavior.AllowGet);
         }
     }
 }

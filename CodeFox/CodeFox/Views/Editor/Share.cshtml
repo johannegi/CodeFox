@@ -39,6 +39,7 @@
                                 <td>
                                     <strong>Add collaborator</strong>                    
                                     <input type="text" name="AddUsername" id="AddUsername"/>
+                                    <div id="FoundUsers"></div>
                                     <input type="hidden" name="ProjectID" id="ProjectID" value="@Model.ShareProject.ID" />
                                 </td>
                             </tr>
@@ -50,17 +51,4 @@
             <button type="submit" class="btn btn-default">Share</button>
         </div>
     </div>
-}
-
-@section scripts{
-    <script type="text/javascript">
-        $(document).ready(function () { 
-            $('*[data-autocomplete-url]') 
-                .each(function () { 
-                    $(this).autocomplete({ 
-                        source: $(this).data('autocomplete-url') 
-                    }); 
-                }); 
-        });
-    </script>  
 }
