@@ -57,13 +57,7 @@ namespace CodeFox.Controllers
             int ProjectID = Int32.Parse(ProjectIDStr);
 
             Pservice.AddCollaborator(Username, ProjectID);
-
-            ShareProjectViewModel Model = new ShareProjectViewModel();
-            Model.AllUsers = UService.GetAllUsers(User.Identity.GetUserName());
-            Model.SharedWith = UService.GetSharedUsersFromProject(ProjectID);
-            Model.ShareProject = Pservice.GetProjectFromID(ProjectID);
-
-            return View(Model);
+            return RedirectToAction("Index", new { id = ProjectID });
         }
 
         [HttpPost]
