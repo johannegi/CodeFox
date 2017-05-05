@@ -25,37 +25,24 @@
         <!-- DIV AROUND THE FILE TREE VIEW AND EDITOR-->
         <div class="panel panel-default">
             <div class="panel-heading">
-                @Ajax.ActionLink("Fil1", "NewFile", new { id = 43 }, // <-- Action Method Name
-                 new AjaxOptions
-                 {
-                     UpdateTargetId = "Editor", // <-- DOM element ID to update
-                     InsertionMode = InsertionMode.Replace, // <-- Replace the content of DOM element
-                     HttpMethod = "GET" // <-- HTTP method
-                 })
-                @Ajax.ActionLink("Fil2", "NewFile", new { id = 42 }, // <-- Action Method Name
-                 new AjaxOptions
-                 {
-                     UpdateTargetId = "Editor", // <-- DOM element ID to update
-                     InsertionMode = InsertionMode.Replace, // <-- Replace the content of DOM element
-                     HttpMethod = "GET" // <-- HTTP method
-                 })
                 <h3 class="panel-title">FileName</h3>
             </div>
             <div id="tree" class="col-lg-2"></div>
             <div class="panel-body">
              
-                <pre id="Editor"></pre>
+                <pre id="Editor">@Model.CurrentOpenFile.Location</pre>
             </div>
         </div>
         <div class="text-center">---Possibly add who shared with, or when last change was made---</div>
     </div>
+    @Html.HiddenFor(Model => Model.FileToOpenID, new { id = "NewFileID" });
     @section scripts{
-    @Scripts.Render("~/Scripts/jquery.unobtrusive-ajax.min.js")
     <script src="@Url.Content("~/scripts/AceEditor/ace.js")" type="text/javascript" charset="utf-8"> </script>
     <script>
                 var Editor = ace.edit("Editor");
                 Editor.setTheme("ace/theme/twilight");
                 Editor.session.setMode("ace/mode/Text");
+                Editor.$blockScrolling = Infinity;
 
                 $(function () {
                     $(".testclick").on("click", function () {
@@ -83,14 +70,14 @@
             },
             "types": {
                 "#": {
-                    "max_children": 1,
-                    "max_depth": 4,
+                    //"max_children": 1,
+                    //"max_depth": 4,
                     "valid_children": ["root"]
                 },
-                "root": {
+                /*"root": {
                     "icon": "/static/3.1.1/assets/images/tree_icon.png",
                     "valid_children": ["default"]
-                },
+                },*/
                 "default": {
                     "valid_children": ["default", "file"]
                 },
@@ -109,8 +96,26 @@
         var Pos = 0;
         var newPos = 0;
 
+        
         $("#tree").on("loaded.jstree", function () {
             $('#tree').jstree(true).select_node('@Model.ReadMe.ID');
+            $("#tree").on("select_node.jstree", function (event, node) {
+                var selected = node.instance.get_selected();
+                alert(selected);
+                document.getElementById("NewFileID").value = selected;
+                @{
+                    if (Model.FileToOpenID == Model.ReadMe.ID)
+                    {
+                        Model.CurrentOpenFile = Model.ReadMe;
+                    }
+                    else
+                    {
+                        Model.CurrentOpenFile = Model.Files.Where(x => x.ID == Model.FileToOpenID).SingleOrDefault();
+                    }
+                }
+                var test = String(selected);
+                ace.edit("Editor").setValue(test);
+            });
         });
 
         $(document).on('dnd_start.vakata', function (event, data) {
