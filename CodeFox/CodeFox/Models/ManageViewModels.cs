@@ -43,6 +43,8 @@ namespace CodeFox.Models
         public string ConfirmPassword { get; set; }
     }
 
+    
+
     public class ChangePasswordViewModel
     {
         [Required]
