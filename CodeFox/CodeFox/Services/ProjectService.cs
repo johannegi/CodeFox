@@ -166,5 +166,12 @@ namespace CodeFox.Services
             }
             return false;
         }
+
+        public List<string> GetTypeList()
+        {
+            string path = System.Web.HttpContext.Current.Server.MapPath("~/Content/Lists/ProjectTypes.txt");
+            List<string> listinn = new List<string>(System.IO.File.ReadLines(path).ToList());
+            return listinn;
+        }
     }
 }
