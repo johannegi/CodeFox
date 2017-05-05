@@ -12,9 +12,13 @@ namespace CodeFox.Services
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        public List<UserInfo> GetAllUsers()
+        public List<UserInfo> GetAllUsers(string CurrentUser)
         {
-            List<UserInfo> AllUsers = db.UsersInfo.ToList();
+            List<UserInfo> AllUsers = db.UsersInfo.Where(x => x.Username != CurrentUser).ToList();
+            if(AllUsers == null)
+            {
+                AllUsers = new List<UserInfo>();
+            }
             return AllUsers;
         }
 
@@ -26,8 +30,11 @@ namespace CodeFox.Services
             {
                 foreach (var item in PShare)
                 {
-                    UserInfo tmp = db.UsersInfo.Where(x => x.ID == item.ShareUser.ID).SingleOrDefault();
-                    SharedUsers.Add(tmp);
+                    if(item.ShareUser != null)
+                    {
+                        UserInfo tmp = db.UsersInfo.Where(x => x.ID == item.ShareUser.ID).SingleOrDefault();
+                        SharedUsers.Add(tmp);
+                    }                  
                 }
             }
             return SharedUsers;

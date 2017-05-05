@@ -9,11 +9,11 @@ namespace CodeFox.Services
 {
     public class FileService
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private ApplicationDbContext DB = new ApplicationDbContext();
 
-        public Models.Entities.File CreateReadMe(string Text, string ProjectName)
+        public File CreateReadMe(string Text)
         {
-            Models.Entities.File ReadMe = new Models.Entities.File();
+            File ReadMe = new File();
             ReadMe.Name = "ReadMe";
             ReadMe.Type = "txt";
             ReadMe.Location = Text;
@@ -21,10 +21,25 @@ namespace CodeFox.Services
             ReadMe.DateCreated = DateTime.Now;
             ReadMe.DateModified = DateTime.Now;
 
-            db.Files.Add(ReadMe);
-            db.SaveChanges();
-
             return ReadMe;
+        }
+
+        public File CreateDefaultFile(string Type)
+        {
+            File Default = new File();
+            Default.Name = "Index";
+            Default.Type = "Type";
+            Default.Location = "//This is the default file for this project";
+            Default.FolderStructure = null;
+            Default.DateCreated = DateTime.Now;
+            Default.DateModified = DateTime.Now;
+
+            return Default;
+        }
+
+        public File GetFileByID(int? ID)
+        {
+            return DB.Files.Find(ID);
         }
     }
 }
