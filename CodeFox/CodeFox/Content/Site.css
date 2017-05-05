@@ -118,6 +118,15 @@ section h3.section-subheading {
     color: gray;
 }
 
+.ColumnSettings
+{
+    display: block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+
+}
+
 .Project:hover
 {
     box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
@@ -151,6 +160,14 @@ section h3.section-subheading {
     height:1%;
     border: 1px solid lightgray;
 }
+
+.ColumnSettings
+{
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
 
 .SharedProjects
 {
