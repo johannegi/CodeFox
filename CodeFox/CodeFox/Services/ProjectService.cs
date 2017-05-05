@@ -149,18 +149,30 @@ namespace CodeFox.Services
 
         public bool AddCollaborator(string Username, int? ProjectID)
         {
-            ProjectShare NewConnection = new ProjectShare();
-            NewConnection.ShareUser = DB.UsersInfo.Where(x => x.Username == Username).SingleOrDefault();
-            NewConnection.ShareProject = DB.Projects.Where(x => x.ID == ProjectID).SingleOrDefault();
-            NewConnection.ID = (from n in DB.ProjectShares orderby n.ID descending select n.ID).FirstOrDefault();
-            NewConnection.ID++;
-            if(NewConnection.ShareUser != null)
+            var CollaboratorAlreadyExists = DB.ProjectShares.Where(x => x.ShareUser.Username == Username 
+                                                                   && x.ShareProject.ID == ProjectID).SingleOrDefault();
+            if (CollaboratorAlreadyExists == null)
             {
-                DB.ProjectShares.Add(NewConnection);
-                DB.SaveChanges();
-                return true;
+                ProjectShare NewConnection = new ProjectShare();
+                NewConnection.ShareUser = DB.UsersInfo.Where(x => x.Username == Username).SingleOrDefault();
+                NewConnection.ShareProject = DB.Projects.Where(x => x.ID == ProjectID).SingleOrDefault();
+                NewConnection.ID = (from n in DB.ProjectShares orderby n.ID descending select n.ID).FirstOrDefault();
+                NewConnection.ID++;
+                if (NewConnection.ShareUser != null)
+                {
+                    DB.ProjectShares.Add(NewConnection);
+                    DB.SaveChanges();
+                    return true;
+                }
             }
             return false;
+        }
+
+        public List<string> GetTypeList()
+        {
+            string path = System.Web.HttpContext.Current.Server.MapPath("~/Content/Lists/ProjectTypes.txt");
+            List<string> listinn = new List<string>(System.IO.File.ReadLines(path).ToList());
+            return listinn;
         }
     }
 }
