@@ -98,10 +98,23 @@ section h3.section-subheading {
     color: gray;
 }
 
+.Create a
+{
+    color: black;
+    text-decoration: none;
+}
+
+.Create:hover
+{
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+    transition-duration: 0.4s;
+}
+
 .Project
 {
     border: 1px solid gray;
     margin-bottom: 15px;
+    background-color:whitesmoke;
     color: gray;
 }
 
@@ -112,6 +125,23 @@ section h3.section-subheading {
 }
 
 
+.Project a
+{
+    color: black;
+    text-decoration: none;
+}
+
+.Hamburger
+{
+    border: none;
+    cursor: pointer;
+    position: relative;
+}
+
+.Hamburger:hover + .dropdown-menu
+{
+    display: block;
+}
 
 .OwnProjects
 {   
@@ -202,6 +232,8 @@ a.attempt:hover{
 /**********************************************************************************/
 /*Styles for Navbar*/
 
+
+
 .navbar-inverse #NavBarHamburger {
     background-color: palevioletred;
 }
@@ -221,7 +253,10 @@ a.attempt:hover{
 .navbar-inverse .HoverEffect:hover {
     color: blue;
 }
+
 /**********************************************************************************/
+
+
 /*styles for Editor*/
 .BorderEditor
 {
@@ -239,11 +274,26 @@ a.attempt:hover{
     position: relative;
     height: 700px;
 }
+.EditorArea
+{
+    margin-top: 20px;
+}
 
 .EditorButtons
 {
     display: inline;
-    color:red;
+    margin-left: 18px;
+}
+.DeleteButton
+{
+    float: right;
+    margin-right: 18px;
+}
+
+#ProjectName
+{   
+    padding-left: 18px;
+    padding-bottom: 20px;
 }
 
 /**********************************************************************************/
