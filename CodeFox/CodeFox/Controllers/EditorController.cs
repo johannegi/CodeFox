@@ -13,6 +13,7 @@ namespace CodeFox.Controllers
     public class EditorController : Controller
     {
         private ProjectService Pservice = new ProjectService();
+        private FileService FService = new FileService();
         private UserService UService = new UserService();
 
         // GET: Editor
@@ -23,9 +24,15 @@ namespace CodeFox.Controllers
             string Username = User.Identity.Name;
             if (!Pservice.CanUserOpenProject(EdiorView, Username))
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Projects");
             }
             return View(EdiorView);
+        }
+
+        public PartialViewResult NewFile(int? id)
+        {
+            File NewFile = FService.GetFileByID(id);
+            return PartialView("~/Views/Shared/_EditorView.cshtml", NewFile);
         }
 
         //MUNA AÐ BREYTA!!!!
