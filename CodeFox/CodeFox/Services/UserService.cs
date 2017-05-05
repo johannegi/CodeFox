@@ -29,8 +29,11 @@ namespace CodeFox.Services
             {
                 foreach (var item in PShare)
                 {
-                    UserInfo tmp = db.UsersInfo.Where(x => x.ID == item.ShareUser.ID).SingleOrDefault();
-                    SharedUsers.Add(tmp);
+                    if(item.ShareUser != null)
+                    {
+                        UserInfo tmp = db.UsersInfo.Where(x => x.ID == item.ShareUser.ID).SingleOrDefault();
+                        SharedUsers.Add(tmp);
+                    }                  
                 }
             }
             return SharedUsers;

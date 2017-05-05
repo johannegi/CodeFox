@@ -2,6 +2,8 @@
 @{
     ViewBag.Title = "Index";
 }
+@Styles.Render("~/Content/JsTree/style.min.css")
+
 <h1 id="ProjectName">Project name: @Html.DisplayFor(model => model.Name)</h1>
 <div class="EditorButtons">
     <!-- Class created to construct the look of the buttons on EditorPage -->
@@ -9,7 +11,7 @@
     <button class="testclick">Test</button>
     @Html.ActionLink("Save", "Share", "Editor", new { @class = "btn btn-info" })
     @Html.ActionLink("Export", "Share", "Editor", new { @class = "btn btn-info" })
-    @Html.ActionLink("Share with your foxes!", "Share", "Editor", new { id = Model.ID }, null)
+    @Html.ActionLink("Share with your foxes!", "Share", "Editor", new { id = Model.ID }, new { @class = "btn btn-info" })
     @Html.ActionLink("Add files", "Share", "Editor", new { @class = "btn btn-info" })
     @Html.ActionLink("Close", "Index", "Projects", new { area = "" }, new { @class = "btn btn-info" })
 </div>
@@ -23,23 +25,34 @@
         <!-- DIV AROUND THE FILE TREE VIEW AND EDITOR-->
         <div class="panel panel-default">
             <div class="panel-heading">
+                @Ajax.ActionLink("Fil1", "NewFile", new { id = 43 }, // <-- Action Method Name
+                 new AjaxOptions
+                 {
+                     UpdateTargetId = "Editor", // <-- DOM element ID to update
+                     InsertionMode = InsertionMode.Replace, // <-- Replace the content of DOM element
+                     HttpMethod = "GET" // <-- HTTP method
+                 })
+                @Ajax.ActionLink("Fil2", "NewFile", new { id = 42 }, // <-- Action Method Name
+                 new AjaxOptions
+                 {
+                     UpdateTargetId = "Editor", // <-- DOM element ID to update
+                     InsertionMode = InsertionMode.Replace, // <-- Replace the content of DOM element
+                     HttpMethod = "GET" // <-- HTTP method
+                 })
                 <h3 class="panel-title">FileName</h3>
             </div>
-            <div class="col-lg-2">
-                <p>Insert FileTree</p>
-            </div>
+            <div id="tree" class="col-lg-2"></div>
             <div class="panel-body">
              
-                <pre id="Editor">@Html.DisplayFor(model => model.ReadMe.Location).ToString()</pre>
+                <pre id="Editor"></pre>
             </div>
         </div>
         <div class="text-center">---Possibly add who shared with, or when last change was made---</div>
     </div>
     @section scripts{
-    <script src="~/scripts/AceEditor/ace.js" type="text/javascript" charset="utf-8"> </script>
+    @Scripts.Render("~/Scripts/jquery.unobtrusive-ajax.min.js")
+    <script src="@Url.Content("~/scripts/AceEditor/ace.js")" type="text/javascript" charset="utf-8"> </script>
     <script>
-
-
                 var Editor = ace.edit("Editor");
                 Editor.setTheme("ace/theme/twilight");
                 Editor.session.setMode("ace/mode/Text");
@@ -50,6 +63,73 @@
                         console.log("test val = "+ editorVal);
                     });
                 });
+    </script>
+    <script src="@Url.Content("~/scripts/JsTree/jstree.min.js")" type="text/javascript"></script>
+    <script>
+        $('#tree').jstree({
+            "core": {
+                "animation": 0,
+                "check_callback": true,
+                "data": [
+                { "id": "1", "parent": "#", "text": "@Model.Name"},
+                { "id": "@Model.ReadMe.ID", "parent": "1", "text": "@Model.ReadMe.Name.@Model.ReadMe.Type", "type": "file" },
+                @foreach (var Item in Model.Files)
+                {
+                    <text>
+                        { "id": "@Item.ID", "parent": "1", "text": "@Item.Name.@Item.Type", "type": "file" },
+                    </text>
+                }
+                ]
+            },
+            "types": {
+                "#": {
+                    "max_children": 1,
+                    "max_depth": 4,
+                    "valid_children": ["root"]
+                },
+                "root": {
+                    "icon": "/static/3.1.1/assets/images/tree_icon.png",
+                    "valid_children": ["default"]
+                },
+                "default": {
+                    "valid_children": ["default", "file"]
+                },
+                "file": {
+                    "icon": "glyphicon glyphicon-file",
+                    "valid_children": []
+                }
+            },
+            "plugins": [
+            "contextmenu", "dnd", "types"
+            ]
+        });
+
+        var Parent = 0;
+        var newParent = 0;
+        var Pos = 0;
+        var newPos = 0;
+
+        $("#tree").on("loaded.jstree", function () {
+            $('#tree').jstree(true).select_node('@Model.ReadMe.ID');
+        });
+
+        $(document).on('dnd_start.vakata', function (event, data) {
+            sel = "li#" + data.data.nodes[0] + ".jstree-node";
+            Parent = $('#tree').jstree(true).get_node(data.data.nodes[0]).parent;
+            Pos = $(sel).index();
+        });
+
+        $(document).on('dnd_stop.vakata', function (event, data) {
+            node = data.data.origin.get_node(data.data.nodes[0]);
+            if (node.type == "root") {
+                return false;
+            }
+            $('#tree').jstree(true).move_node(node, Parent, Pos);
+
+            sel = "li#" + data.data.nodes[0] + ".jstree-node";
+            newPos = $(sel).index();
+            newParent = node.parent;
+        });
     </script>
     }
 </div>
