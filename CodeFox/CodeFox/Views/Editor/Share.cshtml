@@ -39,6 +39,7 @@
                                 <td>
                                     <strong>Add collaborator</strong>                    
                                     <input type="text" name="AddUsername" id="AddUsername"/>
+                                    <div id="FoundUsers"></div>
                                     <input type="hidden" name="ProjectID" id="ProjectID" value="@Model.ShareProject.ID" />
                                 </td>
                             </tr>
@@ -51,16 +52,32 @@
         </div>
     </div>
 }
+<script>
 
-@section scripts{
-    <script type="text/javascript">
-        $(document).ready(function () { 
-            $('*[data-autocomplete-url]') 
-                .each(function () { 
-                    $(this).autocomplete({ 
-                        source: $(this).data('autocomplete-url') 
-                    }); 
-                }); 
-        });
-    </script>  
-}
+        $(document).ready(function () {
+            $("#AddUsername").keyup(function(){
+                var form = $(this);
+                var prefix = $("#AddUsername").val();
+                $.ajax({
+                    url: '/Editor/Autocomplete/',
+                    data: { 'term': prefix },
+                    method: 'POST',
+                    success: function (data) {
+
+                        $('#FoundUsers').html('');
+                        var html = "<div class='list-group'>";
+                        for (var i = 0; i < data.length; i++) {
+                                html += "<button type='button' class='list-group-item'>";
+                                html += data[i].Username;
+                        }
+                        html += "</button></div>";
+                        $('#FoundUsers').append(html);
+                        if(data == "")
+                        {
+                            $('#FoundUsers').html('');
+                        }
+                    }
+                });
+            });
+        })
+</script>  
