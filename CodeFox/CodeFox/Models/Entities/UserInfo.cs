@@ -7,6 +7,7 @@ namespace CodeFox.Models.Entities
 {
     public class UserInfo
     {
+        public List<string> CountryList;
         public int ID { get; set; }
         public string Name { get; set; }
         public string Email { get; set; }

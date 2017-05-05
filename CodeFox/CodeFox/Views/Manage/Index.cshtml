@@ -13,7 +13,7 @@
         <tr>
             <th>Name</th>
             <td>@Model.Name</td>
-            <td>@Html.ActionLink("Edit", "ChangePassword")</td>
+            <td>@Html.ActionLink("Edit", "ChangeName", new { Username = Model.Username })</td>
         </tr>
         <tr>
             <th>Username</th>
@@ -28,12 +28,12 @@
         <tr>
             <th>Email</th>
             <td>@Model.Email</td>
-            <td>@Html.ActionLink("Edit", "ChangePassword")</td>
+            <td>@Html.ActionLink("Edit", "ChangeEmail", new { Username = Model.Username })</td>
         </tr>
         <tr>
             <th>Country</th>
             <td>@Model.Country</td>
-            <td>@Html.ActionLink("Edit", "ChangePassword")</td>
+            <td>@Html.ActionLink("Edit", "ChangeCountry", new { Username = Model.Username })</td>
         </tr>
     </table>
 </div>

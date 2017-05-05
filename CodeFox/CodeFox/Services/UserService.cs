@@ -2,6 +2,7 @@
 using CodeFox.Models.Entities;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 
@@ -29,8 +30,11 @@ namespace CodeFox.Services
             {
                 foreach (var item in PShare)
                 {
-                    UserInfo tmp = db.UsersInfo.Where(x => x.ID == item.ShareUser.ID).SingleOrDefault();
-                    SharedUsers.Add(tmp);
+                    if(item.ShareUser != null)
+                    {
+                        UserInfo tmp = db.UsersInfo.Where(x => x.ID == item.ShareUser.ID).SingleOrDefault();
+                        SharedUsers.Add(tmp);
+                    }                  
                 }
             }
             return SharedUsers;
@@ -39,6 +43,11 @@ namespace CodeFox.Services
         {
             UserInfo tmp = db.UsersInfo.Where(x => x.Username == Username).SingleOrDefault();
             return tmp;
+        }
+        public void EditUser(UserInfo User)
+        {
+            db.Entry(User).State = EntityState.Modified;
+            db.SaveChanges();
         }
     }
 }

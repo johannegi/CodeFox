@@ -23,11 +23,11 @@
                     <table class="table table-striped col-sm-12 col-md-12">
                         <thead>
                             <tr>
-                                <th>Username</th>
+                                <th>Collaborators</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var item in Model.AllUsers)
+                            @foreach (var item in Model.SharedWith)
                             {
                                 <tr class="clickable-row">
                                     <td>
@@ -39,25 +39,28 @@
                                 <td>
                                     <strong>Add collaborator</strong>                    
                                     <input type="text" name="AddUsername" id="AddUsername"/>
+                                    <input type="hidden" name="ProjectID" id="ProjectID" value="@Model.ShareProject.ID" />
                                 </td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
-            <button class="btn btn-default">Cancel</button>
-            <button class="btn btn-default">Share</button>
+            @Html.ActionLink("Cancel", "Index", "Editor", new { id = Model.ShareProject.ID }, new { @class = "btn btn-default" })
+            <button type="submit" class="btn btn-default">Share</button>
         </div>
     </div>
 }
 
-<script type="text/javascript">
-    $(document).ready(function () { 
-        $('*[data-autocomplete-url]') 
-            .each(function () { 
-                $(this).autocomplete({ 
-                    source: $(this).data('autocomplete-url') 
+@section scripts{
+    <script type="text/javascript">
+        $(document).ready(function () { 
+            $('*[data-autocomplete-url]') 
+                .each(function () { 
+                    $(this).autocomplete({ 
+                        source: $(this).data('autocomplete-url') 
+                    }); 
                 }); 
-            }); 
-    });
-</script>  
+        });
+    </script>  
+}
