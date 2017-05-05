@@ -44,6 +44,12 @@ namespace CodeFox.Services
             UserInfo tmp = db.UsersInfo.Where(x => x.Username == Username).SingleOrDefault();
             return tmp;
         }
+        public List<string> GetCountryList()
+        {
+            string path = System.Web.HttpContext.Current.Server.MapPath("~/Content/Lists/Countries.txt");
+            List<string> listinn = new List<string>(System.IO.File.ReadLines(path).ToList());
+            return listinn;
+        }
         public void EditUser(UserInfo User)
         {
             db.Entry(User).State = EntityState.Modified;

@@ -12,6 +12,7 @@ using Microsoft.Owin.Security;
 using CodeFox.Models;
 using CodeFox.Models.Entities;
 using System.Collections.Generic;
+using CodeFox.Services;
 
 namespace CodeFox.Controllers
 {
@@ -21,6 +22,7 @@ namespace CodeFox.Controllers
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
         private ApplicationDbContext db = new ApplicationDbContext();
+        private UserService UService = new UserService();
 
         public AccountController()
         {
@@ -144,8 +146,7 @@ namespace CodeFox.Controllers
         public ActionResult Register()
         {
             RegisterViewModel Model = new RegisterViewModel();
-            string path = Server.MapPath("~/Content/Lists/Countries.txt");
-            Model.CountryList = new List<string>(System.IO.File.ReadLines(path).ToList());
+            Model.CountryList = UService.GetCountryList();
             return View(Model);
         }
 
