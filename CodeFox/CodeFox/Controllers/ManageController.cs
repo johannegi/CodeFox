@@ -381,8 +381,7 @@ namespace CodeFox.Controllers
         public ActionResult ChangeCountry(string Username)
         {
             UserInfo User = UService.GetUserByUsername(Username);
-            string path = Server.MapPath("~/Content/Lists/Countries.txt");
-            User.CountryList = new List<string>(System.IO.File.ReadLines(path).ToList());
+            User.CountryList = UService.GetCountryList();
             return View(User);
         }
 
