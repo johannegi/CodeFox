@@ -90,13 +90,6 @@ section h3.section-subheading {
 /**********************************************************************************/
 /*Styles for Projectview*/
 
-.Create
-{
-    height: 199.2px;
-    border: 1px solid gray;
-    margin-bottom: 15px;
-    color: gray;
-}
 
 .Create a
 {
@@ -112,18 +105,8 @@ section h3.section-subheading {
 
 .Project
 {
-    border: 1px solid gray;
     margin-bottom: 15px;
-    background-color:whitesmoke;
-    color: gray;
-}
-
-.ColumnSettings
-{
-    display: block;
-    overflow: hidden;
-    white-space: nowrap;
-        text-overflow: ellipsis;
+    margin-right: 20px;
 
 }
 
@@ -144,7 +127,7 @@ section h3.section-subheading {
 {
     border: none;
     cursor: pointer;
-    position: relative;
+        
 }
 
 .Hamburger:hover + .dropdown-menu
@@ -156,16 +139,15 @@ section h3.section-subheading {
 {   
     padding-top: 15px;
     padding-bottom: 15px;
-    overflow:hidden;
     height:1%;
+    overflow: hidden;
     border: 1px solid lightgray;
 }
 
 .ColumnSettings
 {
-    overflow: hidden;
+
     white-space: nowrap;
-    text-overflow: ellipsis;
 }
 
 
@@ -173,7 +155,6 @@ section h3.section-subheading {
 {
     padding-top: 15px;
     padding-bottom: 15px;
-    overflow:hidden;
     height:1%;
     border: 1px solid lightgray;
 }
