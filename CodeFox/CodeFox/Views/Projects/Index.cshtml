@@ -20,12 +20,11 @@
      </div>
         @if (Model.Projects.Count != 0)
         {
-            <div class="container MyProjects">
+            <div class="Container MyProjects">
                 <div class="row">
                     @foreach (var item in Model.Projects)
                 {
-
-                        <div class="col-sm-4 col-md-3 col-lg-2 Project thumbnail">
+                        <div class="col-sm-4 col-md-3 col-lg-2 Project Thumbnail">
                             <div>
                                 <img src="~/Content/Images/tester.jpg" data-holder-rendered="true" onclick="location.href='@Url.Action("Index", "Editor", new { id = item.ID })';return false;" />
                                 <div class="caption ColumnSettings">

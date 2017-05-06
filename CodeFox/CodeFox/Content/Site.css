@@ -123,6 +123,12 @@ section h3.section-subheading {
     text-decoration: none;
 }
 
+#TextH4
+{
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
 .Hamburger
 {
     border: none;
@@ -130,23 +136,17 @@ section h3.section-subheading {
         
 }
 
-.Hamburger:hover + .dropdown-menu
-{
-    display: block;
-}
-
 .OwnProjects
 {   
     padding-top: 15px;
     padding-bottom: 15px;
     height:1%;
-    overflow: hidden;
+    overflow: visible;
     border: 1px solid lightgray;
 }
 
-.ColumnSettings
+.Container
 {
-
     white-space: nowrap;
 }
 
@@ -156,6 +156,7 @@ section h3.section-subheading {
     padding-top: 15px;
     padding-bottom: 15px;
     height:1%;
+    overflow: visible;
     border: 1px solid lightgray;
 }
 
