@@ -90,13 +90,6 @@ section h3.section-subheading {
 /**********************************************************************************/
 /*Styles for Projectview*/
 
-.Create
-{
-    height: 199.2px;
-    border: 1px solid gray;
-    margin-bottom: 15px;
-    color: gray;
-}
 
 .Create a
 {
@@ -116,7 +109,6 @@ section h3.section-subheading {
     margin-right: 20px;
 
 }
-
 
 .Project:hover
 {
