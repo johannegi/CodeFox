@@ -15,7 +15,11 @@
     @Html.ActionLink("Add files", "Share", "Editor", new { @class = "btn btn-info" })
     @Html.ActionLink("Close", "Index", "Projects", new { area = "" }, new { @class = "btn btn-info" })
 </div>
-<div class="EditorButtons"> @Html.ActionLink("Delete project", "Share", "Editor", new { @class = "btn btn-danger DeleteButton" })</div>
+@if (User.Identity.Name == Model.Owner.Username)
+{
+    <div class="EditorButtons"> @Html.ActionLink("Delete project", "Share", "Editor", new { @class = "btn btn-danger DeleteButton" })</div>
+}
+
 <div class="EditorArea">   
 
     <div>
