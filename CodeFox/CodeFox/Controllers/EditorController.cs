@@ -60,7 +60,8 @@ namespace CodeFox.Controllers
             {
                 return RedirectToAction("Index", new { id = ProjectID });
             }
-            return Json("User not found", JsonRequestBehavior.AllowGet);
+            //TODO: implement error logger
+            return RedirectToAction("Index", new { id = ProjectID }); //Remove this when implemented
         }
 
         [HttpPost]

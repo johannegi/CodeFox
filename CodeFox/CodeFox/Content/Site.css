@@ -358,3 +358,7 @@ a.attempt:hover{
 .CloseShare {
     text-align:right;
 }
+
+.SelectedFoundUser {
+    background: blue;
+}

@@ -5,7 +5,7 @@
 
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-autocomplete/1.0.7/jquery.auto-complete.js"></script>
 
-@using (Html.BeginForm())
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "ShareForm" }))
 {
     @Html.AntiForgeryToken()
     <div class="col-md-12 col-sm-12">
@@ -35,24 +35,24 @@
                                     </td>
                                 </tr>
                             }
-                            <tr>
-                                <td>
-                                    <strong>Add collaborator</strong>                    
-                                    <input type="text" name="AddUsername" id="AddUsername"/>
-                                    <div id="FoundUsers"></div>
-                                    <input type="hidden" name="ProjectID" id="ProjectID" value="@Model.ShareProject.ID" />
-                                </td>
-                            </tr>
                         </tbody>
                     </table>
-                </div>
+                </div>                
             </div>
-            @Html.ActionLink("Cancel", "Index", "Editor", new { id = Model.ShareProject.ID }, new { @class = "btn btn-default" })
-            <button type="submit" class="btn btn-default">Share</button>
+            <strong>Add collaborator</strong>
+            <input type="text" id="AddUsername" placeholder="Search for a username..." />
+            <div id="FoundUsers" class="col-sm-12 col-md-12 col-lg-12" style="height:100px"></div>
+            <input type="hidden" name="ProjectID" id="ProjectID" value="@Model.ShareProject.ID" />
+
+            @Html.ActionLink("Go Back", "Index", "Editor", new { id = Model.ShareProject.ID }, new { @class = "btn btn-default" })
+            <button type="submit" id="ShareSubmitButton" class="btn btn-default" disabled>Share</button>
         </div>
     </div>
 }
-<script>
+
+@section scripts 
+{
+    <script>
 
     $(document).ready(function ()
     {
@@ -68,23 +68,22 @@
                     {
 
                         $('#FoundUsers').html('');
-                        var html = "<div class='list-group col-sm-12 col-md-12 col-lg-12'>";
                         if (data != "")
                         {
+                            var html = "";
                             for (var i = 0; i < data.length; i++)
                             {
-                                html += "<button type='button' class='list-group-item col-xs-12 col-sm-12 col-md-12 col-lg-12'>";
+                                html += "<div type='text' value=" + data[i].Username + "' name='SelectFoundUsers' class='SelectClass list-group-item col-xs-12 col-sm-12 col-md-12 col-lg-12'>";
                                 html += data[i].Username;
-                                html += "</button>";
+                                html += "</div>";
                             }
-                            html += "</div>";
                             $('#FoundUsers').append(html);
                         }
                         else if (prefix == "")
                         {
                             $('#FoundUsers').html('');
                         }
-                        else 
+                        else
                         {
                             $('#FoundUsers').html('<p>User Not found</p>');
                         }
@@ -92,7 +91,33 @@
                 });
             });
 
-            
+            $('#FoundUsers').on('click', function ()
+            {
+                self = $(this);
+                $(".SelectClass").unbind('click');
+                $('.SelectClass').on('click', function ()
+                {
+                    var ElementArray = document.getElementsByClassName('SelectedFoundUser');
+                    if ($(this).hasClass("SelectedFoundUser"))
+                    {
+                        $('.SelectedFoundUser').removeClass('SelectedFoundUser');
+                        document.getElementById("ShareSubmitButton").disabled = true;
+                    }          
+                    else 
+                    {
+                        if (ElementArray.length >= 1) {
+                            $('.SelectedFoundUser').removeClass('SelectedFoundUser');
+                        }
+                        $(this).addClass('SelectedFoundUser');
+                        var user = $(this).val()
+                        $(this).attr('AddUsername', user);
+                        document.getElementById("ShareSubmitButton").disabled = false;
+                    }
+                });
+            });
+       })
+</script>
 
-        })
-</script>  
+}
+
+
