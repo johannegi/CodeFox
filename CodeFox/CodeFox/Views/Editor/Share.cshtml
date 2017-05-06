@@ -54,30 +54,45 @@
 }
 <script>
 
-        $(document).ready(function () {
-            $("#AddUsername").keyup(function(){
+    $(document).ready(function ()
+    {
+            $("#AddUsername").keyup(function ()
+            {
                 var form = $(this);
                 var prefix = $("#AddUsername").val();
                 $.ajax({
                     url: '/Editor/Autocomplete/',
                     data: { 'term': prefix },
                     method: 'POST',
-                    success: function (data) {
+                    success: function (data)
+                    {
 
                         $('#FoundUsers').html('');
-                        var html = "<div class='list-group'>";
-                        for (var i = 0; i < data.length; i++) {
-                                html += "<button type='button' class='list-group-item'>";
+                        var html = "<div class='list-group col-sm-12 col-md-12 col-lg-12'>";
+                        if (data != "")
+                        {
+                            for (var i = 0; i < data.length; i++)
+                            {
+                                html += "<button type='button' class='list-group-item col-xs-12 col-sm-12 col-md-12 col-lg-12'>";
                                 html += data[i].Username;
+                                html += "</button>";
+                            }
+                            html += "</div>";
+                            $('#FoundUsers').append(html);
                         }
-                        html += "</button></div>";
-                        $('#FoundUsers').append(html);
-                        if(data == "")
+                        else if (prefix == "")
                         {
                             $('#FoundUsers').html('');
+                        }
+                        else 
+                        {
+                            $('#FoundUsers').html('<p>User Not found</p>');
                         }
                     }
                 });
             });
+
+            
+
         })
 </script>  

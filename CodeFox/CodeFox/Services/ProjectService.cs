@@ -63,7 +63,8 @@ namespace CodeFox.Services
             projectView.ReadMe = CurrProject.ReadMe;
             projectView.Type = CurrProject.Type;
             projectView.ID = (int)ProjectID;
-            projectView.CurrentOpenFile = CurrProject.ReadMe;
+            projectView.CurrentOpenFile = projectView.ReadMe;
+            projectView.FileToOpenID = projectView.ReadMe.ID;
 
 
             var FilesProject = DB.FilesInProjects.Where(x => x.FileProject.ID == CurrProject.ID).ToList();
@@ -165,6 +166,13 @@ namespace CodeFox.Services
                 }
             }
             return false;
+        }
+
+        public List<string> GetTypeList()
+        {
+            string path = System.Web.HttpContext.Current.Server.MapPath("~/Content/Lists/ProjectTypes.txt");
+            List<string> listinn = new List<string>(System.IO.File.ReadLines(path).ToList());
+            return listinn;
         }
     }
 }
