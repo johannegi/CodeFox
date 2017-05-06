@@ -11,17 +11,12 @@
 
 <h2>Projects</h2>
 <div class="OwnProjects col-sm-12">
-    <div class="col-sm-4 col-md-3 col-lg-2 Project thumbnail">
-        <div class="TestClass">
-            <img />
-
-            <div class="circle-plus">
-                <div class="circle">
-                    <div class="horizontal"></div>
-                    <div class="vertical"></div>
-                </div>
-            </div>
-        </div>
+    <div class="col-sm-2">
+               <button class="Create card" onclick="location.href='@Url.Action("Create", "Projects")';return false;">
+                        <img class="card-img" src="~/Content/Images/plus.png" data-holder-rendered="true">
+                        <h4 class="card-title">@Html.ActionLink("Create new", "Create", "Projects")</h4>
+            
+        </button>
         </div>
 
 
