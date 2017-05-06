@@ -37,7 +37,6 @@ namespace CodeFox.Controllers
             return PartialView("~/Views/Shared/_EditorView.cshtml", NewFile);
         }
 
-        //MUNA AÐ BREYTA!!!!
         [HttpGet]
         public ActionResult Share(int? id)
         {
@@ -50,18 +49,15 @@ namespace CodeFox.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Share(FormCollection collection)
+        public ActionResult Share(string Username, int ProjectID)
         {
-            string Username = collection["AddUsername"].ToString();
-            string ProjectIDStr = collection["ProjectID"].ToString();
-            int ProjectID = Int32.Parse(ProjectIDStr);
-
             if(Pservice.AddCollaborator(Username, ProjectID))
             {
-                return RedirectToAction("Index", new { id = ProjectID });
+                return Json(Username, JsonRequestBehavior.AllowGet);
             }
-            //TODO: implement error logger
-            return RedirectToAction("Index", new { id = ProjectID }); //Remove this when implemented
+            return Json("User is already a collaborator", JsonRequestBehavior.AllowGet);
+            
+            //TODO: implement error logger            
         }
 
         [HttpPost]

@@ -26,7 +26,7 @@
                                 <th>Collaborators</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody class="ListOfCollaborators">
                             @foreach (var item in Model.SharedWith)
                             {
                                 <tr class="clickable-row">
@@ -41,8 +41,7 @@
             </div>
             <strong>Add collaborator</strong>
             <input type="text" id="AddUsername" placeholder="Search for a username..." />
-            <div id="FoundUsers" class="col-sm-12 col-md-12 col-lg-12" style="height:100px"></div>
-            <input type="hidden" name="ProjectID" id="ProjectID" value="@Model.ShareProject.ID" />
+            <div id="FoundUsers" class="ShowFound col-sm-12 col-md-12 col-lg-12"></div>
 
             @Html.ActionLink("Go Back", "Index", "Editor", new { id = Model.ShareProject.ID }, new { @class = "btn btn-default" })
             <button type="submit" id="ShareSubmitButton" class="btn btn-default" disabled>Share</button>
@@ -56,6 +55,8 @@
 
     $(document).ready(function ()
     {
+        /**************************************************************/
+        /*Ajax*/
             $("#AddUsername").keyup(function ()
             {
                 var form = $(this);
@@ -91,7 +92,37 @@
                 });
             });
 
-            $('#FoundUsers').on('click', function ()
+            $('#ShareForm').on('submit', function () {
+                var userHtml = document.getElementsByClassName('SelectedFoundUser');
+                var user = userHtml[0].valueOf().innerHTML;
+                var ProjectID = @Model.ShareProject.ID;
+                $.ajax({
+                    url: '/Editor/Share/',
+                    dataType: 'html',
+                    data: AddAntiForgeryToken({ 'Username': user, 'ProjectID': ProjectID }),
+                    method: 'POST',
+                    success: function (data)
+                    {
+                        if(data == '"User is already a collaborator"')
+                        {
+                            $('#FoundUsers').html('User is already a collaborator');
+                        }
+                        else {
+                            var html = '<tr class="clickable-row">';
+                                html += '<td> '+ data + '</td>';
+                                html += '</tr>';
+                            $('.ListOfCollaborators').append(html);
+                            $('#FoundUsers').html('Collaborator added!');
+                        }
+                    }
+                });
+                return false;
+            })
+
+
+        /***********************************************************************************/
+        /*Other*/
+            $('#FoundUsers').ready( function ()
             {
                 self = $(this);
                 $(".SelectClass").unbind('click');
@@ -108,14 +139,17 @@
                         if (ElementArray.length >= 1) {
                             $('.SelectedFoundUser').removeClass('SelectedFoundUser');
                         }
-                        $(this).addClass('SelectedFoundUser');
-                        var user = $(this).val()
-                        $(this).attr('AddUsername', user);
+                        $(this).addClass('SelectedFoundUser');                        
                         document.getElementById("ShareSubmitButton").disabled = false;
                     }
                 });
             });
-       })
+
+            AddAntiForgeryToken = function(data) {
+                data.__RequestVerificationToken = $('#ShareForm input[name=__RequestVerificationToken]').val();
+                return data;
+            };
+      });
 </script>
 
 }

@@ -344,3 +344,9 @@ a.attempt:hover{
 .SelectedFoundUser {
     background: blue;
 }
+
+.ShowFound {
+    height: 300px;
+    overflow-y: scroll;
+
+}
