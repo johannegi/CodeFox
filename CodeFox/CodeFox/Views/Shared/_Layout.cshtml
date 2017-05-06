@@ -49,35 +49,5 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
-
-    <script>
-
-        $(document).ready(function () {
-            $("#AddUsername").keyup(function(){
-                var form = $(this);
-                var prefix = $("#AddUsername").val();
-                $.ajax({
-                    url: '/Editor/Autocomplete/',
-                    data: { 'term': prefix },                    
-                    method: 'POST',
-                    success: function (data) {
-
-                        $('#FoundUsers').html('');
-                        var html = "<div class='list-group'>";
-                        for (var i = 0; i < data.length; i++) {                            
-                                html += "<button type='button' class='list-group-item'>";
-                                html += data[i].Username;                           
-                        }
-                        html += "</button></div>";
-                        $('#FoundUsers').append(html);
-                        if(data == "")
-                        {
-                            $('#FoundUsers').html('');
-                        }
-                    }
-                });
-            });
-        })
-    </script>  
 </body>
 </html>
