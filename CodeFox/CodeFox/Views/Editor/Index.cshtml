@@ -17,7 +17,7 @@
 </div>
 @if (User.Identity.Name == Model.Owner.Username)
 {
-    <div class="EditorButtons"> @Html.ActionLink("Delete project", "Share", "Editor", new { @class = "btn btn-danger DeleteButton" })</div>
+    <div class="EditorButtons"> @Html.ActionLink("Delete project", "Delete", "Projects", new { id = Model.ID }, new { @class = "btn btn-danger DeleteButton" })</div>
 }
 
 <div class="EditorArea">   
