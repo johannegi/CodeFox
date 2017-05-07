@@ -45,7 +45,12 @@ namespace CodeFox.Controllers
         public ActionResult Delete(int? id)
         {
             Project Model = PService.GetProjectFromID(id);
-            return View(Model);
+            string Username = User.Identity.Name;
+            if (Username == Model.Owner.Username)
+            {
+                return View(Model);
+            }
+            return RedirectToAction("Index");
         }
 
         [HttpPost]
