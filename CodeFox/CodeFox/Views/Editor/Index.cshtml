@@ -90,7 +90,7 @@
                 }
             },
             "plugins": [
-            "contextmenu", "dnd", "types"
+           " contextmenu", "dnd", "types"
             ]
         });
 
@@ -99,12 +99,11 @@
         var Pos = 0;
         var newPos = 0;
 
-        
+
         $("#tree").on("loaded.jstree", function () {
             $('#tree').jstree(true).select_node('@Model.ReadMe.ID');
             $("#tree").on("select_node.jstree", function (event, node) {
                 var Selected = node.instance.get_selected();
-                document.getElementById("NewFileID").value = Selected;
                 $.ajax({
                     url: '/Editor/OpenNewFile/',
                     data: { 'FileID': Number(Selected) },
