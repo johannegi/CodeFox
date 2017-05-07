@@ -28,7 +28,7 @@ namespace CodeFox.Services
         {
             File Default = new File();
             Default.Name = "Index";
-            Default.Type = "Type";
+            Default.Type = Type;
             Default.Location = "//This is the default file for this project";
             Default.FolderStructure = null;
             Default.DateCreated = DateTime.Now;
