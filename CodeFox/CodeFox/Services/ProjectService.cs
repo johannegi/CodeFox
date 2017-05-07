@@ -175,5 +175,15 @@ namespace CodeFox.Services
             List<string> listinn = new List<string>(System.IO.File.ReadLines(path).ToList());
             return listinn;
         }
+
+        public void DeleteProject(int? ProjectID)
+        {
+            var POwner = DB.ProjectOwners.Where(x => x.OwnerProject.ID == ProjectID).FirstOrDefault();
+            DB.ProjectOwners.Remove(POwner);
+            DB.SaveChanges();
+           /* var TheProject = DB.Projects.Where(x => x.ID == ProjectID).FirstOrDefault();
+            DB.Projects.Remove(TheProject);*/
+            
+        }
     }
 }

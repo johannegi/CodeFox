@@ -48,6 +48,13 @@ namespace CodeFox.Controllers
             return View(Model);
         }
 
-        
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Delete(Project Model)
+        {
+            PService.DeleteProject(Model.ID);
+            return RedirectToAction("Index");
+        }
+
     }
 }
