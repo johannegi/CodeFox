@@ -18,7 +18,8 @@
             </div>
             <h2>Share with fellow foxes</h2>
             <div class="row InputField">
-                <label for="User">Add collaborator by Username</label> <br />
+                <h2>Owner: @Model.ShareProject.Owner.Username</h2>
+                <label for="User">Add collaborator by Username</label> <br />                
                 <div class="table-responsive">
                     <table class="table table-striped col-sm-12 col-md-12">
                         <thead>
@@ -40,7 +41,7 @@
                 </div>                
             </div>
             <strong>Add collaborator</strong>
-            <input type="text" id="AddUsername" placeholder="Search for a username..." />
+            <input type="text" id="AddUsername" placeholder="Search for a username..." autocomplete="off"/>
             <div id="FoundUsers" class="ShowFound col-sm-12 col-md-12 col-lg-12"></div>
 
             @Html.ActionLink("Go Back", "Index", "Editor", new { id = Model.ShareProject.ID }, new { @class = "btn btn-default" })
@@ -108,12 +109,16 @@
                             $('#FoundUsers').html('User is already a collaborator');
                         }
                         else {
+                            $('#FoundUsers').html('');
                             var html = '<tr class="clickable-row">';
-                                html += '<td> '+ data + '</td>';
+                                html += '<td> '+ user + '</td>';
                                 html += '</tr>';
                             $('.ListOfCollaborators').append(html);
                             $('#FoundUsers').html('Collaborator added!');
                         }
+                        $('.SelectedFoundUser').removeClass('SelectedFoundUser');
+                        document.getElementById("ShareSubmitButton").disabled = true;
+                        $("#AddUsername").val('');
                     }
                 });
                 return false;

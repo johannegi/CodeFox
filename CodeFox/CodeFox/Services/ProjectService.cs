@@ -151,7 +151,8 @@ namespace CodeFox.Services
         {
             var CollaboratorAlreadyExists = DB.ProjectShares.Where(x => x.ShareUser.Username == Username 
                                                                    && x.ShareProject.ID == ProjectID).SingleOrDefault();
-            if (CollaboratorAlreadyExists == null)
+            var Owner = (from x in DB.Projects where x.ID == ProjectID select x.Owner).SingleOrDefault();
+            if (CollaboratorAlreadyExists == null && Username != Owner.Username)
             {
                 ProjectShare NewConnection = new ProjectShare();
                 NewConnection.ShareUser = DB.UsersInfo.Where(x => x.Username == Username).SingleOrDefault();
