@@ -31,11 +31,11 @@ namespace CodeFox.Controllers
             return View(EdiorView);
         }
 
-        public ActionResult AddFiles(EditorViewModel EModel)
+        public ActionResult AddFiles(int? id)
         {
             AddFilesViewModel Model = new AddFilesViewModel();
             Model.TypeList = Pservice.GetTypeList();
-            Model.TheProject = Pservice.GetProjectFromID(EModel.ID);
+            Model.ProjectID = (int)id;
             return View(Model);
         }
 
@@ -45,9 +45,9 @@ namespace CodeFox.Controllers
         {
             if (ModelState.IsValid)
             {
-               
+                
                 FService.AddFile(Model);
-                return RedirectToAction("Index", new { id = Model.TheProject.ID });
+                return RedirectToAction("Index", new { id = Model.ProjectID });
             }
             return View();
         }

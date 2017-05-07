@@ -55,11 +55,8 @@ namespace CodeFox.Services
             //Add the connection
             FileInProject NewConnection = new FileInProject();
             NewConnection.ProjectFile = NewFile;
-            Project newProject = Model.TheProject;
-            if (newProject != null)
-            {
-                NewConnection.FileProject = newProject;
-            }
+            Project TheProj = DB.Projects.Where(x => x.ID == Model.ProjectID).FirstOrDefault();
+            NewConnection.FileProject = TheProj;
            
             DB.Files.Add(NewFile);
             DB.FilesInProjects.Add(NewConnection);

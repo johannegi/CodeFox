@@ -17,8 +17,9 @@ namespace CodeFox.Models.ViewModels
 
         [Required]
         public string Type { get; set; }
-        
-        public Project TheProject { get; set; }
+
+        [Required]
+        public int ProjectID { get; set; }
     }
 }
 
