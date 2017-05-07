@@ -81,7 +81,7 @@ namespace CodeFox.Controllers
                 {
                     return Json("", JsonRequestBehavior.AllowGet);
                 }
-                return Json(PossibleOutComes, JsonRequestBehavior.AllowGet);
+               return Json(PossibleOutComes, JsonRequestBehavior.AllowGet);
             }
             return Json("", JsonRequestBehavior.AllowGet);
         }
