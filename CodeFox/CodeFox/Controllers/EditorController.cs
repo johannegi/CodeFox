@@ -31,10 +31,12 @@ namespace CodeFox.Controllers
             return View(EdiorView);
         }
 
-        public PartialViewResult NewFile(int? id)
+        [HttpPost]
+        public ActionResult OpenNewFile(int FileID)
         {
-            File NewFile = FService.GetFileByID(id);
-            return PartialView("~/Views/Shared/_EditorView.cshtml", NewFile);
+            File NewFile = new File();
+            NewFile = FService.GetFileByID(FileID);
+            return Json(NewFile, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]

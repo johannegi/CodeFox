@@ -104,21 +104,17 @@
         $("#tree").on("loaded.jstree", function () {
             $('#tree').jstree(true).select_node('@Model.ReadMe.ID');
             $("#tree").on("select_node.jstree", function (event, node) {
-                var selected = node.instance.get_selected();
-                alert(selected);
-                document.getElementById("NewFileID").value = selected;
-                @{
-                    if (Model.FileToOpenID == Model.ReadMe.ID)
-                    {
-                        Model.CurrentOpenFile = Model.ReadMe;
+                var Selected = node.instance.get_selected();
+                document.getElementById("NewFileID").value = Selected;
+                $.ajax({
+                    url: '/Editor/OpenNewFile/',
+                    data: { 'FileID': Number(Selected) },
+                    method: 'POST',
+                    success: function (ReturnData) {
+                        var test = ReturnData.Location;
+                        ace.edit("Editor").setValue(ReturnData.Location);
                     }
-                    else
-                    {
-                        Model.CurrentOpenFile = Model.Files.Where(x => x.ID == Model.FileToOpenID).SingleOrDefault();
-                    }
-                }
-                var test = String(selected);
-                ace.edit("Editor").setValue(test);
+                });
             });
         });
 
@@ -140,6 +136,7 @@
             newParent = node.parent;
         });
     </script>
+        
     }
 </div>
 
