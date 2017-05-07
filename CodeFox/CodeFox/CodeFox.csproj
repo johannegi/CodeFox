@@ -302,6 +302,7 @@
     <Content Include="Views\Manage\ChangeEmail.cshtml" />
     <Content Include="Views\Manage\ChangeCountry.cshtml" />
     <Content Include="Views\Shared\_EditorView.cshtml" />
+    <Content Include="Views\Projects\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
