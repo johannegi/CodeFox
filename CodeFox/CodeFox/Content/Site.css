@@ -139,6 +139,7 @@ section h3.section-subheading {
     height:1%;
     overflow: visible;
     border: 1px solid lightgray;
+    min-height: 302.6px;
 }
 
 
