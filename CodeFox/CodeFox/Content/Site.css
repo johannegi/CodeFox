@@ -289,28 +289,6 @@ a.attempt:hover{
 
 /**********************************************************************************/
 /*Styles for Share*/
-
-.lr {
-    height: 25px;
-    width: 1px;
-    margin-left: 35px;
-    background-color: #222;
-    transform: rotate(45deg);
-    -ms-transform: rotate(45deg);
-    -webkit-transform: rotate(45deg);
-    z-index: 1051;
-}
-
-.rl {
-    height: 25px;
-    width: 1px;
-    background-color: #222;
-    transform: rotate(90deg);
-    -ms-transform: rotate(90deg);
-    -webkit-transform: rotate(90deg);
-    z-index: 1052;
-}
-
 .ShareWindow {
     text-align: center;
     padding: 0 0 20px 0;
@@ -318,6 +296,10 @@ a.attempt:hover{
     border-radius: 1%;
     margin-top: 50px;
     margin-bottom: 300px;
+}
+
+td.ShareUsername {
+    text-align: left !important;
 }
 
 .InputField {
@@ -329,10 +311,6 @@ a.attempt:hover{
     margin-bottom: 20px;
 }
 
-.CloseShare {
-    text-align:right;
-}
-
 .SelectedFoundUser {
     background: blue;
 }
@@ -340,5 +318,4 @@ a.attempt:hover{
 .ShowFound {
     height: 300px;
     overflow-y: scroll;
-
 }

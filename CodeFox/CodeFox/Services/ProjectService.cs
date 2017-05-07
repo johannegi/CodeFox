@@ -149,21 +149,46 @@ namespace CodeFox.Services
 
         public bool AddCollaborator(string Username, int? ProjectID)
         {
-            var CollaboratorAlreadyExists = DB.ProjectShares.Where(x => x.ShareUser.Username == Username 
-                                                                   && x.ShareProject.ID == ProjectID).SingleOrDefault();
-            var Owner = (from x in DB.Projects where x.ID == ProjectID select x.Owner).SingleOrDefault();
-            if (CollaboratorAlreadyExists == null && Username != Owner.Username)
+            if(ProjectID.HasValue)
             {
-                ProjectShare NewConnection = new ProjectShare();
-                NewConnection.ShareUser = DB.UsersInfo.Where(x => x.Username == Username).SingleOrDefault();
-                NewConnection.ShareProject = DB.Projects.Where(x => x.ID == ProjectID).SingleOrDefault();
-                NewConnection.ID = (from n in DB.ProjectShares orderby n.ID descending select n.ID).FirstOrDefault();
-                NewConnection.ID++;
-                if (NewConnection.ShareUser != null)
+                var CollaboratorAlreadyExists = DB.ProjectShares.Where(x => x.ShareUser.Username == Username
+                                                       && x.ShareProject.ID == ProjectID).SingleOrDefault();
+                var Owner = (from x in DB.Projects where x.ID == ProjectID select x.Owner).SingleOrDefault();
+                if (CollaboratorAlreadyExists == null && Username != Owner.Username)
                 {
-                    DB.ProjectShares.Add(NewConnection);
-                    DB.SaveChanges();
-                    return true;
+                    ProjectShare NewConnection = new ProjectShare();
+                    NewConnection.ShareUser = DB.UsersInfo.Where(x => x.Username == Username).SingleOrDefault();
+                    NewConnection.ShareProject = DB.Projects.Where(x => x.ID == ProjectID).SingleOrDefault();
+                    NewConnection.ID = (from n in DB.ProjectShares orderby n.ID descending select n.ID).FirstOrDefault();
+                    NewConnection.ID++;
+                    if (NewConnection.ShareUser != null)
+                    {
+                        DB.ProjectShares.Add(NewConnection);
+                        DB.SaveChanges();
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        public bool RemoveCollaborator(string Username, int? ProjectID)
+        {
+            if(ProjectID.HasValue)
+            {
+                UserService getUser = new UserService();
+                var SharedUsers = getUser.GetSharedUsersFromProject(ProjectID);
+                var RemoveUser = SharedUsers.Where(x => x.Username == Username).SingleOrDefault();
+                if(RemoveUser != null)
+                {
+                    ProjectShare DeleteShare = (from x in DB.ProjectShares where x.ShareUser.Username == Username
+                                                && x.ShareProject.ID == ProjectID select x).SingleOrDefault();
+                    if(DeleteShare != null)
+                    {
+                        DB.ProjectShares.Remove(DeleteShare);
+                        DB.SaveChanges();
+                        return true;
+                    }
                 }
             }
             return false;

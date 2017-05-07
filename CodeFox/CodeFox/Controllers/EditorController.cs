@@ -63,6 +63,16 @@ namespace CodeFox.Controllers
         }
 
         [HttpPost]
+        public ActionResult DeleteShare(string Username, int? ProjectID)
+        {
+            if(Pservice.RemoveCollaborator(Username, ProjectID))
+            {
+                return Json("Success", JsonRequestBehavior.AllowGet);
+            }
+            return Json("", JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
       public ActionResult Autocomplete(string term)
         {
           var AllUsers = UService.GetAllUsers(User.Identity.GetUserName());
