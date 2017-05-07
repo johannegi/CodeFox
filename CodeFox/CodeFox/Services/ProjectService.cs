@@ -178,11 +178,31 @@ namespace CodeFox.Services
 
         public void DeleteProject(int? ProjectID)
         {
-            var POwner = DB.ProjectOwners.Where(x => x.OwnerProject.ID == ProjectID).FirstOrDefault();
+            ProjectOwner POwner = DB.ProjectOwners.Where(x => x.OwnerProject.ID == ProjectID).FirstOrDefault();
             DB.ProjectOwners.Remove(POwner);
+            var FileProject = DB.FilesInProjects.Where(x => x.FileProject.ID == ProjectID).ToList();
+
+            foreach(var item in FileProject)
+            {
+                File TheFile = DB.Files.Where(x => x.ID == item.ProjectFile.ID).FirstOrDefault();
+                DB.Files.Remove(TheFile);
+                DB.FilesInProjects.Remove(item);
+            }
+            var Folders = DB.Folders.Where(x => x.ProjectStructure.ID == ProjectID);
+            foreach(var item in Folders)
+            {
+                DB.Folders.Remove(item);
+            }
+            var Shares = DB.ProjectShares.Where(x => x.ShareProject.ID == ProjectID);
+            foreach(var item in Shares)
+            {
+                DB.ProjectShares.Remove(item);
+            }
+            Project TheProject = DB.Projects.Where(x => x.ID == ProjectID).FirstOrDefault();
+            DB.Files.Remove(TheProject.ReadMe);
+            DB.Projects.Remove(TheProject);
+
             DB.SaveChanges();
-           /* var TheProject = DB.Projects.Where(x => x.ID == ProjectID).FirstOrDefault();
-            DB.Projects.Remove(TheProject);*/
             
         }
     }

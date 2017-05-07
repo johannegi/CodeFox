@@ -90,24 +90,16 @@ section h3.section-subheading {
 /**********************************************************************************/
 /*Styles for Projectview*/
 
-
-.Create a
+.Create
 {
-    color: black;
-    text-decoration: none;
-}
-
-.Create:hover
-{
-    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
-    transition-duration: 0.4s;
+    text-align: center;
+    height: 259.6px
 }
 
 .Project
 {
     margin-bottom: 15px;
     margin-right: 20px;
-
 }
 
 .Project:hover
@@ -137,8 +129,7 @@ section h3.section-subheading {
 .Hamburger
 {
     border: none;
-    cursor: pointer;
-        
+    cursor: pointer;  
 }
 
 .OwnProjects
