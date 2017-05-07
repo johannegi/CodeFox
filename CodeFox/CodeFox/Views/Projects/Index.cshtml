@@ -35,7 +35,7 @@
                                             <span class="glyphicon glyphicon-align-justify" aria-hidden="true"></span>
                                         </button>
                                         <ul class="dropdown-menu">
-                                            <li class="dropdown-item">@Html.ActionLink("Delete", "Index", "Editor", new { id = item.ID }, null)</li>
+                                            <li class="dropdown-item">@Html.ActionLink("Delete", "Delete", "Projects", new { id = item.ID }, null)</li>
                                             <li class="dropdown-item">@Html.ActionLink("Export", "Index", "Editor", new { id = item.ID }, null)</li>
                                             <li class="dropdown-item">@Html.ActionLink("Details", "Index", "Editor", new { id = item.ID }, null)</li>
                                         </ul>

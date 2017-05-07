@@ -42,6 +42,12 @@ namespace CodeFox.Controllers
             return View(Model);
         }
 
+        public ActionResult Delete(int? id)
+        {
+            Project Model = PService.GetProjectFromID(id);
+            return View(Model);
+        }
+
         
     }
 }
