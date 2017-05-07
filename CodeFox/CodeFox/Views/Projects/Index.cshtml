@@ -16,7 +16,7 @@
         <br />
             <img src="~/Content/Images/plus.png" data-hsolder-rendered="true" onclick="location.href='@Url.Action("Create", "Projects")';return false;">
         <div class="caption">
-            <h4 class="card-title">@Html.ActionLink("Create new", "Create", "Projects")</h4>
+            <h4>@Html.ActionLink("Create new", "Create", "Projects")</h4>
        </div>
      </div>
         @if (Model.Projects.Count != 0)
