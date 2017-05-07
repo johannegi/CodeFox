@@ -1,5 +1,6 @@
 ﻿using CodeFox.Models;
 using CodeFox.Models.Entities;
+using CodeFox.Models.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,6 +38,33 @@ namespace CodeFox.Services
             return Default;
         }
 
+        //Checka a USERNAME
+        public void AddFile(AddFilesViewModel Model)
+        {
+           // UserInfo Owner = DB.UsersInfo.Where(x => x.Username == Username).SingleOrDefault();
+
+            //Make the file
+            File NewFile = new File();
+            NewFile.Name = Model.Name;
+            NewFile.Type = Model.Type;
+            NewFile.Location = "//This is a new file";
+            NewFile.FolderStructure = null;
+            NewFile.DateCreated = DateTime.Now;
+            NewFile.DateModified = DateTime.Now;
+
+            //Add the connection
+            FileInProject NewConnection = new FileInProject();
+            NewConnection.ProjectFile = NewFile;
+            Project newProject = Model.TheProject;
+            if (newProject != null)
+            {
+                NewConnection.FileProject = newProject;
+            }
+           
+            DB.Files.Add(NewFile);
+            DB.FilesInProjects.Add(NewConnection);
+            DB.SaveChanges();
+        }
         public File GetFileByID(int? ID)
         {
             return DB.Files.Find(ID);

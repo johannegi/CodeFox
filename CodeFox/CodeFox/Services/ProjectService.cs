@@ -52,6 +52,10 @@ namespace CodeFox.Services
 
         public EditorViewModel GetEditorViewModel(int? ProjectID)
         {
+            if (ProjectID.HasValue)
+            {
+                //TODO: ERROR
+            }
             EditorViewModel projectView = new EditorViewModel();
 
             Project CurrProject = DB.Projects.Find(ProjectID);
@@ -86,7 +90,7 @@ namespace CodeFox.Services
                     projectView.SharedWith.Add(tmp);
                 }
             }
-            
+
 
             return projectView;
         }
