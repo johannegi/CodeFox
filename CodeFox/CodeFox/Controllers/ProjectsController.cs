@@ -9,12 +9,13 @@ using System.Web.Mvc;
 
 namespace CodeFox.Controllers
 {
+    [Authorize]
     public class ProjectsController : Controller
     {
         private ProjectService PService = new ProjectService();
 
         // GET: Project
-        [Authorize]
+        
         public ActionResult Index()
         {
             string Username = User.Identity.Name;
@@ -24,6 +25,7 @@ namespace CodeFox.Controllers
         public ActionResult Create()
         {
             CreateProjectViewModel Model = new CreateProjectViewModel();
+            Model.TypeList = PService.GetTypeList();
             return View(Model);
         }
 
@@ -40,17 +42,24 @@ namespace CodeFox.Controllers
             return View(Model);
         }
 
-        //MUNA AÐ BREYTA!!!!
-        public ActionResult Share()
+        public ActionResult Delete(int? id)
         {
-            return View("ShareTemplate");
+            Project Model = PService.GetProjectFromID(id);
+            string Username = User.Identity.Name;
+            if (Username == Model.Owner.Username)
+            {
+                return View(Model);
+            }
+            return RedirectToAction("Index");
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Share(Project ShareProject)
+        public ActionResult Delete(Project Model)
         {
-            return View();
+            PService.DeleteProject(Model.ID);
+            return RedirectToAction("Index");
         }
+
     }
 }

@@ -33,6 +33,10 @@ textarea {
     text-decoration: none;
     text-align: right;
 }
+.FooterPosition li{
+    display: inline;
+    padding-right: 40px;
+}
 
 .FooterLinkAppearance:hover{
     text-decoration: none;
@@ -86,29 +90,69 @@ section h3.section-subheading {
 /**********************************************************************************/
 /*Styles for Projectview*/
 
+.Create
+{
+    text-align: center;
+    height: 259.6px
+}
+
 .Project
 {
-    height: 80px;
-    border: 1px solid black;
+    margin-bottom: 15px;
+    margin-right: 20px;
+}
+
+.Project:hover
+{
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+    transition-duration: 0.4s;
+}
+
+
+.Project a
+{
+    color: black;
+    text-decoration: none;
+}
+
+.Project img:hover
+{
+    cursor:pointer;
+}
+
+.ProjectName
+{
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+.Hamburger
+{
+    border: none;
+    cursor: pointer;  
 }
 
 .OwnProjects
 {   
     padding-top: 15px;
     padding-bottom: 15px;
-    overflow:hidden;
     height:1%;
-    border: 1px solid black;
+    overflow: visible;
+    border: 1px solid lightgray;
+    min-height: 302.6px;
 }
 
-.SharedProject
+
+
+.SharedProjects
 {
     padding-top: 15px;
     padding-bottom: 15px;
-    overflow:hidden;
     height:1%;
-    border: 1px solid black;
+    overflow: visible;
+    border: 1px solid lightgray;
 }
+
 
 /**********************************************************************************/
 /*Styles for About*/
@@ -138,7 +182,6 @@ section h3.section-subheading {
 .Developers img
 {
     padding: 5px;
-    float: left;
     position: relative;
     width:  200px;
     height: 200px;
@@ -153,7 +196,7 @@ section h3.section-subheading {
 }
 
 /*Ends*/
-
+    
 
 #MainPageSlogan
 {
@@ -180,6 +223,8 @@ a.attempt:hover{
 /**********************************************************************************/
 /*Styles for Navbar*/
 
+
+
 .navbar-inverse #NavBarHamburger {
     background-color: palevioletred;
 }
@@ -199,51 +244,52 @@ a.attempt:hover{
 .navbar-inverse .HoverEffect:hover {
     color: blue;
 }
+
 /**********************************************************************************/
-/*Styles for Editor*/
+
+
+/*styles for Editor*/
+.BorderEditor
+{
+    border: 1px solid red;
+}
+
 
 .AceEditor
 {
-    height:600px;
+    height: 1000px;
     overflow: hidden;
 }
 
 #Editor
 {
-    height:100%;
-    width:100%;
-    margin: 0;
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
+    position: relative;
+    height: 700px;
+}
+.EditorArea
+{
+    margin-top: 20px;
+}
+
+.EditorButtons
+{
+    display: inline;
+    margin-left: 18px;
+}
+.DeleteButton
+{
+    float: right;
+    margin-right: 18px;
+}
+
+#ProjectName
+{   
+    padding-left: 18px;
+    padding-bottom: 20px;
 }
 
 /**********************************************************************************/
 /*Styles for Share*/
-
-.lr {
-    height: 25px;
-    width: 1px;
-    margin-left: 35px;
-    background-color: #222;
-    transform: rotate(45deg);
-    -ms-transform: rotate(45deg);
-    -webkit-transform: rotate(45deg);
-    z-index: 1051;
-}
-
-.rl {
-    height: 25px;
-    width: 1px;
-    background-color: #222;
-    transform: rotate(90deg);
-    -ms-transform: rotate(90deg);
-    -webkit-transform: rotate(90deg);
-    z-index: 1052;
-}
-
 .ShareWindow {
     text-align: center;
     padding: 0 0 20px 0;
@@ -253,8 +299,12 @@ a.attempt:hover{
     margin-bottom: 300px;
 }
 
+td.ShareUsername {
+    text-align: left !important;
+}
+
 .InputField {
-    padding: 10px;
+    padding: 20px;
     margin-bottom: 30px;
 }
 
@@ -262,6 +312,10 @@ a.attempt:hover{
     margin-bottom: 20px;
 }
 
-.CloseShare {
-    text-align:right;
+.SelectedFoundUser {
+    background: blue;
+}
+
+.ShowFound {
+    height: 300px;
 }

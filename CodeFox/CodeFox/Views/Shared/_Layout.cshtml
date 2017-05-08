@@ -9,6 +9,11 @@
     <link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300" rel="stylesheet">
     <script src="https://use.fontawesome.com/9f381b8651.js"></script>
 
+    <!--JQuery-->
+    <link href="http://code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css" type="text/css" rel="Stylesheet">
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.js"></script>
+    <script type="text/javascript" src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-autocomplete/1.0.7/jquery.auto-complete.js"></script>
 
 </head>
 <body>
@@ -34,8 +39,9 @@
         <hr />
         <p class="col-md-6 col-sm-6">&copy; @DateTime.Now.Year - CodeFox</p>
         <ul class="FooterPosition col-md-6 col-sm-6">
-            <li>@Html.ActionLink("About", "About", "Home", new { @class = "FooterLinkAppearance" })</li>
-            <li>@Html.ActionLink("Contact", "Contact", "Home", new { @class = "FooterLinkAppearance" })</li>
+            <li>@Html.ActionLink("About", "About", "Home", new { area = "" }, new { @class = "FooterLinkAppearance" })</li>
+            <li>@Html.ActionLink("Contact", "Contact", "Home", new { area = "" }, new { @class = "FooterLinkAppearance" })</li>
+            
         </ul>
         <p></p>
     </footer>

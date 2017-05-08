@@ -1,8 +1,8 @@
 ﻿using CodeFox.Models;
 using CodeFox.Models.Entities;
+using CodeFox.Models.ViewModels;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Web;
 
@@ -10,29 +10,63 @@ namespace CodeFox.Services
 {
     public class FileService
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private ApplicationDbContext DB = new ApplicationDbContext();
 
-        public Models.Entities.File CreateReadMe(string Text, string ProjectName)
+        public File CreateReadMe(string Text)
         {
-            Models.Entities.File ReadMe = new Models.Entities.File();
+            File ReadMe = new File();
             ReadMe.Name = "ReadMe";
             ReadMe.Type = "txt";
-            ReadMe.Location = "";
+            ReadMe.Location = Text;
             ReadMe.FolderStructure = null;
             ReadMe.DateCreated = DateTime.Now;
             ReadMe.DateModified = DateTime.Now;
 
-            db.Files.Add(ReadMe);
-            db.SaveChanges();
-            
-            string ProjectFolder = HttpContext.Current.Server.MapPath("~/App_Data/" + ProjectName);
-            string FileName = "ReadMe.txt";
-            string FullPath = Path.Combine(ProjectFolder, FileName);
-            System.IO.FileInfo file = new System.IO.FileInfo(FullPath);
-            file.Directory.Create();
-            System.IO.File.WriteAllText(file.FullName, Text);
-
             return ReadMe;
         }
+
+        public File CreateDefaultFile(string Type)
+        {
+            File Default = new File();
+            Default.Name = "Index";
+            Default.Type = Type;
+            Default.Location = "//This is the default file for this project";
+            Default.FolderStructure = null;
+            Default.DateCreated = DateTime.Now;
+            Default.DateModified = DateTime.Now;
+
+            return Default;
+        }
+
+        //Checka a USERNAME
+        public void AddFile(AddFilesViewModel Model)
+        {
+           // UserInfo Owner = DB.UsersInfo.Where(x => x.Username == Username).SingleOrDefault();
+
+            //Make the file
+            File NewFile = new File();
+            NewFile.Name = Model.Name;
+            NewFile.Type = Model.Type;
+            NewFile.Location = "//This is a new file";
+            NewFile.FolderStructure = null;
+            NewFile.DateCreated = DateTime.Now;
+            NewFile.DateModified = DateTime.Now;
+
+            //Add the connection
+            FileInProject NewConnection = new FileInProject();
+            NewConnection.ProjectFile = NewFile;
+            Project TheProj = DB.Projects.Where(x => x.ID == Model.ProjectID).FirstOrDefault();
+            NewConnection.FileProject = TheProj;
+           
+            DB.Files.Add(NewFile);
+            DB.FilesInProjects.Add(NewConnection);
+            DB.SaveChanges();
+        }
+        public File GetFileByID(int? ID)
+        {
+            return DB.Files.Find(ID);
+        }
+
+        
     }
 }

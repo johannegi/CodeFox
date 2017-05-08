@@ -7,6 +7,9 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using CodeFox.Models;
+using CodeFox.Services;
+using CodeFox.Models.Entities;
+using System.Collections.Generic;
 
 namespace CodeFox.Controllers
 {
@@ -15,6 +18,7 @@ namespace CodeFox.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private UserService UService = new UserService();
 
         public ManageController()
         {
@@ -64,8 +68,13 @@ namespace CodeFox.Controllers
                 : "";
 
             var userId = User.Identity.GetUserId();
+            UserInfo tmp = UService.GetUserByUsername(User.Identity.Name);
             var model = new IndexViewModel
             {
+                Name = tmp.Name,
+                Username = tmp.Username,
+                Email = tmp.Email,
+                Country = tmp.Country,
                 HasPassword = HasPassword(),
                 PhoneNumber = await UserManager.GetPhoneNumberAsync(userId),
                 TwoFactor = await UserManager.GetTwoFactorEnabledAsync(userId),
@@ -332,8 +341,63 @@ namespace CodeFox.Controllers
 
             base.Dispose(disposing);
         }
+        
+        public ActionResult ChangeName(string Username)
+        {
+            UserInfo User = UService.GetUserByUsername(Username);
+            return View(User);
+        }
 
-#region Helpers
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ChangeName(UserInfo User)
+        {
+            if (ModelState.IsValid)
+            {
+                UService.EditUser(User);
+                return RedirectToAction("Index");
+            }
+            return View(User);
+        }
+
+        public ActionResult ChangeEmail(string Username)
+        {
+            UserInfo User = UService.GetUserByUsername(Username);
+            return View(User);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ChangeEmail(UserInfo User)
+        {
+            if (ModelState.IsValid)
+            {
+                UService.EditUser(User);
+                return RedirectToAction("Index");
+            }
+            return View(User);
+        }
+
+        public ActionResult ChangeCountry(string Username)
+        {
+            UserInfo User = UService.GetUserByUsername(Username);
+            User.CountryList = UService.GetCountryList();
+            return View(User);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ChangeCountry(UserInfo User)
+        {
+            if (ModelState.IsValid)
+            {
+                UService.EditUser(User);
+                return RedirectToAction("Index");
+            }
+            return View(User);
+        }
+
+        #region Helpers
         // Used for XSRF protection when adding external logins
         private const string XsrfKey = "XsrfId";
 

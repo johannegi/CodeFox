@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Globalization;
 using System.Linq;
 using System.Security.Claims;
@@ -10,6 +11,8 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using CodeFox.Models;
 using CodeFox.Models.Entities;
+using System.Collections.Generic;
+using CodeFox.Services;
 
 namespace CodeFox.Controllers
 {
@@ -19,6 +22,7 @@ namespace CodeFox.Controllers
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
         private ApplicationDbContext db = new ApplicationDbContext();
+        private UserService UService = new UserService();
 
         public AccountController()
         {
@@ -141,7 +145,9 @@ namespace CodeFox.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
-            return View();
+            RegisterViewModel Model = new RegisterViewModel();
+            Model.CountryList = UService.GetCountryList();
+            return View(Model);
         }
 
         //

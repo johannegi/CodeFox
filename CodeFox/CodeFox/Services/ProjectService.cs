@@ -11,11 +11,11 @@ namespace CodeFox.Services
     public class ProjectService
     {
         private FileService FService = new FileService();
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private ApplicationDbContext DB = new ApplicationDbContext();
 
         public ProjectsViewModel GetProjectsViewModel(string Username)
         {
-            UserInfo user = db.UsersInfo.Where(x => x.Username == Username).SingleOrDefault();
+            UserInfo user = DB.UsersInfo.Where(x => x.Username == Username).SingleOrDefault();
 
             ProjectsViewModel UserView = new ProjectsViewModel();
             UserView.Projects = new List<Project>();
@@ -26,23 +26,23 @@ namespace CodeFox.Services
             UserView.Country = user.Country;
             UserView.Email = user.Email;
 
-            var POwners = db.ProjectOwners.Where(x => x.Owner.ID == user.ID).ToList();
+            var POwners = DB.ProjectOwners.Where(x => x.Owner.ID == user.ID).ToList();
             if (POwners != null)
             {
                 foreach (var item in POwners)
                 {
                     
-                    Project tmp = db.Projects.Find(item.OwnerProject.ID);
+                    Project tmp = DB.Projects.Find(item.OwnerProject.ID);
                     UserView.Projects.Add(tmp);
                 }
             }
     
-            var PShare = db.ProjectShares.Where(x => x.ShareUser.ID == user.ID).ToList();
+            var PShare = DB.ProjectShares.Where(x => x.ShareUser.ID == user.ID).ToList();
             if (PShare != null)
             {
                 foreach (var item in PShare)
                 {
-                    Project tmp = db.Projects.Find(item.ShareProject.ID);
+                    Project tmp = DB.Projects.Find(item.ShareProject.ID);
                     UserView.SharedProjects.Add(tmp);
                 }
             }
@@ -52,9 +52,13 @@ namespace CodeFox.Services
 
         public EditorViewModel GetEditorViewModel(int? ProjectID)
         {
+            if (ProjectID.HasValue)
+            {
+                //TODO: ERROR
+            }
             EditorViewModel projectView = new EditorViewModel();
 
-            Project CurrProject = db.Projects.Find(ProjectID);
+            Project CurrProject = DB.Projects.Find(ProjectID);
             projectView.Files = new List<File>();
             projectView.SharedWith = new List<UserInfo>();
 
@@ -62,8 +66,12 @@ namespace CodeFox.Services
             projectView.Owner = CurrProject.Owner;
             projectView.ReadMe = CurrProject.ReadMe;
             projectView.Type = CurrProject.Type;
+            projectView.ID = (int)ProjectID;
+            projectView.CurrentOpenFile = projectView.ReadMe;
+            projectView.FileToOpenID = projectView.ReadMe.ID;
 
-            var FilesProject = db.FilesInProjects.Where(x => x.FileProject.ID == CurrProject.ID).ToList();
+
+            var FilesProject = DB.FilesInProjects.Where(x => x.FileProject.ID == CurrProject.ID).ToList();
             if (FilesProject != null)
             {
                 foreach (var item in FilesProject)
@@ -73,7 +81,7 @@ namespace CodeFox.Services
                 }
             }
 
-            var Shared = db.ProjectShares.Where(x => x.ShareProject.ID == CurrProject.ID).ToList();
+            var Shared = DB.ProjectShares.Where(x => x.ShareProject.ID == CurrProject.ID).ToList();
             if (Shared != null)
             {
                 foreach (var item in Shared)
@@ -82,7 +90,7 @@ namespace CodeFox.Services
                     projectView.SharedWith.Add(tmp);
                 }
             }
-            
+
 
             return projectView;
         }
@@ -108,23 +116,125 @@ namespace CodeFox.Services
 
         public void CreateProject (CreateProjectViewModel NewCreateProject, string Username)
         {
-            UserInfo Owner = db.UsersInfo.Where(x => x.Username == Username).SingleOrDefault();
+            UserInfo Owner = DB.UsersInfo.Where(x => x.Username == Username).SingleOrDefault();
             Project NewProject = new Project();
             NewProject.Name = NewCreateProject.Name;
             NewProject.Type = NewCreateProject.Type;
             NewProject.Owner = Owner;
-            NewProject.ReadMe = FService.CreateReadMe(NewCreateProject.ReadMe, NewCreateProject.Name);
+            NewProject.ReadMe = FService.CreateReadMe(NewCreateProject.ReadMe);
             NewProject.DateCreated = DateTime.Now;
             NewProject.DateModified = DateTime.Now;
 
-            db.Projects.Add(NewProject);
-            db.SaveChanges();
+            DB.Projects.Add(NewProject);
+            DB.SaveChanges();
+            
             ProjectOwner POwner = new ProjectOwner();
             POwner.Owner = Owner;
             POwner.OwnerProject = NewProject;
-            db.ProjectOwners.Add(POwner);
-            db.SaveChanges();
+
+            FileInProject FIProject = new FileInProject();
+            FIProject.FileProject = NewProject;
+            FIProject.ProjectFile = FService.CreateDefaultFile(NewProject.Type);
+
+            DB.ProjectOwners.Add(POwner);
+            DB.FilesInProjects.Add(FIProject);
+            DB.SaveChanges();
         }
 
+        public Project GetProjectFromID(int? ProjectID)
+        {
+            Project ProjectWithID = DB.Projects.Where(x => x.ID == ProjectID).SingleOrDefault();
+            if(ProjectWithID == null)
+            {
+                //TODO:implement error
+            }
+            return ProjectWithID;
+        }
+
+        public bool AddCollaborator(string Username, int? ProjectID)
+        {
+            if(ProjectID.HasValue)
+            {
+                var CollaboratorAlreadyExists = DB.ProjectShares.Where(x => x.ShareUser.Username == Username
+                                                       && x.ShareProject.ID == ProjectID).SingleOrDefault();
+                var Owner = (from x in DB.Projects where x.ID == ProjectID select x.Owner).SingleOrDefault();
+                if (CollaboratorAlreadyExists == null && Username != Owner.Username)
+                {
+                    ProjectShare NewConnection = new ProjectShare();
+                    NewConnection.ShareUser = DB.UsersInfo.Where(x => x.Username == Username).SingleOrDefault();
+                    NewConnection.ShareProject = DB.Projects.Where(x => x.ID == ProjectID).SingleOrDefault();
+                    NewConnection.ID = (from n in DB.ProjectShares orderby n.ID descending select n.ID).FirstOrDefault();
+                    NewConnection.ID++;
+                    if (NewConnection.ShareUser != null)
+                    {
+                        DB.ProjectShares.Add(NewConnection);
+                        DB.SaveChanges();
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        public bool RemoveCollaborator(string Username, int? ProjectID)
+        {
+            if(ProjectID.HasValue)
+            {
+                UserService getUser = new UserService();
+                var SharedUsers = getUser.GetSharedUsersFromProject(ProjectID);
+                var RemoveUser = SharedUsers.Where(x => x.Username == Username).SingleOrDefault();
+                if(RemoveUser != null)
+                {
+                    ProjectShare DeleteShare = (from x in DB.ProjectShares where x.ShareUser.Username == Username
+                                                && x.ShareProject.ID == ProjectID select x).SingleOrDefault();
+                    if(DeleteShare != null)
+                    {
+                        DB.ProjectShares.Remove(DeleteShare);
+                        DB.SaveChanges();
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        public List<string> GetTypeList()
+        {
+            string path = System.Web.HttpContext.Current.Server.MapPath("~/Content/Lists/ProjectTypes.txt");
+            List<string> listinn = new List<string>(System.IO.File.ReadLines(path).ToList());
+            return listinn;
+        }
+
+        public void DeleteProject(int? ProjectID)
+        {
+            //Deleting connection between owner and project to delete
+            ProjectOwner POwner = DB.ProjectOwners.Where(x => x.OwnerProject.ID == ProjectID).FirstOrDefault();
+            DB.ProjectOwners.Remove(POwner);
+
+            var FileProject = DB.FilesInProjects.Where(x => x.FileProject.ID == ProjectID).ToList();
+            //Looping through all connections between the project to delete and files
+            foreach(var item in FileProject)
+            {
+                File TheFile = DB.Files.Where(x => x.ID == item.ProjectFile.ID).FirstOrDefault();
+                DB.Files.Remove(TheFile); //Deleting the file
+                DB.FilesInProjects.Remove(item); //Deleting the connection
+            }
+            var Folders = DB.Folders.Where(x => x.ProjectStructure.ID == ProjectID);
+            foreach(var item in Folders)
+            {
+                DB.Folders.Remove(item);
+            }
+            var Shares = DB.ProjectShares.Where(x => x.ShareProject.ID == ProjectID);
+            foreach(var item in Shares)
+            {
+                DB.ProjectShares.Remove(item);
+            }
+            Project TheProject = DB.Projects.Where(x => x.ID == ProjectID).FirstOrDefault();
+            DB.Files.Remove(TheProject.ReadMe);
+            DB.Projects.Remove(TheProject);
+
+            DB.SaveChanges();
+            
+        }
     }
 }
