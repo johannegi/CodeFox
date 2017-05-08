@@ -383,6 +383,7 @@ td.ShareUsername
 .SelectedFoundUser
 {
     background: #5bc0de;
+    color: white;
 }
 
 .ShowFound 
