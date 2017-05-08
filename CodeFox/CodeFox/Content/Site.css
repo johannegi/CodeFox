@@ -244,10 +244,13 @@ a.attempt:hover{
 }
 
 .HoverEffect {
-    color: #808080;
+    color: rgba(0,0,0,0.24);
     text-decoration: none;
     padding-top: 15px;
     height: 100%;
+    font-family: font112617;
+    font-size: large;
+    font-weight: bold;
 }
 
 .navbar-inverse .navbar-nav > li >.HoverEffect:hover,
