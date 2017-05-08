@@ -98,6 +98,7 @@ section h3.section-subheading {
 
 .Project
 {
+    border-radius: 16px;
     margin-bottom: 15px;
     margin-right: 20px;
 }
@@ -108,6 +109,14 @@ section h3.section-subheading {
     transition-duration: 0.4s;
 }
 
+.OnHover
+{
+    display: none;
+}
+#HiddenLine
+{
+    display: none;
+}
 
 .Project a
 {

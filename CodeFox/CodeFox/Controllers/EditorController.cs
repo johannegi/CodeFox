@@ -34,7 +34,7 @@ namespace CodeFox.Controllers
         public ActionResult AddFiles(int? id)
         {
             AddFilesViewModel Model = new AddFilesViewModel();
-            Model.TypeList = Pservice.GetTypeList();
+            Model.TypeList = FService.GetTypeList();
             Model.ProjectID = (int)id;
             return View(Model);
         }

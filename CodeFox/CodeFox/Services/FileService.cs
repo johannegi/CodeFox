@@ -38,13 +38,6 @@ namespace CodeFox.Services
             return Default;
         }
 
-        public void SaveFile(int FileID, string NewText)
-        {
-            File Tmp = DB.Files.Find(FileID);
-            Tmp.Location = NewText;
-            DB.SaveChanges();
-        }
-
         //Checka a USERNAME
         public void AddFile(AddFilesViewModel Model)
         {
@@ -73,7 +66,12 @@ namespace CodeFox.Services
         {
             return DB.Files.Find(ID);
         }
+        public List<string> GetTypeList()
+        {
+            string path = System.Web.HttpContext.Current.Server.MapPath("~/Content/Lists/FileTypes.txt");
+            List<string> listinn = new List<string>(System.IO.File.ReadLines(path).ToList());
+            return listinn;
+        }
 
-        
     }
 }
