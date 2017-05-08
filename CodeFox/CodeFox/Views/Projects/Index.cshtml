@@ -8,7 +8,7 @@
 <h2>Welcome @Html.DisplayFor(model => model.Name)!</h2>
 
 <h2>My Projects</h2>
-<div class="OwnProjects col-sm-12">
+<div class="OwnProjects col-sm-12 col-md-12 col-lg-12">
     <div class="container">
         <div class="row">
             <div class="col-sm-4 col-md-3 col-lg-2 Create Project thumbnail">
@@ -39,9 +39,7 @@
                             </div>
                         </div>
                     </div>
-                }
-
-            
+                }   
         </div>
     </div>
 </div>
@@ -50,7 +48,7 @@
 @if (Model.SharedProjects.Count != 0)
 {
     <h2>Projects Shared With Me</h2>
-    <div class="SharedProjects col-sm-12">
+    <div class="SharedProjects col-sm-12 col-md-12 col-lg-12">
         <div class="container">
             <div class="row">
                 @foreach (var item in Model.SharedProjects)
