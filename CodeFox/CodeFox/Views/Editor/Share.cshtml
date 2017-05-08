@@ -11,7 +11,7 @@
 {
     @Html.AntiForgeryToken()
     <div class="col-md-12 col-sm-12">
-        <div class="col-md-6 col-sm-6 ShareWindow col-md-offset-3 col-sm-offset-3">
+        <div class="col-md-6 col-sm-6 ShareWindow col-md-offset-3 col-sm-offset-3" id="example">
             <h2>Share with fellow foxes</h2>
             <div class="row InputField">
                 <h2>Owner: @Model.ShareProject.Owner.Username</h2>
@@ -189,7 +189,7 @@
                 data.__RequestVerificationToken = $('#ShareForm input[name=__RequestVerificationToken]').val();
                 return data;
             };
-      });
+    });
 </script>
 
 }
