@@ -38,6 +38,13 @@ namespace CodeFox.Services
             return Default;
         }
 
+        public void SaveFile(int FileID, string NewText)
+        {
+            File Tmp = DB.Files.Find(FileID);
+            Tmp.Location = NewText;
+            DB.SaveChanges();
+        }
+
         //Checka a USERNAME
         public void AddFile(AddFilesViewModel Model)
         {
