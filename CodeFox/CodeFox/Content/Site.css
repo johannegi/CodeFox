@@ -1,10 +1,12 @@
-﻿body {
+﻿body 
+{
     padding-top: 50px;
     padding-bottom:60px;   /* Height of the footer */
 }
 
 /* Set padding to keep content from hitting the edges */
-.body-content {
+.body-content
+{
     padding-left: 15px;
     padding-right: 15px;
 }
@@ -12,38 +14,44 @@
 /* Override the default bootstrap behavior where horizontal description lists 
    will truncate terms that are too long to fit in the left column 
 */
-.dl-horizontal dt {
+.dl-horizontal dt 
+{
     white-space: normal;
 }
 
 /* Set width on the form input elements since they're 100% wide by default */
 input,
 select,
-textarea {
+textarea
+{
     max-width: 280px;
 }
 
-.MainPageCenter {
+.MainPageCenter
+{
     margin-left: auto;
     margin-right: auto;
     text-align: center;
 }
-.FooterPosition{
+.FooterPosition
+{
     list-style-type: none; 
     text-decoration: none;
     text-align: right;
 }
-.FooterPosition li{
+.FooterPosition li
+{
     display: inline;
     padding-right: 40px;
 }
 
-.FooterLinkAppearance:hover{
+.FooterLinkAppearance:hover
+{
     text-decoration: none;
 
 }
 .navbar-inverse
- {
+{
      background-color: white !important; 
 }
 
@@ -58,61 +66,72 @@ textarea {
 
 .float-left 
 {
-float:left;
-width:300px; /* or 33% for equal width independent of parent width*/
+    float:left;
+    width:300px; /* or 33% for equal width independent of parent width*/
 }
 
 /*This is the section where we talk nicely about CodeFox on the main page*/
-section {
-  padding: 100px 0;
+section 
+{
+    padding: 100px 0;
 }
-section h2.section-heading {
-  font-size: 40px;
-  margin-top: 0;
-  margin-bottom: 15px;
+section h2.section-heading
+{
+    font-size: 40px;
+    margin-top: 0;
+    margin-bottom: 15px;
 }
 
-section h3.section-subheading {
-  font-size: 16px;
-  font-family: "Droid Serif", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  text-transform: none;
-  font-style: italic;
-  font-weight: 400;
-  margin-bottom: 75px;
+section h3.section-subheading
+{
+    font-size: 16px;
+    font-family: "Droid Serif", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    text-transform: none;
+    font-style: italic;
+    font-weight: 400;
+    margin-bottom: 75px;
 }   
 
 .service-heading
 {
-  margin: 15px 0;
-  text-transform: none;
+    margin: 15px 0;
+    text-transform: none;
 }
 
 /**********************************************************************************/
 /*Styles for Projectview*/
 
 .Create
-{
-    text-align: center;
-    height: 259.6px
+{   
+    height: 269px;
 }
 
 .Project
 {
+    text-align: center;
     border-radius: 16px;
     margin-bottom: 15px;
     margin-right: 20px;
+}
+.Project .dropdown
+{
+    padding-bottom: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    text-align: left;
 }
 
 .Project:hover
 {
     box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
-    transition-duration: 0.4s;
+    transition-duration: 0.1s;
 }
 
 .OnHover
 {
     display: none;
 }
+
 #HiddenLine
 {
     display: none;
@@ -135,11 +154,12 @@ section h3.section-subheading {
     text-overflow:ellipsis;
 }
 
-.Hamburger
+/*.Hamburger
 {
+    float: right;
     border: none;
     cursor: pointer;  
-}
+}*/
 
 .OwnProjects
 {   
@@ -147,7 +167,7 @@ section h3.section-subheading {
     padding-bottom: 15px;
     height:1%;
     overflow: visible;
-    border: 1px solid lightgray;
+    border: 0.5px solid lightgray;
     min-height: 302.6px;
 }
 
@@ -159,7 +179,7 @@ section h3.section-subheading {
     padding-bottom: 15px;
     height:1%;
     overflow: visible;
-    border: 1px solid lightgray;
+    border: 0.5px solid lightgray;
 }
 
 
@@ -213,7 +233,8 @@ section h3.section-subheading {
     font-size: 40px;
 }
 
-a.attempt:hover{
+a.attempt:hover
+{
     color: red;
 }
 
@@ -225,42 +246,56 @@ a.attempt:hover{
 	min-height:330px;
 }
 
-.LineAbove {
+.LineAbove 
+{
     border: 4px solid red;
 }
 
 /**********************************************************************************/
 /*Styles for Navbar*/
 
-
-
-.navbar-inverse #NavBarHamburger {
-    background-color: palevioletred;
+div.NavBar
+{
+    border-bottom: 0.5px solid #ececec !important;
 }
 
-.navbar-inverse #NavBarHamburger:hover {
-    background-color: aliceblue;
+.navbar-inverse #NavBarHamburger 
+{
+    background-color: #333;
 }
 
-.HoverEffect {
-    color: #808080;
+.navbar-inverse #NavBarHamburger:hover 
+{
+    background-color: #5bc0de;
+}
+
+.HoverEffect 
+{
+    color: rgba(0,0,0,0.24);
     text-decoration: none;
     padding-top: 15px;
     height: 100%;
+    font-family: font112617;
+    font-size: large;
+    font-weight: bold;
 }
 
 .navbar-inverse .navbar-nav > li >.HoverEffect:hover,
-.navbar-inverse .HoverEffect:hover {
-    color: blue;
+.navbar-inverse .HoverEffect:hover
+{
+    background-color: #5bc0de;
 }
 
-#HeaderImage {
-    background: url("Images/LOGOFINAL.png");
-    background-size: 80px 60px;
+#HeaderImage 
+{
+    background: url(Images/LOGOFINAL.png);
+    background-size: 125px 66px;
     background-repeat: no-repeat;
-    height: 75px; 
-    width: 100px;
+    background-position: 0px -4px;
+    height: 51px;
+    width: 128px;
 }
+
 
 /**********************************************************************************/
 
@@ -268,7 +303,7 @@ a.attempt:hover{
 /*styles for Editor*/
 .BorderEditor
 {
-    border: 1px solid red;
+    border: 0.5px solid red;
 }
 
 
@@ -307,7 +342,8 @@ a.attempt:hover{
 
 /**********************************************************************************/
 /*Styles for Share*/
-.ShareWindow {
+.ShareWindow 
+{
     text-align: center;
     padding: 0 0 20px 0;
     border: 1px solid black;
@@ -316,23 +352,28 @@ a.attempt:hover{
     margin-bottom: 300px;
 }
 
-td.ShareUsername {
+td.ShareUsername 
+{
     text-align: left !important;
 }
 
-.InputField {
+.InputField 
+{
     padding: 20px;
     margin-bottom: 30px;
 }
 
-.InputField  label{
+.InputField  label
+{
     margin-bottom: 20px;
 }
 
-.SelectedFoundUser {
+.SelectedFoundUser
+{
     background: blue;
 }
 
-.ShowFound {
+.ShowFound 
+{
     height: 300px;
 }

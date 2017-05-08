@@ -10,42 +10,38 @@
 @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "ShareForm" }))
 {
     @Html.AntiForgeryToken()
-    <div class="col-md-12 col-sm-12">
-        <div class="col-md-6 col-sm-6 ShareWindow col-md-offset-3 col-sm-offset-3" id="example">
-            <h2>Share with fellow foxes</h2>
-            <div class="row InputField">
-                <h2>Owner: @Model.ShareProject.Owner.Username</h2>
-                <label for="User">Add collaborator by Username</label> <br />                
-                <div class="table-responsive">
-                    <table class="table table-striped col-sm-12 col-md-12">
-                        <thead>
-                            <tr>
-                                <th colspan="2">Collaborators</th>
-                            </tr>
-                        </thead>
-                        <tbody class="ListOfCollaborators">
-                            @foreach (var item in Model.SharedWith)
+    <h2>Share with fellow foxes</h2>
+    <div class="row InputField">
+        <h2>Owner: @Model.ShareProject.Owner.Username</h2>
+        <label for="User">Add collaborator by Username</label> <br />                
+        <div class="table-responsive">
+            <table class="table table-striped col-sm-12 col-md-12">
+                <thead>
+                    <tr>
+                        <th colspan="2">Collaborators</th>
+                    </tr>
+                </thead>
+                <tbody class="ListOfCollaborators">
+                    @foreach (var item in Model.SharedWith)
+                    {
+                        <tr>
+                            <td class="ShareUsername">@item.Username</td>
+                            @if (User.Identity.GetUserName() == Model.ShareProject.Owner.Username)
                             {
-                                <tr>
-                                    <td class="ShareUsername">@item.Username</td>
-                                    @if (User.Identity.GetUserName() == Model.ShareProject.Owner.Username)
-                                    {
-                                        <td><span class="RemoveShare glyphicon glyphicon-remove"></span></td>
-                                    }                                   
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                </div>                
-            </div>
-            <strong>Add collaborator</strong>
-            <input type="text" id="AddUsername" placeholder="Search for a username..." autocomplete="off"/>
-            <div id="FoundUsers" class="ShowFound col-sm-12 col-md-12 col-lg-12"></div>
-
-            @Html.ActionLink("Go Back", "Index", "Editor", new { id = Model.ShareProject.ID }, new { @class = "btn btn-default" })
-            <button type="submit" id="ShareSubmitButton" class="btn btn-default" disabled>Share</button>
-        </div>
+                                <td><span class="RemoveShare glyphicon glyphicon-remove"></span></td>
+                            }                                   
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>                
     </div>
+    <strong>Add collaborator</strong>
+    <input type="text" id="AddUsername" placeholder="Search for a username..." autocomplete="off"/>
+    <div id="FoundUsers" class="ShowFound col-sm-12 col-md-12 col-lg-12"></div>
+
+    @Html.ActionLink("Go Back", "Index", "Editor", new { id = Model.ShareProject.ID }, new { @class = "btn btn-default" })
+    <button type="submit" id="ShareSubmitButton" class="btn btn-default" disabled>Share</button>
 }
 
 @section scripts 
