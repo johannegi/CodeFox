@@ -60,6 +60,11 @@ namespace CodeFox.Controllers
             return View();
         }
 
+        public void SaveFile(int FileID, string NewText)
+        {
+            FService.SaveFile(FileID, NewText);
+        }
+
         [HttpPost]
         public ActionResult OpenNewFile(int FileID)
         {

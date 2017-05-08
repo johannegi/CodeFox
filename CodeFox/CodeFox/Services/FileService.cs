@@ -29,7 +29,31 @@ namespace CodeFox.Services
         {
             File Default = new File();
             Default.Name = "Index";
-            Default.Type = Type;
+            if(Type == "Web Application")
+            {
+                Default.Type = "html";
+            }
+            else if(Type == "C++")
+            {
+                Default.Type = "cpp";
+            }
+            else if(Type == "C#")
+            {
+                Default.Type = "cs";
+            }
+            else if(Type == "JavaScript")
+            {
+                Default.Type = "js";
+            }
+            else if(Type == "Java")
+            {
+                Default.Type = "java";
+            }
+            else
+            {
+                Default.Type = "txt";
+            }
+            
             Default.Location = "//This is the default file for this project";
             Default.FolderStructure = null;
             Default.DateCreated = DateTime.Now;
