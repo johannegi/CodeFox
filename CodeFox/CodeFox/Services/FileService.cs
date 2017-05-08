@@ -109,6 +109,14 @@ namespace CodeFox.Services
             List<string> listinn = new List<string>(System.IO.File.ReadLines(path).ToList());
             return listinn;
         }
+        public void DeleteFile(int? ID)
+        {
+            File ToDelete = GetFileByID(ID);
+            FileInProject TheConnection = DB.FilesInProjects.Where(x => x.ProjectFile == ToDelete).FirstOrDefault();
+            DB.FilesInProjects.Remove(TheConnection);
+            DB.Files.Remove(ToDelete);
+            DB.SaveChanges();
+        }
 
     }
 }
