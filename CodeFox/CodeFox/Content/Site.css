@@ -167,7 +167,7 @@ section h3.section-subheading
     padding-bottom: 15px;
     height:1%;
     overflow: visible;
-    border: 1px solid lightgray;
+    border: 0.5px solid lightgray;
     min-height: 302.6px;
 }
 
@@ -179,7 +179,7 @@ section h3.section-subheading
     padding-bottom: 15px;
     height:1%;
     overflow: visible;
-    border: 1px solid lightgray;
+    border: 0.5px solid lightgray;
 }
 
 
@@ -254,16 +254,19 @@ a.attempt:hover
 /**********************************************************************************/
 /*Styles for Navbar*/
 
-
+div.NavBar
+{
+    border-bottom: 0.5px solid #ececec !important;
+}
 
 .navbar-inverse #NavBarHamburger 
 {
-    background-color: palevioletred;
+    background-color: #333;
 }
 
 .navbar-inverse #NavBarHamburger:hover 
 {
-    background-color: aliceblue;
+    background-color: #5bc0de;
 }
 
 .HoverEffect 
@@ -280,7 +283,7 @@ a.attempt:hover
 .navbar-inverse .navbar-nav > li >.HoverEffect:hover,
 .navbar-inverse .HoverEffect:hover
 {
-    color: blue;
+    background-color: #5bc0de;
 }
 
 #HeaderImage 
@@ -300,7 +303,7 @@ a.attempt:hover
 /*styles for Editor*/
 .BorderEditor
 {
-    border: 1px solid red;
+    border: 0.5px solid red;
 }
 
 
