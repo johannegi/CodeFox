@@ -155,6 +155,14 @@ section h3.section-subheading
     text-overflow: ellipsis;
 }
 
+.CursorOnList
+{
+    cursor: pointer;
+}
+.CursorOnList:hover
+{
+    background: #428bca;
+}
 /*.Hamburger
 {
     float: right;
@@ -281,11 +289,14 @@ div.NavBar
     font-weight: bold;
 }
 
+.navbar-inverse .navbar-nav > li >.HoverEffect:active,
 .navbar-inverse .navbar-nav > li >.HoverEffect:hover,
 .navbar-inverse .HoverEffect:hover
+
 {
     background-color: #5bc0de;
 }
+
 
 #HeaderImage 
 {

@@ -27,7 +27,7 @@
         <!-- DIV AROUND THE FILE TREE VIEW AND EDITOR-->
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h3 class="panel-title">FileName <p id="EditorInfo">Project info</p></h3>
+                <h3 class="panel-title">FileName</h3> <p id="EditorInfo">Project info</p>
             </div>
             <div id="tree" class="col-lg-2"></div>
             <div class="panel-body">
@@ -46,18 +46,18 @@
                 Editor.session.setMode("ace/mode/Text");
                 Editor.$blockScrolling = Infinity;
 
-                var typingTimer;                //timer identifier
-                var doneTypingInterval = 500;  //time in ms, 5 second for example
+                var TypingTimer;                //timer identifier
+                var DoneTypingInterval = 500;  //time in ms, 5 second for example
 
                 //on keyup, start the countdown
                 $('#Editor').on("keyup", function () {
-                    if (typingTimer) clearTimeout(typingTimer);                 // Clear if already set     
-                    typingTimer = setTimeout(doneTyping, doneTypingInterval);
+                    if (TypingTimer) clearTimeout(TypingTimer);                 // Clear if already set     
+                    TypingTimer = setTimeout(DoneTyping, DoneTypingInterval);
                 });
 
                 //on keydown, clear the countdown 
                 $('#Editor').on("keydown", function () {
-                    clearTimeout(typingTimer);
+                    clearTimeout(TypingTimer);
                     var Selected = $('#tree').jstree(true).get_selected('full', true)
                     Selected = Selected[0]
                     if (Selected.type == 'file')
@@ -67,7 +67,7 @@
                 });
 
                 //user is "finished typing," do something
-                function doneTyping()
+                function DoneTyping()
                 {
                     var Selected = $('#tree').jstree(true).get_selected('full', true)
                     Selected = Selected[0]
@@ -75,7 +75,7 @@
                     {
                         $.ajax({
                             url: '/Editor/SaveFile/',
-                            data: { 'FileID': Number(Selected.id), 'NewText': ace.edit("Editor").getValue() },
+                            data: { 'ProjectID': Number(@Model.ID), 'FileID': Number(Selected.id), 'NewText': ace.edit("Editor").getValue() },
                             method: 'POST',
                             success: function (ReturnData) {
                                 $('#EditorInfo').text('FileSaved');
@@ -119,9 +119,63 @@
                     "valid_children": []
                 }
             },
-            "plugins": [
-           " contextmenu", "dnd", "types"
-            ]
+            "plugins": ["contextmenu", "dnd", "types"],
+            "contextmenu": {
+                "items": function ($node) {
+                    return {
+                        "Rename": {
+                            "separator_before": false,
+                            "separator_after": false,
+                            "label": "Rename",
+                            "action": function (obj) {
+                                var NewName = prompt("Please enter new filename", "");
+                                if (NewName != null || NewName != "")
+                                {
+                                    $.ajax({
+                                        url: '/Editor/ChangeFileName/',
+                                        data: { 'ProjectID': Number(@Model.ID), 'FileID': Number($node.id), 'NewName': NewName },
+                                        method: 'POST',
+                                        success: function (ReturnData)
+                                        {
+                                            $('#EditorInfo').text($node.text + ' Renamed to ' + ReturnData.Name + '.' + ReturnData.Type);
+                                            $("#tree").jstree('set_text', $node, (ReturnData.Name + '.' + ReturnData.Type));
+                                            ace.edit("Editor").setValue(ReturnData.Location);
+                                            var Modelist = ace.require("ace/ext/modelist")
+                                            var FilePath = ReturnData.Name + '.' + ReturnData.Type;
+                                            var Mode = Modelist.getModeForPath(FilePath).mode;
+                                            ace.edit("Editor").session.setMode(Mode);
+                                        }
+                                    });
+
+                                }
+                            }
+                        },
+                        "Remove": {
+                            "separator_before": false,
+                            "separator_after": false,
+                            "label": "Remove",
+                            "action": function (obj) {
+                                if (confirm("Are you sure you want to delete " + $node.text) == true)
+                                {
+                                    if ($node.type == 'file')
+                                    {
+                                        $.ajax({
+                                            url: '/Editor/DeleteFile/',
+                                            data: {'FileID': Number($node.id) },
+                                            method: 'POST',
+                                            success: function (ReturnData) {
+                                                $('#EditorInfo').text($node.text + ' deleted');
+                                                $("#tree").jstree('delete_node', $node);
+                                            }
+                                        });
+                                    }
+                                }
+                            }
+                        }
+                    };
+                }
+            }
+
         });
 
         var Parent = 0;
@@ -131,22 +185,12 @@
 
 
         $("#tree").on("loaded.jstree", function () {
-            
+
             $('#tree').jstree(true).select_node('@Model.ReadMe.ID');
-            var PrevSelected = $('#tree').jstree(true).get_selected('full', true)
             $("#tree").on("select_node.jstree", function (event, node) {
                 var Selected = $('#tree').jstree(true).get_selected('full', true)
                 Selected = Selected[0]
-                if (PrevSelected.type == 'file' || PrevSelected != null)
-                {
-                    $.ajax({
-                        url: '/Editor/SaveFile/',
-                        data: { 'FileID': Number(PrevSelected), 'NewText': ace.edit("Editor").getValue() },
-                        method: 'POST',
-                        success: function (ReturnData) {}
-                    });
-                }
-                PrevSelected = Selected;
+
                 if (Selected.type == 'file')
                 {
                     ace.edit("Editor").setReadOnly(false);
@@ -155,12 +199,11 @@
                         data: { 'FileID': Number(Selected.id) },
                         method: 'POST',
                         success: function (ReturnData) {
-                            var test = ReturnData.Location;
                             ace.edit("Editor").setValue(ReturnData.Location);
-                            var modelist = ace.require("ace/ext/modelist")
-                            var filePath = ReturnData.Name + '.' + ReturnData.Type;                         
-                            var mode = modelist.getModeForPath(filePath).mode;
-                            ace.edit("Editor").session.setMode(mode);
+                            var Modelist = ace.require("ace/ext/modelist")
+                            var FilePath = ReturnData.Name + '.' + ReturnData.Type;
+                            var Mode = Modelist.getModeForPath(FilePath).mode;
+                            ace.edit("Editor").session.setMode(Mode);
                         }
                     });
                 }
@@ -169,7 +212,7 @@
                     ace.edit("Editor").setValue('');
                     ace.edit("Editor").setReadOnly(true);
                 }
-                
+
             });
         });
 
