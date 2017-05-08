@@ -47,9 +47,39 @@
                 Editor.session.setMode("ace/mode/Text");
                 Editor.$blockScrolling = Infinity;
 
+                var typingTimer;                //timer identifier
+                var doneTypingInterval = 100;  //time in ms, 5 second for example
+
+                //on keyup, start the countdown
+                $('#Editor').on("keyup", function () {
+                    if (typingTimer) clearTimeout(typingTimer);                 // Clear if already set     
+                    typingTimer = setTimeout(doneTyping, doneTypingInterval);
+                });
+
+                //on keydown, clear the countdown 
+                $('#Editor').on("keydown", function () {
+                    clearTimeout(typingTimer);
+                });
+
+                //user is "finished typing," do something
+                function doneTyping()
+                {
+                    var Selected = $('#tree').jstree(true).get_selected('full', true)
+                    Selected = Selected[0]
+                    $.ajax({
+                        url: '/Editor/SaveFile/',
+                        data: { 'FileID': Number(Selected.id), 'NewText': ace.edit("Editor").getValue() },
+                        method: 'POST',
+                        success: function (ReturnData)
+                        {
+                            //FileSaved
+                        }
+                    });
+                }
+
                 $(function () {
                     $(".testclick").on("click", function () {
-                        var editorVal = ace.edit("Editor").getValue();
+                        var EditorVal = ace.edit("Editor").getValue();
                         console.log("test val = "+ editorVal);
                     });
                 });
@@ -101,18 +131,35 @@
 
 
         $("#tree").on("loaded.jstree", function () {
+            var PrevSelected = 0;
             $('#tree').jstree(true).select_node('@Model.ReadMe.ID');
             $("#tree").on("select_node.jstree", function (event, node) {
-                var Selected = node.instance.get_selected();
-                $.ajax({
-                    url: '/Editor/OpenNewFile/',
-                    data: { 'FileID': Number(Selected) },
-                    method: 'POST',
-                    success: function (ReturnData) {
-                        var test = ReturnData.Location;
-                        ace.edit("Editor").setValue(ReturnData.Location);
-                    }
-                });
+                var Selected = $('#tree').jstree(true).get_selected('full', true)
+                Selected = Selected[0]
+                if (PrevSelected != 0)
+                {
+                    $.ajax({
+                        url: '/Editor/SaveFile/',
+                        data: { 'FileID': Number(PrevSelected), 'NewText': ace.edit("Editor").getValue() },
+                        method: 'POST',
+                        success: function (ReturnData) {}
+                    });
+                }
+                PrevSelected = Selected.id;
+                if (Selected.type == 'file')
+                {
+                    $.ajax({
+                        url: '/Editor/OpenNewFile/',
+                        data: { 'FileID': Number(Selected.id) },
+                        method: 'POST',
+                        success: function (ReturnData) {
+                            var test = ReturnData.Location;
+                            ace.edit("Editor").setValue(ReturnData.Location);
+                            ace.edit("Editor").setMode();
+                        }
+                    });
+                }
+                
             });
         });
 
