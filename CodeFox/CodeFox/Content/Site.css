@@ -272,13 +272,21 @@ a.attempt:hover
     color: blue;
 }
 
+<<<<<<< HEAD
 #HeaderImage 
 {
     background: url("Images/LOGOFINAL.png");
     background-size: 80px 60px;
+=======
+#HeaderImage {
+    background: url(Images/LOGOFINAL.png);
+    background-size: 125px 66px;
+>>>>>>> 59259ad9bb25f4886d8e1724b7a359c00daac3e9
     background-repeat: no-repeat;
-    height: 75px; 
-    width: 100px;
+    background-position: 0px -4px;
+    height: 51px;
+    width: 128px;
+}
 }
 
 /**********************************************************************************/
