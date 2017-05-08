@@ -102,16 +102,23 @@ section h3.section-subheading
 /*Styles for Projectview*/
 
 .Create
-{
-    text-align: center;
-    height: 259.6px
+{   
+    height: 269px;
 }
 
 .Project
 {
+    text-align: center;
     border-radius: 16px;
     margin-bottom: 15px;
     margin-right: 20px;
+}
+.Project .dropdown
+{
+    padding-bottom: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    text-align: left;
 }
 
 .Project:hover
@@ -147,11 +154,12 @@ section h3.section-subheading
     text-overflow:ellipsis;
 }
 
-.Hamburger
+/*.Hamburger
 {
+    float: right;
     border: none;
     cursor: pointer;  
-}
+}*/
 
 .OwnProjects
 {   
@@ -159,7 +167,7 @@ section h3.section-subheading
     padding-bottom: 15px;
     height:1%;
     overflow: visible;
-    border: 1px solid lightgray;
+    border: 0.5px solid lightgray;
     min-height: 302.6px;
 }
 
@@ -171,7 +179,7 @@ section h3.section-subheading
     padding-bottom: 15px;
     height:1%;
     overflow: visible;
-    border: 1px solid lightgray;
+    border: 0.5px solid lightgray;
 }
 
 
@@ -246,16 +254,19 @@ a.attempt:hover
 /**********************************************************************************/
 /*Styles for Navbar*/
 
-
+div.NavBar
+{
+    border-bottom: 0.5px solid #ececec !important;
+}
 
 .navbar-inverse #NavBarHamburger 
 {
-    background-color: palevioletred;
+    background-color: #333;
 }
 
 .navbar-inverse #NavBarHamburger:hover 
 {
-    background-color: aliceblue;
+    background-color: #5bc0de;
 }
 
 .HoverEffect 
@@ -272,17 +283,17 @@ a.attempt:hover
 .navbar-inverse .navbar-nav > li >.HoverEffect:hover,
 .navbar-inverse .HoverEffect:hover
 {
-    color: blue;
+    background-color: #5bc0de;
 }
 
 #HeaderImage 
 {
     background: url(Images/LOGOFINAL.png);
-    background-size: 125px 66px;
+    background-size: 191px 107px;
     background-repeat: no-repeat;
-    background-position: 0px -4px;
+    background-position: 0px -27px;
     height: 51px;
-    width: 128px;
+    width: 183px;
 }
 
 
@@ -292,7 +303,7 @@ a.attempt:hover
 /*styles for Editor*/
 .BorderEditor
 {
-    border: 1px solid red;
+    border: 0.5px solid red;
 }
 
 

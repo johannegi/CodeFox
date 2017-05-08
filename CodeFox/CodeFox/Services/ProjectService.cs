@@ -95,8 +95,9 @@ namespace CodeFox.Services
             return projectView;
         }
 
-        public bool CanUserOpenProject(EditorViewModel model, string Username)
+        public bool CanUserOpenProject(int? id, string Username)
         {
+            EditorViewModel model = GetEditorViewModel(id);
             if (model.Owner.Username == Username)
             {
                 return true;

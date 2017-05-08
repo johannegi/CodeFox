@@ -12,6 +12,7 @@ using System.Web.Script.Serialization;
 
 namespace CodeFox.Controllers
 {
+    [Authorize]
     public class EditorController : Controller
     {
         private ProjectService Pservice = new ProjectService();
@@ -19,20 +20,23 @@ namespace CodeFox.Controllers
         private UserService UService = new UserService();
 
         // GET: Editor
-        [Authorize]
         public ActionResult Index(int? id)
         {
-            EditorViewModel EdiorView = Pservice.GetEditorViewModel(id);
             string Username = User.Identity.Name;
-            if (!Pservice.CanUserOpenProject(EdiorView, Username))
+            if (!Pservice.CanUserOpenProject(id, Username))
             {
                 return RedirectToAction("Index", "Projects");
             }
+            EditorViewModel EdiorView = Pservice.GetEditorViewModel(id);
             return View(EdiorView);
         }
 
         public ActionResult AddFiles(int? id)
         {
+            if (!Pservice.CanUserOpenProject(id, User.Identity.Name))
+            {
+                return RedirectToAction("Index", "Projects");
+            }
             AddFilesViewModel Model = new AddFilesViewModel();
             Model.TypeList = FService.GetTypeList();
             Model.ProjectID = (int)id;
@@ -43,19 +47,17 @@ namespace CodeFox.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult AddFiles(AddFilesViewModel Model)
         {
+            if (!Pservice.CanUserOpenProject(Model.ProjectID, User.Identity.Name))
+            {
+                return RedirectToAction("Index", "Projects");
+            }
             if (ModelState.IsValid)
             {
-
+                
                 FService.AddFile(Model);
                 return RedirectToAction("Index", new { id = Model.ProjectID });
             }
             return View();
-        }
-
-        [HttpPost]
-        public void SaveFile(int FileID, string NewText)
-        {
-            FService.SaveFile(FileID, NewText);
         }
 
         [HttpPost]
@@ -69,7 +71,11 @@ namespace CodeFox.Controllers
         [HttpGet]
         public ActionResult Share(int? id)
         {
-           ShareProjectViewModel Model = new ShareProjectViewModel();
+            if (!Pservice.CanUserOpenProject(id, User.Identity.Name))
+            {
+                return RedirectToAction("Index", "Projects");
+            }
+            ShareProjectViewModel Model = new ShareProjectViewModel();
             Model.AllUsers = UService.GetAllUsers(User.Identity.GetUserName());
             Model.SharedWith = UService.GetSharedUsersFromProject(id);
             Model.ShareProject = Pservice.GetProjectFromID(id);
@@ -80,7 +86,11 @@ namespace CodeFox.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Share(string Username, int ProjectID)
         {
-            if(Pservice.AddCollaborator(Username, ProjectID))
+            if (!Pservice.CanUserOpenProject(ProjectID, User.Identity.Name))
+            {
+                return RedirectToAction("Index", "Projects");
+            }
+            if (Pservice.AddCollaborator(Username, ProjectID))
             {
                 return Json(Username, JsonRequestBehavior.AllowGet);
             }
