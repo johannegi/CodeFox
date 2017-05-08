@@ -60,9 +60,20 @@ namespace CodeFox.Controllers
             return View();
         }
 
-        public void SaveFile(int FileID, string NewText)
+        public void SaveFile(int ProjectID, int FileID, string NewText)
         {
-            FService.SaveFile(FileID, NewText);
+            FService.SaveFile(ProjectID, FileID, NewText);
+        }
+
+        public ActionResult ChangeFileName(int ProjectID, int FileID, string NewName)
+        {
+            return Json(FService.ChangeFileName(ProjectID, FileID, NewName), JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public void DeleteFile(int FileID)
+        {
+            FService.DeleteFile(FileID);
         }
 
         [HttpPost]

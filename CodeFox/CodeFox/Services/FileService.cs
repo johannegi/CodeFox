@@ -87,11 +87,38 @@ namespace CodeFox.Services
             DB.SaveChanges();
         }
 
-        public void SaveFile(int FileID, string NewText)
+        public void SaveFile(int ProjectID, int FileID, string NewText)
         {
-            File Tmp = DB.Files.Find(FileID);
-            Tmp.Location = NewText;
+            File ToSave = DB.Files.Find(FileID);
+            ToSave.Location = NewText;
+            ToSave.DateModified = DateTime.Now;
+
+            Project TheProject = DB.Projects.Find(ProjectID);
+            TheProject.DateModified = DateTime.Now;
             DB.SaveChanges();
+        }
+
+        public File ChangeFileName(int ProjectID, int FileID, string NewName)
+        {
+            File ToRename = DB.Files.Find(FileID);
+            
+            ToRename.DateModified = DateTime.Now;
+            if (NewName.Contains('.'))
+            {
+                string Type = NewName.Substring(NewName.LastIndexOf('.') + 1);
+                ToRename.Type = Type;
+                string Name = NewName.Substring(0, NewName.LastIndexOf('.'));
+                ToRename.Name = Name;
+            }
+            else
+            {
+                ToRename.Name = NewName;
+            }
+
+            Project TheProject = DB.Projects.Find(ProjectID);
+            TheProject.DateModified = DateTime.Now;
+            DB.SaveChanges();
+            return ToRename;
         }
 
         public File GetFileByID(int? ID)
@@ -104,6 +131,14 @@ namespace CodeFox.Services
             string path = System.Web.HttpContext.Current.Server.MapPath("~/Content/Lists/FileTypes.txt");
             List<string> listinn = new List<string>(System.IO.File.ReadLines(path).ToList());
             return listinn;
+        }
+        public void DeleteFile(int? ID)
+        {
+            File ToDelete = GetFileByID(ID);
+            FileInProject TheConnection = DB.FilesInProjects.Where(x => x.ProjectFile.ID == ToDelete.ID).FirstOrDefault();
+            DB.FilesInProjects.Remove(TheConnection);
+            DB.Files.Remove(ToDelete);
+            DB.SaveChanges();
         }
 
     }
