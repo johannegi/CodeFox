@@ -34,7 +34,7 @@ namespace CodeFox.Controllers
         public ActionResult AddFiles(int? id)
         {
             AddFilesViewModel Model = new AddFilesViewModel();
-            Model.TypeList = Pservice.GetTypeList();
+            Model.TypeList = FService.GetTypeList();
             Model.ProjectID = (int)id;
             return View(Model);
         }
@@ -45,11 +45,17 @@ namespace CodeFox.Controllers
         {
             if (ModelState.IsValid)
             {
-                
+
                 FService.AddFile(Model);
                 return RedirectToAction("Index", new { id = Model.ProjectID });
             }
             return View();
+        }
+
+        [HttpPost]
+        public void SaveFile(int FileID, string NewText)
+        {
+            FService.SaveFile(FileID, NewText);
         }
 
         [HttpPost]
