@@ -371,12 +371,18 @@ td.ShareUsername
 
 .SelectedFoundUser
 {
-    background: blue;
+    background: #5bc0de;
 }
 
 .ShowFound 
 {
     height: 300px;
+}
+
+.RemoveShare
+{
+    color:red;
+    float:right;
 }
 
 /***************************************/
