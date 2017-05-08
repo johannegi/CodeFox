@@ -12,7 +12,7 @@
     @Html.ActionLink("Save", "Share", "Editor", new { @class = "btn btn-info" })
     @Html.ActionLink("Export", "Share", "Editor", new { @class = "btn btn-info" })
     @Html.ActionLink("Share with your foxes!", "Share", "Editor", new { id = Model.ID }, new { @class = "btn btn-info" })
-    @Html.ActionLink("Add files", "Share", "Editor", new { @class = "btn btn-info" })
+    @Html.ActionLink("Add files", "AddFiles", "Editor", new { id = Model.ID },  new { @class = "btn btn-info" })
     @Html.ActionLink("Close", "Index", "Projects", new { area = "" }, new { @class = "btn btn-info" })
 </div>
 @if (User.Identity.Name == Model.Owner.Username)

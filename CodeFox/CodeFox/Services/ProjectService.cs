@@ -52,6 +52,10 @@ namespace CodeFox.Services
 
         public EditorViewModel GetEditorViewModel(int? ProjectID)
         {
+            if (ProjectID.HasValue)
+            {
+                //TODO: ERROR
+            }
             EditorViewModel projectView = new EditorViewModel();
 
             Project CurrProject = DB.Projects.Find(ProjectID);
@@ -86,7 +90,7 @@ namespace CodeFox.Services
                     projectView.SharedWith.Add(tmp);
                 }
             }
-            
+
 
             return projectView;
         }
@@ -203,15 +207,17 @@ namespace CodeFox.Services
 
         public void DeleteProject(int? ProjectID)
         {
+            //Deleting connection between owner and project to delete
             ProjectOwner POwner = DB.ProjectOwners.Where(x => x.OwnerProject.ID == ProjectID).FirstOrDefault();
             DB.ProjectOwners.Remove(POwner);
-            var FileProject = DB.FilesInProjects.Where(x => x.FileProject.ID == ProjectID).ToList();
 
+            var FileProject = DB.FilesInProjects.Where(x => x.FileProject.ID == ProjectID).ToList();
+            //Looping through all connections between the project to delete and files
             foreach(var item in FileProject)
             {
                 File TheFile = DB.Files.Where(x => x.ID == item.ProjectFile.ID).FirstOrDefault();
-                DB.Files.Remove(TheFile);
-                DB.FilesInProjects.Remove(item);
+                DB.Files.Remove(TheFile); //Deleting the file
+                DB.FilesInProjects.Remove(item); //Deleting the connection
             }
             var Folders = DB.Folders.Where(x => x.ProjectStructure.ID == ProjectID);
             foreach(var item in Folders)

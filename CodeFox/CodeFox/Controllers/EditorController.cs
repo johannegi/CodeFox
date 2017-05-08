@@ -31,6 +31,27 @@ namespace CodeFox.Controllers
             return View(EdiorView);
         }
 
+        public ActionResult AddFiles(int? id)
+        {
+            AddFilesViewModel Model = new AddFilesViewModel();
+            Model.TypeList = Pservice.GetTypeList();
+            Model.ProjectID = (int)id;
+            return View(Model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddFiles(AddFilesViewModel Model)
+        {
+            if (ModelState.IsValid)
+            {
+                
+                FService.AddFile(Model);
+                return RedirectToAction("Index", new { id = Model.ProjectID });
+            }
+            return View();
+        }
+
         [HttpPost]
         public ActionResult OpenNewFile(int FileID)
         {
