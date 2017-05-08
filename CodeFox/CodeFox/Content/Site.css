@@ -102,16 +102,23 @@ section h3.section-subheading
 /*Styles for Projectview*/
 
 .Create
-{
-    text-align: center;
-    height: 259.6px
+{   
+    height: 269px;
 }
 
 .Project
 {
+    text-align: center;
     border-radius: 16px;
     margin-bottom: 15px;
     margin-right: 20px;
+}
+.Project .dropdown
+{
+    padding-bottom: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    text-align: left;
 }
 
 .Project:hover
@@ -147,11 +154,12 @@ section h3.section-subheading
     text-overflow:ellipsis;
 }
 
-.Hamburger
+/*.Hamburger
 {
+    float: right;
     border: none;
     cursor: pointer;  
-}
+}*/
 
 .OwnProjects
 {   
