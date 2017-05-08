@@ -58,6 +58,8 @@
                 //on keydown, clear the countdown 
                 $('#Editor').on("keydown", function () {
                     clearTimeout(typingTimer);
+                    var Selected = $('#tree').jstree(true).get_selected('full', true)
+                    Selected = Selected[0]
                     if (Selected.type == 'file')
                     {
                         $('#EditorInfo').text('File will save when you stop editing');
@@ -81,13 +83,6 @@
                         });
                     } 
                 }
-
-                $(function () {
-                    $(".testclick").on("click", function () {
-                        var EditorVal = ace.edit("Editor").getValue();
-                        console.log("test val = "+ editorVal);
-                    });
-                });
     </script>
     <script src="@Url.Content("~/Scripts/JsTree/jstree.min.js")" type="text/javascript"></script>
     <script>
