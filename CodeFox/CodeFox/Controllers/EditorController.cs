@@ -45,11 +45,17 @@ namespace CodeFox.Controllers
         {
             if (ModelState.IsValid)
             {
-                
+
                 FService.AddFile(Model);
                 return RedirectToAction("Index", new { id = Model.ProjectID });
             }
             return View();
+        }
+
+        [HttpPost]
+        public void SaveFile(int FileID, string NewText)
+        {
+            FService.SaveFile(FileID, NewText);
         }
 
         [HttpPost]
