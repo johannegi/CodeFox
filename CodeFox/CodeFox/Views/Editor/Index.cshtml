@@ -155,6 +155,7 @@
                         success: function (ReturnData) {
                             var test = ReturnData.Location;
                             ace.edit("Editor").setValue(ReturnData.Location);
+                            ace.edit("Editor").setMode();
                         }
                     });
                 }
