@@ -53,12 +53,6 @@ namespace CodeFox.Controllers
         }
 
         [HttpPost]
-        public void SaveFile(int FileID, string NewText)
-        {
-            FService.SaveFile(FileID, NewText);
-        }
-
-        [HttpPost]
         public ActionResult OpenNewFile(int FileID)
         {
             File NewFile = new File();
