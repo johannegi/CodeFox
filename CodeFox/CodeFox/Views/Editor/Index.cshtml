@@ -75,7 +75,7 @@
                     {
                         $.ajax({
                             url: '/Editor/SaveFile/',
-                            data: { 'FileID': Number(Selected.id), 'NewText': ace.edit("Editor").getValue() },
+                            data: { 'ProjectID': Number(@Model.ID), 'FileID': Number(Selected.id), 'NewText': ace.edit("Editor").getValue() },
                             method: 'POST',
                             success: function (ReturnData) {
                                 $('#EditorInfo').text('FileSaved');
@@ -119,9 +119,48 @@
                     "valid_children": []
                 }
             },
-            "plugins": [
-           " contextmenu", "dnd", "types"
-            ]
+            "plugins": ["contextmenu", "dnd", "types"],
+            "contextmenu": {
+                "items": function ($node) {
+                    return {
+                        "Rename": {
+                            "separator_before": false,
+                            "separator_after": false,
+                            "label": "Rename",
+                            "action": function (obj) {
+                                var NewName = prompt("Please enter new filename", "");
+                                if (NewName != null || NewName != "")
+                                {
+                                    $("#tree").jstree('set_text', $node, (NewName));
+                                }
+                            }
+                        },
+                        "Remove": {
+                            "separator_before": false,
+                            "separator_after": false,
+                            "label": "Remove",
+                            "action": function (obj) {
+                                if (confirm("Are you sure you want to delete " + $node.text) == true)
+                                {
+                                    if ($node.type == 'file')
+                                    {
+                                        $.ajax({
+                                            url: '/Editor/DeleteFile/',
+                                            data: {'FileID': Number($node.id) },
+                                            method: 'POST',
+                                            success: function (ReturnData) {
+                                                $('#EditorInfo').text($node.text + ' deleted');
+                                                $("#tree").jstree('delete_node', $node);
+                                            }
+                                        });
+                                    }
+                                }
+                            }
+                        }
+                    };
+                }
+            }
+
         });
 
         var Parent = 0;

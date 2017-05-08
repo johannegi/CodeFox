@@ -87,10 +87,14 @@ namespace CodeFox.Services
             DB.SaveChanges();
         }
 
-        public void SaveFile(int FileID, string NewText)
+        public void SaveFile(int ProjectID, int FileID, string NewText)
         {
-            File Tmp = DB.Files.Find(FileID);
-            Tmp.Location = NewText;
+            File TmpFile = DB.Files.Find(FileID);
+            TmpFile.Location = NewText;
+            TmpFile.DateModified = DateTime.Now;
+
+            Project TmpProject = DB.Projects.Find(FileID);
+            TmpFile.DateModified = DateTime.Now;
             DB.SaveChanges();
         }
 
