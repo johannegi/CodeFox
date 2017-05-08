@@ -62,10 +62,19 @@ namespace CodeFox.Services
             DB.FilesInProjects.Add(NewConnection);
             DB.SaveChanges();
         }
+
+        public void SaveFile(int FileID, string NewText)
+        {
+            File Tmp = DB.Files.Find(FileID);
+            Tmp.Location = NewText;
+            DB.SaveChanges();
+        }
+
         public File GetFileByID(int? ID)
         {
             return DB.Files.Find(ID);
         }
+
         public List<string> GetTypeList()
         {
             string path = System.Web.HttpContext.Current.Server.MapPath("~/Content/Lists/FileTypes.txt");

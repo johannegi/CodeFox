@@ -25,7 +25,11 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("CodeFox", "Index", "Home", new { area = "" }, new { @class = "navbar-brand HoverEffect" })
+                <a href='@Url.Action("Index", "Home")'>
+                    <div id="HeaderImage"></div>
+                    hello
+                </a>
+                @*Html.ActionLink("CodeFox", "Index", "Home", new { area = "" }, new { @class = "navbar-brand HoverEffect" })*@
             </div>
             <div class="navbar-collapse collapse">
                 @Html.Partial("_LoginPartial")
