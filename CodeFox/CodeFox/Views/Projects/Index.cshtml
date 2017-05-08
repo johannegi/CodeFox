@@ -27,7 +27,7 @@
                 {
                         <div class="col-sm-4 col-md-3 col-lg-2 Project thumbnail">
                             <div>
-                                <img src="~/Content/Images/tester.jpg" data-holder-rendered="true" onclick="location.href='@Url.Action("Index", "Editor", new { id = item.ID })';return false;" />
+                                <img src="~/Content/Images/tester.png" data-holder-rendered="true" onclick="location.href='@Url.Action("Index", "Editor", new { id = item.ID })';return false;" />
                                 <div>                                  
                                     <h4 class="ProjectName">@Html.ActionLink(Html.DisplayFor(model => item.Name).ToString(), "Index", "Editor", new { id = item.ID }, null)</h4>
                                     <p><b>Last updated:</b> <br />@Html.DisplayFor(Model => item.DateModified).ToString()</p>
@@ -61,7 +61,7 @@
                 {
                     <div class="col-sm-4 col-md-3 col-lg-2 Project thumbnail">
                         <div>
-                            <img src="~/Content/Images/tester.jpg" data-holder-rendered="true" onclick="location.href='@Url.Action("Index", "Editor", new { id = item.ID })';return false;" />
+                            <img src="~/Content/Images/tester.png" data-holder-rendered="true" onclick="location.href='@Url.Action("Index", "Editor", new { id = item.ID })';return false;" />
                             <div class="JsOnHover">
              
                                 <h4 class="ProjectName">@Html.ActionLink(Html.DisplayFor(model => item.Name).ToString(), "Index", "Editor", new { id = item.ID }, null)</h4><div class="OnHover"><b>Owned by:</b><br />@item.Owner.Username</div><hr id="HiddenLine" />
