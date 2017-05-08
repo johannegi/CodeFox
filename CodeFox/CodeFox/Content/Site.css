@@ -256,11 +256,13 @@ a.attempt:hover{
 }
 
 #HeaderImage {
-    background: url("Images/LOGOFINAL.png");
-    background-size: 80px 60px;
+    background: url(Images/LOGOFINAL.png);
+    background-size: 125px 66px;
     background-repeat: no-repeat;
-    height: 75px; 
-    width: 100px;
+    background-position: 0px -4px;
+    height: 51px;
+    width: 128px;
+}
 }
 
 /**********************************************************************************/
