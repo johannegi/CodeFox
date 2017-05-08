@@ -112,7 +112,7 @@ namespace CodeFox.Services
         public void DeleteFile(int? ID)
         {
             File ToDelete = GetFileByID(ID);
-            FileInProject TheConnection = DB.FilesInProjects.Where(x => x.ProjectFile == ToDelete).FirstOrDefault();
+            FileInProject TheConnection = DB.FilesInProjects.Where(x => x.ProjectFile.ID == ToDelete.ID).FirstOrDefault();
             DB.FilesInProjects.Remove(TheConnection);
             DB.Files.Remove(ToDelete);
             DB.SaveChanges();
