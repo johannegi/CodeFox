@@ -7,8 +7,6 @@
 
     <ul class="nav navbar-nav navbar-right">
         <li>
-            <!--Gamla sem ég commentaði út:-->
-            <!--Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })-->
             @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", null,  new { @class = "HoverEffect", title="Manage" })
         </li>
         <li>
