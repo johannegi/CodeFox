@@ -66,7 +66,12 @@ namespace CodeFox.Services
         {
             return DB.Files.Find(ID);
         }
+        public List<string> GetTypeList()
+        {
+            string path = System.Web.HttpContext.Current.Server.MapPath("~/Content/Lists/FileTypes.txt");
+            List<string> listinn = new List<string>(System.IO.File.ReadLines(path).ToList());
+            return listinn;
+        }
 
-        
     }
 }
