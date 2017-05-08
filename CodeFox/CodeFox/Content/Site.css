@@ -6,7 +6,7 @@
 
 /* Set padding to keep content from hitting the edges */
 .body-content
- {
+{
     padding-left: 15px;
     padding-right: 15px;
 }
@@ -23,12 +23,12 @@
 input,
 select,
 textarea
- {
+{
     max-width: 280px;
 }
 
 .MainPageCenter
- {
+{
     margin-left: auto;
     margin-right: auto;
     text-align: center;
@@ -76,14 +76,14 @@ section
     padding: 100px 0;
 }
 section h2.section-heading
- {
+{
     font-size: 40px;
     margin-top: 0;
     margin-bottom: 15px;
 }
 
 section h3.section-subheading
- {
+{
     font-size: 16px;
     font-family: "Droid Serif", "Helvetica Neue", Helvetica, Arial, sans-serif;
     text-transform: none;
@@ -259,7 +259,7 @@ a.attempt:hover
 }
 
 .HoverEffect
- {
+{
     color: #808080;
     text-decoration: none;
     padding-top: 15px;
@@ -272,22 +272,16 @@ a.attempt:hover
     color: blue;
 }
 
-<<<<<<< HEAD
 #HeaderImage 
 {
-    background: url("Images/LOGOFINAL.png");
-    background-size: 80px 60px;
-=======
-#HeaderImage {
     background: url(Images/LOGOFINAL.png);
     background-size: 125px 66px;
->>>>>>> 59259ad9bb25f4886d8e1724b7a359c00daac3e9
     background-repeat: no-repeat;
     background-position: 0px -4px;
     height: 51px;
     width: 128px;
 }
-}
+
 
 /**********************************************************************************/
 
