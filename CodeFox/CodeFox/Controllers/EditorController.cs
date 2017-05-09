@@ -60,6 +60,8 @@ namespace CodeFox.Controllers
             return View();
         }
 
+        [ValidateInput(false)]
+        [HttpPost]
         public void SaveFile(int ProjectID, int FileID, string NewText)
         {
             FService.SaveFile(ProjectID, FileID, NewText);

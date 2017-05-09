@@ -71,14 +71,15 @@
                 {
                     var Selected = $('#tree').jstree(true).get_selected('full', true)
                     Selected = Selected[0]
+                    var NewText = String(ace.edit("Editor").session.getValue());
                     if (Selected.type == 'file')
                     {
                         $.ajax({
                             url: '/Editor/SaveFile/',
-                            data: { 'ProjectID': Number(@Model.ID), 'FileID': Number(Selected.id), 'NewText': ace.edit("Editor").getValue() },
+                            data:{ 'ProjectID': Number(@Model.ID), 'FileID': Number(Selected.id), 'NewText': NewText},
                             method: 'POST',
                             success: function (ReturnData) {
-                                $('#EditorInfo').text('FileSaved');
+                                $('#EditorInfo').text('File saved');
                             }
                         });
                     } 
