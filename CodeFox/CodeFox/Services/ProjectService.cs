@@ -266,20 +266,5 @@ namespace CodeFox.Services
                 }
             }
         }
-        public void ClearTemp(string Path)
-        {
-            System.IO.DirectoryInfo di = new System.IO.DirectoryInfo(Path);
-
-                foreach (System.IO.FileInfo file in di.GetFiles())
-                {
-                    file.Delete();
-                }
-                foreach (System.IO.DirectoryInfo dir in di.GetDirectories())
-                {
-                    dir.Delete(true);
-                }
-            di.Delete();
-        }
-
     }
 }

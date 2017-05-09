@@ -89,7 +89,7 @@ namespace CodeFox.Controllers
                 zip.AddDirectory(UserTempDirectory + "/Project");
                 zip.Save(UserZipDirectory + "/tempProject.zip");
                 byte[] fileBytes = System.IO.File.ReadAllBytes(UserZipDirectory + "/tempProject.zip");
-                PService.ClearTemp(UserTempDirectory);
+                Directory.Delete(UserTempDirectory, true);
                 return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
             }
         }
