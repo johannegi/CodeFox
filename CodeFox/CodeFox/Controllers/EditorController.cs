@@ -65,9 +65,9 @@ namespace CodeFox.Controllers
             FService.SaveFile(ProjectID, FileID, NewText);
         }
 
-        public void ChangeFileName(int FileID)
+        public ActionResult ChangeFileName(int ProjectID, int FileID, string NewName)
         {
-
+            return Json(FService.ChangeFileName(ProjectID, FileID, NewName), JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]

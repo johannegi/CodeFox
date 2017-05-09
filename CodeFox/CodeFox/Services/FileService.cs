@@ -89,13 +89,36 @@ namespace CodeFox.Services
 
         public void SaveFile(int ProjectID, int FileID, string NewText)
         {
-            File TmpFile = DB.Files.Find(FileID);
-            TmpFile.Location = NewText;
-            TmpFile.DateModified = DateTime.Now;
+            File ToSave = DB.Files.Find(FileID);
+            ToSave.Location = NewText;
+            ToSave.DateModified = DateTime.Now;
 
-            Project TmpProject = DB.Projects.Find(FileID);
-            TmpFile.DateModified = DateTime.Now;
+            Project TheProject = DB.Projects.Find(ProjectID);
+            TheProject.DateModified = DateTime.Now;
             DB.SaveChanges();
+        }
+
+        public File ChangeFileName(int ProjectID, int FileID, string NewName)
+        {
+            File ToRename = DB.Files.Find(FileID);
+            
+            ToRename.DateModified = DateTime.Now;
+            if (NewName.Contains('.'))
+            {
+                string Type = NewName.Substring(NewName.LastIndexOf('.') + 1);
+                ToRename.Type = Type;
+                string Name = NewName.Substring(0, NewName.LastIndexOf('.'));
+                ToRename.Name = Name;
+            }
+            else
+            {
+                ToRename.Name = NewName;
+            }
+
+            Project TheProject = DB.Projects.Find(ProjectID);
+            TheProject.DateModified = DateTime.Now;
+            DB.SaveChanges();
+            return ToRename;
         }
 
         public File GetFileByID(int? ID)

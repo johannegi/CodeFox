@@ -62,11 +62,22 @@ namespace CodeFox.Controllers
             return RedirectToAction("Index");
         }
         
-
         public ActionResult Export(int? ID)
         {
             PService.ExportProject(ID);
             return RedirectToAction("Index");
+        }
+
+        public ActionResult GetProject(int? ProjectID)
+        {
+            if(ProjectID.HasValue)
+            {
+            
+               var ProjectCool = PService.GetProjectFromID(ProjectID).ReadMe.Location;
+                return Json(ProjectCool, JsonRequestBehavior.AllowGet);
+                
+            }
+            return Json("", JsonRequestBehavior.AllowGet);
         }
     }
 }
