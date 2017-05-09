@@ -238,20 +238,41 @@ namespace CodeFox.Services
             DB.SaveChanges();
             
         }
-        public void ExportProject(int? ID)
+        public void ExportProject(int? ProjectID, string Path)
         {
-            Project TheProject = GetProjectFromID(ID);
-            File AFile = DB.Files.Where(x => x.ID == TheProject.ReadMe.ID).FirstOrDefault();
-            string text = AFile.Location;
-            string[] lines = text.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
-            string mydocpath = System.Web.HttpContext.Current.Server.MapPath("~/Content/Lists/");
-            using (System.IO.StreamWriter outputFile = new System.IO.StreamWriter(mydocpath + @"\WriteLines.cpp")) {
-                foreach (string line in lines)
+            Project TheProject = GetProjectFromID(ProjectID); //Get project to get ReadMe later
+            var FileProject = DB.FilesInProjects.Where(x => x.FileProject.ID == ProjectID).ToList();
+            List<File> AllFiles = new List<File>();
+            foreach(FileInProject item in FileProject)
+            {
+                AllFiles.Add(item.ProjectFile);
+            }
+            File ReadMe = DB.Files.Where(x => x.ID == TheProject.ReadMe.ID).FirstOrDefault();
+            AllFiles.Add(ReadMe);
+            foreach(File file in AllFiles)
+            {
+                string text = file.Location;
+                //string mydocpath = System.Web.HttpContext.Current.Server.MapPath("~/Content/ExportTemp/");
+                using (System.IO.StreamWriter outputFile = new System.IO.StreamWriter(Path + @"\" + file.Name + "." + file.Type))
                 {
-                    outputFile.WriteLine(line);
-                    outputFile.WriteLine("BLABLABLA");
+                    outputFile.WriteLine(text);
                 }
             }
         }
+        public void ClearTemp(string Path)
+        {
+            System.IO.DirectoryInfo di = new System.IO.DirectoryInfo(Path);
+
+                foreach (System.IO.FileInfo file in di.GetFiles())
+                {
+                    file.Delete();
+                }
+                foreach (System.IO.DirectoryInfo dir in di.GetDirectories())
+                {
+                    dir.Delete(true);
+                }
+            di.Delete();
+        }
+
     }
 }

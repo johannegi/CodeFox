@@ -1,8 +1,11 @@
-﻿using CodeFox.Models.Entities;
+﻿using CodeFox.Models;
+using CodeFox.Models.Entities;
 using CodeFox.Models.ViewModels;
 using CodeFox.Services;
+using Ionic.Zip;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Web;
@@ -61,11 +64,26 @@ namespace CodeFox.Controllers
             PService.DeleteProject(Model.ID);
             return RedirectToAction("Index");
         }
-        
-        public ActionResult Export(int? ID)
+        private ApplicationDbContext db = new ApplicationDbContext();
+        public FileResult Export(int? ID)
         {
-            PService.ExportProject(ID);
-            return RedirectToAction("Index");
+            string UserTempDirectory = Server.MapPath("~/Content/UsersTemp/") + User.Identity.Name;
+            string UserProjectDirectory = UserTempDirectory + "/Project";
+            string UserZipDirectory = UserTempDirectory + "/ZipTemp";
+            Directory.CreateDirectory(UserProjectDirectory);
+            Directory.CreateDirectory(UserZipDirectory);
+            string fileName  = PService.GetProjectFromID(ID).Name + ".zip";
+
+            PService.ExportProject(ID, UserProjectDirectory);
+
+            using (ZipFile zip = new ZipFile())
+            {
+                zip.AddDirectory(UserTempDirectory + "/Project");
+                zip.Save(UserZipDirectory + "/tempProject.zip");
+                byte[] fileBytes = System.IO.File.ReadAllBytes(UserZipDirectory + "/tempProject.zip");
+                PService.ClearTemp(UserTempDirectory);
+                return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
+            }
         }
 
         public ActionResult GetProject(int? ProjectID)

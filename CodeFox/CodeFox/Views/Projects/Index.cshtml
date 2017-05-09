@@ -33,14 +33,12 @@
                                 </button>
                                 <ul class="dropdown-menu">
                                     <li class="dropdown-item">@Html.ActionLink("Delete", "Delete", "Projects", new { id = item.ID }, null)</li>
-<<<<<<< HEAD
                                     <li class="dropdown-item">@Html.ActionLink("Export", "Export", "Projects", new { id = item.ID }, null)</li>
                                     <li class="dropdown-item">@Html.ActionLink("Details", "Index", "Editor", new { id = item.ID }, null)</li>
-=======
-                                    <li class="dropdown-item">@Html.ActionLink("Export", "Index", "Editor", new { id = item.ID }, null)</li>
                                    <!-- <li class="dropdown-item CursorOnList" data-toggle="modal" data-target="#MyModal" data-id="">Details</li> -->
                                     <li href="#my_modal" class="SelectDropDown" data-toggle="modal" data-id="@item.ID">Open Modal</li>
->>>>>>> ba6fddcd4c1f4d84a7e61602fdbf82ce493f982d
+
+
                                 </ul>
                             </div>
                         </div>      
