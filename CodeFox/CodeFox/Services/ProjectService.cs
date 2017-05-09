@@ -260,11 +260,19 @@ namespace CodeFox.Services
             foreach(File file in AllFiles)
             {
                 string text = file.Location;
-                using (System.IO.StreamWriter outputFile = new System.IO.StreamWriter(Path + @"\" + file.Name + "." + file.Type))
+                using (System.IO.StreamWriter outputFile = new System.IO.StreamWriter(Path + GetFilePath(file.FolderStructure)  +  @"\" + file.Name + "." + file.Type))
                 {
                     outputFile.WriteLine(text);
                 }
             }
+        }
+        public string GetFilePath(Folder Folder)
+        {
+            if(Folder == null)
+            {
+                return "/";
+            }
+            return GetFilePath(Folder.FolderStructure) + "/" + Folder.Name;
         }
     }
 }
