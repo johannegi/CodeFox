@@ -35,7 +35,7 @@
                                     <li class="dropdown-item">@Html.ActionLink("Delete", "Delete", "Projects", new { id = item.ID }, null)</li>
                                     <li class="dropdown-item">@Html.ActionLink("Export", "Index", "Editor", new { id = item.ID }, null)</li>
                                    <!-- <li class="dropdown-item CursorOnList" data-toggle="modal" data-target="#MyModal" data-id="">Details</li> -->
-                                    <a href="#my_modal" class="SelectDropDown" data-toggle="modal" data-id="@item.ID">Open Modal</a>
+                                    <li href="#my_modal" class="SelectDropDown" data-toggle="modal" data-id="@item.ID">Open Modal</li>
                                 </ul>
                             </div>
                         </div>      
