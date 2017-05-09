@@ -246,7 +246,7 @@ namespace CodeFox.Services
             DB.SaveChanges();
             
         }
-        public void ExportProject(int? ProjectID, string Path)
+        public void ExportProjectToTemp(int? ProjectID, string Path)
         {
             Project TheProject = GetProjectFromID(ProjectID); //Get project to get ReadMe later
             var FileProject = DB.FilesInProjects.Where(x => x.FileProject.ID == ProjectID).ToList();
@@ -260,7 +260,6 @@ namespace CodeFox.Services
             foreach(File file in AllFiles)
             {
                 string text = file.Location;
-                //string mydocpath = System.Web.HttpContext.Current.Server.MapPath("~/Content/ExportTemp/");
                 using (System.IO.StreamWriter outputFile = new System.IO.StreamWriter(Path + @"\" + file.Name + "." + file.Type))
                 {
                     outputFile.WriteLine(text);

@@ -68,8 +68,13 @@ namespace CodeFox.Controllers
             return RedirectToAction("Index");
         }
         private ApplicationDbContext db = new ApplicationDbContext();
+
         public FileResult Export(int? ID)
         {
+            if (!PService.CanUserOpenProject(ID, User.Identity.Name))
+            {
+                throw new Exception();
+            }
             string UserTempDirectory = Server.MapPath("~/Content/UsersTemp/") + User.Identity.Name;
             string UserProjectDirectory = UserTempDirectory + "/Project";
             string UserZipDirectory = UserTempDirectory + "/ZipTemp";
@@ -77,7 +82,7 @@ namespace CodeFox.Controllers
             Directory.CreateDirectory(UserZipDirectory);
             string fileName = PService.GetProjectFromID(ID).Name + ".zip";
 
-            PService.ExportProject(ID, UserProjectDirectory);
+            PService.ExportProjectToTemp(ID, UserProjectDirectory);
 
             using (ZipFile zip = new ZipFile())
             {

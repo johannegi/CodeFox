@@ -8,7 +8,7 @@
 <div class="EditorButtons">
     <!-- Class created to construct the look of the buttons on EditorPage -->
     <!-- Nav bar where SAVE EXPORT SHARE ADD FILE CLOSE AND DELETE PROJECT WILL BE-->
-    @Html.ActionLink("Export", "Share", "Editor", new { @class = "btn btn-info" })
+    @Html.ActionLink("Export", "Export", "Projects", new { id = Model.ID }, new { @class = "btn btn-info" })
     @Html.ActionLink("Share with your foxes!", "Share", "Editor", new { id = Model.ID }, new { @class = "btn btn-info" })
     @Html.ActionLink("Add files", "AddFiles", "Editor", new { id = Model.ID },  new { @class = "btn btn-info" })
     <button href="#my_modal" class="btn btn-info" data-toggle="modal" data-target="#myModal">Add folder</button>
