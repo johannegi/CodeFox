@@ -63,7 +63,7 @@ namespace CodeFox.Services
             projectView.Files = new List<File>();
             projectView.SharedWith = new List<UserInfo>();
 
-            projectView.Name = CurrProject.Name;
+                projectView.Name = CurrProject.Name;
             projectView.Owner = CurrProject.Owner;
             projectView.ReadMe = CurrProject.ReadMe;
             projectView.Type = CurrProject.Type;
@@ -116,8 +116,14 @@ namespace CodeFox.Services
             return false;
         }
 
-        public void CreateProject (CreateProjectViewModel NewCreateProject, string Username)
+        public bool CreateProject (CreateProjectViewModel NewCreateProject, string Username)
         {
+            var ProjectWithSameName = DB.Projects.Where(x => x.Owner.Username == Username
+                                                        && x.Name == NewCreateProject.Name).FirstOrDefault();
+            if(ProjectWithSameName != null)
+            {
+                return false;
+            }
             UserInfo Owner = DB.UsersInfo.Where(x => x.Username == Username).SingleOrDefault();
             Project NewProject = new Project();
             NewProject.Name = NewCreateProject.Name;
@@ -127,6 +133,7 @@ namespace CodeFox.Services
             NewProject.DateCreated = DateTime.Now;
             NewProject.DateModified = DateTime.Now;
 
+            // þarf að vera DB.SaveChanges tvisvar?
             DB.Projects.Add(NewProject);
             DB.SaveChanges();
             
@@ -141,6 +148,7 @@ namespace CodeFox.Services
             DB.ProjectOwners.Add(POwner);
             DB.FilesInProjects.Add(FIProject);
             DB.SaveChanges();
+            return true;
         }
 
         public Project GetProjectFromID(int? ProjectID)

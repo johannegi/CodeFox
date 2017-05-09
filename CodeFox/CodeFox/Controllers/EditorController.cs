@@ -44,7 +44,7 @@ namespace CodeFox.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
+       // [ValidateAntiForgeryToken]
         public ActionResult AddFiles(AddFilesViewModel Model)
         {
             if (!Pservice.CanUserOpenProject(Model.ProjectID, User.Identity.Name))
@@ -54,12 +54,17 @@ namespace CodeFox.Controllers
             if (ModelState.IsValid)
             {
                 
-                FService.AddFile(Model);
-                return RedirectToAction("Index", new { id = Model.ProjectID });
+                if(!FService.AddFile(Model))
+                {
+                    return Json("Hello", JsonRequestBehavior.AllowGet);
+                }
+                return RedirectToAction("Index", "Editor", new { id = Model.ProjectID });
             }
             return View();
         }
 
+        [ValidateInput(false)]
+        [HttpPost]
         public void SaveFile(int ProjectID, int FileID, string NewText)
         {
             FService.SaveFile(ProjectID, FileID, NewText);

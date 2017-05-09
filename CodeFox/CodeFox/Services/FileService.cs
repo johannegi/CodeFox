@@ -63,10 +63,15 @@ namespace CodeFox.Services
         }
 
         //Checka a USERNAME
-        public void AddFile(AddFilesViewModel Model)
+        public bool AddFile(AddFilesViewModel Model)
         {
-           // UserInfo Owner = DB.UsersInfo.Where(x => x.Username == Username).SingleOrDefault();
-
+            // UserInfo Owner = DB.UsersInfo.Where(x => x.Username == Username).SingleOrDefault();
+            var FileWithSameName = DB.FilesInProjects.Where(x => x.ProjectFile.Name == Model.Name && 
+                                                  x.FileProject.ID == Model.ProjectID).FirstOrDefault();
+            if(FileWithSameName != null)
+            {
+                return false;
+            }
             //Make the file
             File NewFile = new File();
             NewFile.Name = Model.Name;
@@ -85,6 +90,7 @@ namespace CodeFox.Services
             DB.Files.Add(NewFile);
             DB.FilesInProjects.Add(NewConnection);
             DB.SaveChanges();
+            return true;
         }
 
         public void SaveFile(int ProjectID, int FileID, string NewText)

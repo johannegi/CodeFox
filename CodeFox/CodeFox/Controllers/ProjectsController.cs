@@ -19,7 +19,7 @@ namespace CodeFox.Controllers
         private ProjectService PService = new ProjectService();
 
         // GET: Project
-        
+
         public ActionResult Index()
         {
             string Username = User.Identity.Name;
@@ -40,8 +40,11 @@ namespace CodeFox.Controllers
             if (ModelState.IsValid)
             {
                 string Username = User.Identity.Name;
-                PService.CreateProject(Model, Username);
-                return RedirectToAction("Index");
+                if (PService.CreateProject(Model, Username))
+                {
+                    return RedirectToAction("Index");
+                }
+                return Json("", JsonRequestBehavior.AllowGet);
             }
             return View(Model);
         }
@@ -72,7 +75,7 @@ namespace CodeFox.Controllers
             string UserZipDirectory = UserTempDirectory + "/ZipTemp";
             Directory.CreateDirectory(UserProjectDirectory);
             Directory.CreateDirectory(UserZipDirectory);
-            string fileName  = PService.GetProjectFromID(ID).Name + ".zip";
+            string fileName = PService.GetProjectFromID(ID).Name + ".zip";
 
             PService.ExportProject(ID, UserProjectDirectory);
 
@@ -88,14 +91,15 @@ namespace CodeFox.Controllers
 
         public ActionResult GetProject(int? ProjectID)
         {
-            if(ProjectID.HasValue)
+            if (ProjectID.HasValue)
             {
-            
-               var ProjectCool = PService.GetProjectFromID(ProjectID).ReadMe.Location;
+
+                var ProjectCool = PService.GetProjectFromID(ProjectID).ReadMe.Location;
                 return Json(ProjectCool, JsonRequestBehavior.AllowGet);
-                
+
             }
             return Json("", JsonRequestBehavior.AllowGet);
         }
+
     }
 }
