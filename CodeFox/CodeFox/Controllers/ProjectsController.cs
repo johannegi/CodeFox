@@ -4,6 +4,7 @@ using CodeFox.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 
@@ -60,6 +61,12 @@ namespace CodeFox.Controllers
             PService.DeleteProject(Model.ID);
             return RedirectToAction("Index");
         }
+        
 
+        public ActionResult Export(int? ID)
+        {
+            PService.ExportProject(ID);
+            return RedirectToAction("Index");
+        }
     }
 }

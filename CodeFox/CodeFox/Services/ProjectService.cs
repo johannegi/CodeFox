@@ -4,6 +4,7 @@ using CodeFox.Models.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Web;
 
 namespace CodeFox.Services
@@ -236,6 +237,21 @@ namespace CodeFox.Services
 
             DB.SaveChanges();
             
+        }
+        public void ExportProject(int? ID)
+        {
+            Project TheProject = GetProjectFromID(ID);
+            File AFile = DB.Files.Where(x => x.ID == TheProject.ReadMe.ID).FirstOrDefault();
+            string text = AFile.Location;
+            string[] lines = text.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
+            string mydocpath = System.Web.HttpContext.Current.Server.MapPath("~/Content/Lists/");
+            using (System.IO.StreamWriter outputFile = new System.IO.StreamWriter(mydocpath + @"\WriteLines.cpp")) {
+                foreach (string line in lines)
+                {
+                    outputFile.WriteLine(line);
+                    outputFile.WriteLine("BLABLABLA");
+                }
+            }
         }
     }
 }
