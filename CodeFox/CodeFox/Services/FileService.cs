@@ -66,9 +66,8 @@ namespace CodeFox.Services
         public bool AddFile(AddFilesViewModel Model)
         {
             // UserInfo Owner = DB.UsersInfo.Where(x => x.Username == Username).SingleOrDefault();
-            var ProjectID = (from x in DB.Projects where x.ID == Model.ProjectID select x.ID).FirstOrDefault();
-            var FileWithSameName = DB.Files.Where(x => x.Name == Model.Name && 
-                                                  ProjectID == Model.ProjectID).FirstOrDefault();
+            var FileWithSameName = DB.FilesInProjects.Where(x => x.ProjectFile.Name == Model.Name && 
+                                                  x.FileProject.ID == Model.ProjectID).FirstOrDefault();
             if(FileWithSameName != null)
             {
                 return false;

@@ -62,7 +62,7 @@ namespace CodeFox.Services
             projectView.Files = new List<File>();
             projectView.SharedWith = new List<UserInfo>();
 
-            projectView.Name = CurrProject.Name;
+                projectView.Name = CurrProject.Name;
             projectView.Owner = CurrProject.Owner;
             projectView.ReadMe = CurrProject.ReadMe;
             projectView.Type = CurrProject.Type;

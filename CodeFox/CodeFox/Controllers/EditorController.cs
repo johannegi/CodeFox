@@ -58,7 +58,7 @@ namespace CodeFox.Controllers
                 {
                     return Json("Hello", JsonRequestBehavior.AllowGet);
                 }
-                return RedirectToAction("Index", new { id = Model.ProjectID });
+                return RedirectToAction("Index", "Editor", new { id = Model.ProjectID });
             }
             return View();
         }
