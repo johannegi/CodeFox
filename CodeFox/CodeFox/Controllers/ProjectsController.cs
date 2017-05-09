@@ -36,8 +36,11 @@ namespace CodeFox.Controllers
             if (ModelState.IsValid)
             {
                 string Username = User.Identity.Name;
-                PService.CreateProject(Model, Username);
-                return RedirectToAction("Index");
+                if (PService.CreateProject(Model, Username))
+                {
+                    return RedirectToAction("Index");
+                }
+                return Json("", JsonRequestBehavior.AllowGet);
             }
             return View(Model);
         }
