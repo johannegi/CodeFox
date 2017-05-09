@@ -78,7 +78,7 @@ namespace CodeFox.Controllers
             string UserTempDirectory = Server.MapPath("~/Content/UsersTemp/") + User.Identity.Name;
             string UserProjectDirectory = UserTempDirectory + "/Project";
             string UserZipDirectory = UserTempDirectory + "/ZipTemp";
-            Directory.CreateDirectory(UserProjectDirectory);
+            //Directory.CreateDirectory(UserProjectDirectory);
             Directory.CreateDirectory(UserZipDirectory);
             string fileName = PService.GetProjectFromID(ID).Name + ".zip";
 
