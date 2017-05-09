@@ -11,8 +11,8 @@
     @Html.AntiForgeryToken()
     <h2>Share with fellow foxes</h2>
     <div class="row InputField">
-        <h2>Owner: @Model.ShareProject.Owner.Username</h2>
-        <label for="User">Add collaborator by Username</label> <br />                
+        <h3>Sharing: @Model.ShareProject.Name, Created by: @Model.ShareProject.Owner.Username</h3>
+        <h4>Add collaborator by Username</h4>            
         <div class="table-responsive">
             <table class="table table-striped col-sm-12 col-md-12" id="CollabTable">
                 <thead>
@@ -35,7 +35,7 @@
             </table>
         </div>                
     </div>
-    <strong>Add collaborator</strong>
+    <label for="AddUsername">Add collaborator</label>
     <input type="text" id="AddUsername" placeholder="Search for a username..." autocomplete="off"/>
     <div class="ShowFound col-sm-12 col-md-12 col-lg-12"></div>
 
