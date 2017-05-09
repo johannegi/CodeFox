@@ -65,16 +65,17 @@ namespace CodeFox.Controllers
         }
 
         public ActionResult GetProject(int? ProjectID)
-        {
-            if(ProjectID.HasValue)
-            {
-            
-               var ProjectCool = PService.GetProjectFromID(ProjectID).ReadMe.Location;
-                return Json(ProjectCool, JsonRequestBehavior.AllowGet);
-                
-            }
-            return Json("", JsonRequestBehavior.AllowGet);
-        }
+         {
+             if(ProjectID.HasValue)
+             {
+             
+                var ProjectCool = PService.GetProjectFromID(ProjectID).ReadMe.Location;
+                 return Json(ProjectCool, JsonRequestBehavior.AllowGet);
+                 
+             }
+             return Json("", JsonRequestBehavior.AllowGet);
+         }
+ 
+      }
 
     }
-}
