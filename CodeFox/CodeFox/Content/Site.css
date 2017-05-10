@@ -182,12 +182,26 @@ section h3.section-subheading
 {
     background: #428bca;
 }
-/*.Hamburger
+
+.ProjectsCaption
 {
-    float: right;
-    border: none;
-    cursor: pointer;  
-}*/
+    background-color: #5bc0de;
+    padding: 10px;
+    margin-left: -3%;
+    margin-right:-3%;
+    color: white;
+}
+
+.ProjectArrow
+{
+    padding: 15px;
+    color: white;
+}
+
+.ProjectArrow:hover
+{
+    color: #eee;
+}
 
 .OwnProjects
 {   
@@ -221,6 +235,11 @@ textarea
 {
     height: 100%;
     width: 100%;
+}
+
+#ModalEditor
+{
+    max-height: 300px;
 }
 
 

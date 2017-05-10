@@ -3,14 +3,14 @@
     ViewBag.Title = "Your projects";
 }
 
-<h1>Projects</h1>
+<h1 style="text-align:center">Projects</h1>
 
-<h2>Welcome @Html.DisplayFor(model => model.Name)!</h2>
+<h2  style="text-align:center">Welcome @Html.DisplayFor(model => model.Name)!</h2>
 
-<h2>My Projects</h2>
+<h2 class="ProjectsCaption"><i class="ProjectArrow fa fa-caret-down" id="OwnedProjectIndex" aria-hidden="true"></i>My Projects</h2>
 <div class="OwnProjects col-sm-12 col-md-12 col-lg-12">
     <div class="container">
-        <div class="row col-sm-12 col-md-12 col-lg-12">
+        <div class="Window row col-sm-12 col-md-12 col-lg-12">
             <div class="col-sm-4 col-md-3 col-lg-2 Create Project thumbnail">
                 <br />
                 <br />
@@ -48,7 +48,7 @@
      
 @if (Model.SharedProjects.Count != 0)
 {
-    <h2>Projects Shared With Me</h2>
+    <h2 class="ProjectsCaption"><i class="ProjectArrow fa fa-caret-down" aria-hidden="true"></i>Projects Shared With Me</h2>
     <div class="SharedProjects col-sm-12 col-md-12 col-lg-12">
         <div class="container">
             <div class="row">
@@ -92,7 +92,7 @@
                         </div>
                         <div class="panel-body">
                             <div>
-                                <div id="Editor"></div>
+                                <div id="ModalEditor"></div>
                             </div>
                         </div>
                     </div>
@@ -114,118 +114,8 @@
 <script src="@Url.Content("~/Scripts/AceEditor/ace.js")" type="text/javascript" charset="utf-8"> </script>
 <script src="@Url.Content("~/Scripts/AceEditor/ext-modelist.js")" type="text/javascript" charset="utf-8"></script>
 
-<script type="text/javascript">
 
-   
-
-    $(".JsOnHover").mouseover(function () {
-            $(this).children(".OnHover").show();
-        }).mouseout(function () {
-        $(this).children(".OnHover").hide();
-        });
-
-    $('.SelectDropDown').on('click', function (e) {
-
-        var ProjectID = $(this).data("id");
-    $.ajax({
-            url: '/Projects/GetProject',
-            data: { 'ProjectID': ProjectID },
-            method: "POST",
-            success: function(data)
-            {
-                if(data == "")
-                {
-                            $('#ModalText').html('Project Not Found');
-                }
-            else
-                {
-                    var Editor = ace.edit("Editor");
-                    Editor.setTheme("ace/theme/clouds");
-                    Editor.renderer.setShowGutter(false);
-
-                    Editor.setReadOnly(true);
-                    Editor.session.setMode("ace/mode/Text");
-                    Editor.$blockScrolling = Infinity;
-           
-                    ace.edit("Editor").setValue(data.Location);
-                    
-                    //$('#ModalText_' + ProjectID).html(data.substring(1,data.length-1));
-                }   
-            }
-    });
-  
-    $('#OpenModal').modal();
-    
-    return false;
-    });
-    
-
-    //HELPS US TO SEE WHEN MODIFIED, SOURCE COUDE: https://coderwall.com/p/uub3pw/javascript-timeago-func-e-g-8-hours-ago
-
-    (function timeAgo(selector) {
-
-        var templates = {
-            prefix: "",
-            suffix: " ago",
-            seconds: "less than a minute",
-            minute: "about a minute",
-            minutes: "%d minutes",
-            hour: "about an hour",
-            hours: "about %d hours",
-            day: "a day",
-            days: "%d days",
-            month: "about a month",
-            months: "%d months",
-            year: "about a year",
-            years: "%d years"
-        };
-        var template = function (t, n) {
-            return templates[t] && templates[t].replace(/%d/i, Math.abs(Math.round(n)));
-        };
-
-        var timer = function (time) {
-            if (!time)
-                return;
-            time = time.replace(/\.\d+/, ""); // remove milliseconds
-            time = time.replace(/-/, "/").replace(/-/, "/");
-            time = time.replace(/T/, " ").replace(/Z/, " UTC");
-            time = time.replace(/([\+\-]\d\d)\:?(\d\d)/, " $1$2"); // -04:00 -> -0400
-            time = new Date(time * 1000 || time);
-
-            var now = new Date();
-            var seconds = ((now.getTime() - time) * .001) >> 0;
-            var minutes = seconds / 60;
-            var hours = minutes / 60;
-            var days = hours / 24;
-            var years = days / 365;
-
-            return templates.prefix + (
-                    seconds < 45 && template('seconds', seconds) ||
-                    seconds < 90 && template('minute', 1) ||
-                    minutes < 45 && template('minutes', minutes) ||
-                    minutes < 90 && template('hour', 1) ||
-                    hours < 24 && template('hours', hours) ||
-                    hours < 42 && template('day', 1) ||
-                    days < 30 && template('days', days) ||
-                    days < 45 && template('month', 1) ||
-                    days < 365 && template('months', days / 30) ||
-                    years < 1.5 && template('year', 1) ||
-                    template('years', years)
-                    ) + templates.suffix;
-        };
-
-        var elements = document.getElementsByClassName('timeago');
-        for (var i in elements) {
-            var $this = elements[i];
-            if (typeof $this === 'object') {
-                $this.innerHTML = timer($this.getAttribute('title') || $this.getAttribute('datetime'));
-            }
-        }
-        // update time every minute
-        setTimeout(timeAgo, 60000);
-
-    })();
-</script>
+@Scripts.Render("~/Scripts/ProjectIndex.js")
 
 
 
