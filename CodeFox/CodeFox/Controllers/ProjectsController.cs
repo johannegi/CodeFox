@@ -44,7 +44,7 @@ namespace CodeFox.Controllers
                 {
                     return RedirectToAction("Index");
                 }
-                return Json("", JsonRequestBehavior.AllowGet);
+                return Json("Error", JsonRequestBehavior.AllowGet);
             }
             return View(Model);
         }
