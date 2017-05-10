@@ -1,9 +1,13 @@
-﻿using CodeFox.Models.Entities;
+﻿using CodeFox.Models;
+using CodeFox.Models.Entities;
 using CodeFox.Models.ViewModels;
 using CodeFox.Services;
+using Ionic.Zip;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 
@@ -15,7 +19,7 @@ namespace CodeFox.Controllers
         private ProjectService PService = new ProjectService();
 
         // GET: Project
-        
+
         public ActionResult Index()
         {
             string Username = User.Identity.Name;
@@ -36,8 +40,11 @@ namespace CodeFox.Controllers
             if (ModelState.IsValid)
             {
                 string Username = User.Identity.Name;
-                PService.CreateProject(Model, Username);
-                return RedirectToAction("Index");
+                if (PService.CreateProject(Model, Username))
+                {
+                    return RedirectToAction("Index");
+                }
+                return Json("", JsonRequestBehavior.AllowGet);
             }
             return View(Model);
         }
@@ -60,19 +67,44 @@ namespace CodeFox.Controllers
             PService.DeleteProject(Model.ID);
             return RedirectToAction("Index");
         }
+        private ApplicationDbContext db = new ApplicationDbContext();
+
+        public FileResult Export(int? ID)
+        {
+            if (!PService.CanUserOpenProject(ID, User.Identity.Name))
+            {
+                throw new Exception();
+            }
+            string UserTempDirectory = Server.MapPath("~/Content/UsersTemp/") + User.Identity.Name;
+            string UserProjectDirectory = UserTempDirectory + "/Project";
+            string UserZipDirectory = UserTempDirectory + "/ZipTemp";
+            //Directory.CreateDirectory(UserProjectDirectory);
+            Directory.CreateDirectory(UserZipDirectory);
+            string fileName = PService.GetProjectFromID(ID).Name + ".zip";
+
+            PService.ExportProjectToTemp(ID, UserProjectDirectory);
+
+            using (ZipFile zip = new ZipFile())
+            {
+                zip.AddDirectory(UserProjectDirectory);
+                zip.Save(UserZipDirectory + "/tempProject.zip");
+                byte[] fileBytes = System.IO.File.ReadAllBytes(UserZipDirectory + "/tempProject.zip");
+                Directory.Delete(UserTempDirectory, true);
+                return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
+            }
+        }
 
         public ActionResult GetProject(int? ProjectID)
-         {
-             if(ProjectID.HasValue)
-             {
-             
+        {
+            if (ProjectID.HasValue)
+            {
+
                 var ProjectCool = PService.GetProjectFromID(ProjectID).ReadMe.Location;
-                 return Json(ProjectCool, JsonRequestBehavior.AllowGet);
-                 
-             }
-             return Json("", JsonRequestBehavior.AllowGet);
-         }
- 
-      }
+                return Json(ProjectCool, JsonRequestBehavior.AllowGet);
+
+            }
+            return Json("", JsonRequestBehavior.AllowGet);
+        }
 
     }
+}
