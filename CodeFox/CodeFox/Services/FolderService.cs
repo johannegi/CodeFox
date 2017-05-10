@@ -58,5 +58,37 @@ namespace CodeFox.Services
             DB.Folders.Remove(ToDelete);
             DB.SaveChanges();
         }
+
+        public Folder ChangeFolderName(int ProjectID, int FolderID, string NewName)
+        {
+            Folder ToRename = DB.Folders.Find(FolderID);
+            ToRename.DateModified = DateTime.Now;
+            ToRename.Name = NewName;
+
+            Project TheProject = DB.Projects.Find(ProjectID);
+            TheProject.DateModified = DateTime.Now;
+
+            DB.SaveChanges();
+            return ToRename;
+        }
+
+        public void CreateTempProjectFolders(int? ProjectID, string ProjectPath)
+        {
+            var AllFolders = DB.Folders.Where(x => x.ProjectStructure.ID == ProjectID).ToList();
+            foreach(Folder Fold in AllFolders)
+            {
+                System.IO.Directory.CreateDirectory(ProjectPath + GetFolderPath(Fold));
+            }
+        }
+
+        //Creates path from specific folder to the root of project recursively
+        public string GetFolderPath(Folder Folder)
+        {
+            if (Folder == null)
+            {
+                return "/";
+            }
+            return GetFolderPath(Folder.FolderStructure) + "/" + Folder.Name;
+        }
     }
 }

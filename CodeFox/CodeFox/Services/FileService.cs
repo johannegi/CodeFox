@@ -194,6 +194,5 @@ namespace CodeFox.Services
             DB.Files.Remove(ToDelete);
             DB.SaveChanges();
         }
-
     }
 }
