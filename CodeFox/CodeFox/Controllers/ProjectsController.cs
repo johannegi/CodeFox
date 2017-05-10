@@ -67,7 +67,7 @@ namespace CodeFox.Controllers
             PService.DeleteProject(Model.ID);
             return RedirectToAction("Index");
         }
-        private ApplicationDbContext db = new ApplicationDbContext();
+        //private ApplicationDbContext db = new ApplicationDbContext();
 
         public FileResult Export(int? ID)
         {
