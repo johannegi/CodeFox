@@ -111,6 +111,11 @@ namespace CodeFox.Controllers
             return Json(FService.ChangeFileName(ProjectID, FileID, NewName), JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult ChangeFolderName(int ProjectID, int FolderID, string NewName)
+        {
+            return Json(FoService.ChangeFolderName(ProjectID, FolderID, NewName), JsonRequestBehavior.AllowGet);
+        }
+
         [HttpPost]
         public void DeleteFile(int FileID)
         {

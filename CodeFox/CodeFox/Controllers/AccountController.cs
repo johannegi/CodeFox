@@ -146,8 +146,7 @@ namespace CodeFox.Controllers
         public ActionResult Register()
         {
             RegisterViewModel Model = new RegisterViewModel();
-            Model.CountryList = UService.GetCountryList();
-            //Model.Country = "Iceland";
+            Model.CountryList = UService.GetCountryList(); 
             return View(Model);
         }
 
@@ -157,8 +156,7 @@ namespace CodeFox.Controllers
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
-        {
-            //model.CountryList = UService.GetCountryList();
+        {            
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser { UserName = model.UserName, Email = model.Email };
@@ -183,7 +181,7 @@ namespace CodeFox.Controllers
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
                     db.UsersInfo.Add(newUser);
                     db.SaveChanges();
-                    return Json(result, JsonRequestBehavior.AllowGet);
+                    return Json("success", JsonRequestBehavior.AllowGet);
                 }
                 AddErrors(result);
                 return Json(result, JsonRequestBehavior.AllowGet);
