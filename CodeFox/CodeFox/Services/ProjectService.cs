@@ -63,7 +63,7 @@ namespace CodeFox.Services
             projectView.Files = new List<File>();
             projectView.SharedWith = new List<UserInfo>();
 
-                projectView.Name = CurrProject.Name;
+            projectView.Name = CurrProject.Name;
             projectView.Owner = CurrProject.Owner;
             projectView.ReadMe = CurrProject.ReadMe;
             projectView.Type = CurrProject.Type;
@@ -92,6 +92,7 @@ namespace CodeFox.Services
                 }
             }
 
+            projectView.Folders = DB.Folders.Where(x => x.ProjectStructure.ID == CurrProject.ID).ToList();
 
             return projectView;
         }
@@ -246,7 +247,7 @@ namespace CodeFox.Services
             DB.SaveChanges();
             
         }
-        public void ExportProject(int? ProjectID, string Path)
+        public void ExportProjectToTemp(int? ProjectID, string Path)
         {
             Project TheProject = GetProjectFromID(ProjectID); //Get project to get ReadMe later
             var FileProject = DB.FilesInProjects.Where(x => x.FileProject.ID == ProjectID).ToList();
@@ -260,27 +261,21 @@ namespace CodeFox.Services
             foreach(File file in AllFiles)
             {
                 string text = file.Location;
-                //string mydocpath = System.Web.HttpContext.Current.Server.MapPath("~/Content/ExportTemp/");
-                using (System.IO.StreamWriter outputFile = new System.IO.StreamWriter(Path + @"\" + file.Name + "." + file.Type))
+                string FilePath = Path + GetFilePath(file.FolderStructure);
+                System.IO.Directory.CreateDirectory(FilePath);
+                using (System.IO.StreamWriter outputFile = new System.IO.StreamWriter(FilePath  +  @"\" + file.Name + "." + file.Type))
                 {
                     outputFile.WriteLine(text);
                 }
             }
         }
-        public void ClearTemp(string Path)
+        public string GetFilePath(Folder Folder)
         {
-            System.IO.DirectoryInfo di = new System.IO.DirectoryInfo(Path);
-
-                foreach (System.IO.FileInfo file in di.GetFiles())
-                {
-                    file.Delete();
-                }
-                foreach (System.IO.DirectoryInfo dir in di.GetDirectories())
-                {
-                    dir.Delete(true);
-                }
-            di.Delete();
+            if(Folder == null)
+            {
+                return "/";
+            }
+            return GetFilePath(Folder.FolderStructure) + "/" + Folder.Name;
         }
-
     }
 }

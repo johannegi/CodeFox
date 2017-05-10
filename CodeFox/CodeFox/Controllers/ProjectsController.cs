@@ -68,23 +68,28 @@ namespace CodeFox.Controllers
             return RedirectToAction("Index");
         }
         private ApplicationDbContext db = new ApplicationDbContext();
+
         public FileResult Export(int? ID)
         {
+            if (!PService.CanUserOpenProject(ID, User.Identity.Name))
+            {
+                throw new Exception();
+            }
             string UserTempDirectory = Server.MapPath("~/Content/UsersTemp/") + User.Identity.Name;
             string UserProjectDirectory = UserTempDirectory + "/Project";
             string UserZipDirectory = UserTempDirectory + "/ZipTemp";
-            Directory.CreateDirectory(UserProjectDirectory);
+            //Directory.CreateDirectory(UserProjectDirectory);
             Directory.CreateDirectory(UserZipDirectory);
             string fileName = PService.GetProjectFromID(ID).Name + ".zip";
 
-            PService.ExportProject(ID, UserProjectDirectory);
+            PService.ExportProjectToTemp(ID, UserProjectDirectory);
 
             using (ZipFile zip = new ZipFile())
             {
-                zip.AddDirectory(UserTempDirectory + "/Project");
+                zip.AddDirectory(UserProjectDirectory);
                 zip.Save(UserZipDirectory + "/tempProject.zip");
                 byte[] fileBytes = System.IO.File.ReadAllBytes(UserZipDirectory + "/tempProject.zip");
-                PService.ClearTemp(UserTempDirectory);
+                Directory.Delete(UserTempDirectory, true);
                 return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
             }
         }
