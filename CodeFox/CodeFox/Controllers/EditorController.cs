@@ -131,9 +131,9 @@ namespace CodeFox.Controllers
         }
 
         [HttpPost]
-      public ActionResult Autocomplete(string term)
+        public ActionResult Autocomplete(string term)
         {
-          var AllUsers = UService.GetAllUsers(User.Identity.GetUserName());
+            var AllUsers = UService.GetAllUsers(User.Identity.GetUserName());
 
             if(term == "")
             {
@@ -143,13 +143,13 @@ namespace CodeFox.Controllers
             if (term != null)
             {
                 var PossibleOutComes = AllUsers.Where(s => s.Username.ToLower().StartsWith
-                                     (term.ToLower())).Select(w => w).ToList();
+                                        (term.ToLower())).Select(w => w).ToList();
 
                 if (PossibleOutComes == null)
                 {
                     return Json("", JsonRequestBehavior.AllowGet);
                 }
-               return Json(PossibleOutComes, JsonRequestBehavior.AllowGet);
+                return Json(PossibleOutComes, JsonRequestBehavior.AllowGet);
             }
             return Json("", JsonRequestBehavior.AllowGet);
         }
