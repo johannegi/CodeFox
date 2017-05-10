@@ -39,16 +39,30 @@
                             </div>
                         </div>
                     </div>
-
-                        <div class="modal" id="@item.ID Editor">
+                        <div class="modal" id="@item.ID">
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                                         <h4 class="modal-title">Details</h4>
                                     </div>
-                                    <div class="modal-body">
-                                        <textarea id="ModalText_@item.ID"></textarea>
+                                    <div class="modal-body" id="ModalText_@item.ID editor">
+                                        <div class="container">
+                                            <div class="panel panel-default">
+                                                <div class="panel-heading">
+                                                    <h3 class="panel-title">Editor</h3>
+                                                </div>
+                                                <div class="panel-body">
+                                                    <div id="editor">
+                                                        function foo(items) {
+                                                        var x = "All this is syntax highlighted";
+                                                        return x;
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="text-center">---End of editor---</div>
+                                        </div>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -149,3 +163,67 @@ $('.SelectDropDown').on('click', function (e) {
 
     
 </script>
+
+<script src="ace.js" type="text/javascript" charset="utf-8"></script>
+<script src="theme-twilight.js" type="text/javascript" charset="utf-8"></script>
+<script src="mode-xml.js" type="text/javascript" charset="utf-8"></script>
+<script>
+window.onload = function() {
+    var editor = ace.edit("editor");
+    editor.setTheme("ace/theme/twilight");
+    var XmlMode = require("ace/mode/xml").Mode;
+    editor.getSession().setMode(new XmlMode());
+
+    var editor2 = ace.edit("editor2");
+    editor2.setTheme("ace/theme/twilight");
+    editor2.getSession().setMode(new XmlMode());
+
+};
+</script>
+    <script src="@Url.Content("~/Scripts/AceEditor/ace.js")" type="text/javascript" charset="utf-8"> </script>
+    <script src="@Url.Content("~/Scripts/AceEditor/ext-modelist.js")" type="text/javascript" charset="utf-8"></script>
+    <script>
+                var Editor = ace.edit("Editor");
+                Editor.setTheme("ace/theme/twilight");
+                Editor.session.setMode("ace/mode/Text");
+                Editor.$blockScrolling = Infinity;
+
+                var TypingTimer;                //timer identifier
+                var DoneTypingInterval = 500;  //time in ms, 5 second for example
+
+                //on keyup, start the countdown
+                $('#Editor').on("keyup", function () {
+                    if (TypingTimer) clearTimeout(TypingTimer);                 // Clear if already set
+                    TypingTimer = setTimeout(DoneTyping, DoneTypingInterval);
+                });
+
+                //on keydown, clear the countdown
+                $('#Editor').on("keydown", function () {
+                    clearTimeout(TypingTimer);
+                    var Selected = $('#tree').jstree(true).get_selected('full', true)
+                    Selected = Selected[0]
+                    if (Selected.type == 'file')
+                    {
+                        $('#EditorInfo').text('File will save when you stop editing');
+                    }
+                });
+
+                //user is "finished typing," do something
+                function DoneTyping()
+                {
+                    var Selected = $('#tree').jstree(true).get_selected('full', true)
+                    Selected = Selected[0]
+                    var NewText = String(ace.edit("Editor").session.getValue());
+                    if (Selected.type == 'file')
+                    {
+                        $.ajax({
+                            url: '/Editor/SaveFile/',
+                            data:{ 'ProjectID': Number(@Model.ID), 'FileID': Number(Selected.id), 'NewText': NewText},
+                            method: 'POST',
+                            success: function (ReturnData) {
+                                $('#EditorInfo').text('File saved');
+                            }
+                        });
+                    }
+                }
+    </script>
