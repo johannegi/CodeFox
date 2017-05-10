@@ -63,6 +63,31 @@ namespace CodeFox.Services
             return Default;
         }
 
+        public List<File> CreateWebApplication()
+        {
+            File CssFile = new File();
+            CssFile.Name = "Index";
+            CssFile.Type = "css";
+            CssFile.Location = "//This is the default CSS file";
+            CssFile.FolderStructure = null;
+            CssFile.DateCreated = DateTime.Now;
+            CssFile.DateModified = DateTime.Now;
+
+            File JsFile = new File();
+            JsFile.Name = "Index";
+            JsFile.Type = "js";
+            JsFile.Location = "//This is the default JavaScript file";
+            JsFile.FolderStructure = null;
+            JsFile.DateCreated = DateTime.Now;
+            JsFile.DateModified = DateTime.Now;
+
+            List<File> Files = new List<File>();
+            Files.Add(CssFile);
+            Files.Add(JsFile);
+
+            return Files;
+        } 
+
         //Checka a USERNAME
         public bool AddFile(AddFilesViewModel Model)
         {

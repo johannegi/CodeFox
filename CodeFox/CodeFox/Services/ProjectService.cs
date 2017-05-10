@@ -134,6 +134,21 @@ namespace CodeFox.Services
             NewProject.DateCreated = DateTime.Now;
             NewProject.DateModified = DateTime.Now;
 
+            if(NewProject.Type == "Web Application")
+            {
+                var Files = FService.CreateWebApplication();
+                FileInProject FIProjectCSS = new FileInProject();
+                FIProjectCSS.FileProject = NewProject;
+                FIProjectCSS.ProjectFile = Files[0];
+
+                FileInProject FIProjectJS = new FileInProject();
+                FIProjectJS.FileProject = NewProject;
+                FIProjectJS.ProjectFile = Files[1];
+
+                DB.FilesInProjects.Add(FIProjectCSS);
+                DB.FilesInProjects.Add(FIProjectJS);
+            }
+
             // þarf að vera DB.SaveChanges tvisvar?
             DB.Projects.Add(NewProject);
             DB.SaveChanges();
