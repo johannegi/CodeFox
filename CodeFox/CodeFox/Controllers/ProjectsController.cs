@@ -86,7 +86,7 @@ namespace CodeFox.Controllers
 
             using (ZipFile zip = new ZipFile())
             {
-                zip.AddDirectory(UserTempDirectory + "/Project");
+                zip.AddDirectory(UserProjectDirectory);
                 zip.Save(UserZipDirectory + "/tempProject.zip");
                 byte[] fileBytes = System.IO.File.ReadAllBytes(UserZipDirectory + "/tempProject.zip");
                 Directory.Delete(UserTempDirectory, true);
