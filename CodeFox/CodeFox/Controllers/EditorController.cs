@@ -17,6 +17,7 @@ namespace CodeFox.Controllers
     {
         private ProjectService Pservice = new ProjectService();
         private FileService FService = new FileService();
+        private FolderService FoService = new FolderService();
         private UserService UService = new UserService();
 
         // GET: Editor
@@ -44,7 +45,7 @@ namespace CodeFox.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
+       // [ValidateAntiForgeryToken]
         public ActionResult AddFiles(AddFilesViewModel Model)
         {
             if (!Pservice.CanUserOpenProject(Model.ProjectID, User.Identity.Name))
@@ -54,7 +55,45 @@ namespace CodeFox.Controllers
             if (ModelState.IsValid)
             {
                 
-                FService.AddFile(Model);
+                if(!FService.AddFile(Model))
+                {
+                    return Json("Hello", JsonRequestBehavior.AllowGet);
+                }
+                return RedirectToAction("Index", "Editor", new { id = Model.ProjectID });
+            }
+            return View();
+        }
+
+        [HttpPost]
+        public void MoveFile(int ProjectID, int FileID, int? NewFolderID)
+        {
+            FService.MoveFile(ProjectID, FileID, NewFolderID);
+        }
+
+        [HttpPost]
+        public void MoveFolder(int ProjectID, int FolderID, int? NewFolderID)
+        {
+            FoService.MoveFolder(ProjectID, FolderID, NewFolderID);
+        }
+
+        public ActionResult AddFolder(int id)
+        {
+            AddFolderViewModel Model = new AddFolderViewModel();
+            Model.ProjectID = id;
+            return View(Model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddFolder(AddFolderViewModel Model)
+        {
+            if (!Pservice.CanUserOpenProject(Model.ProjectID, User.Identity.Name))
+            {
+                return RedirectToAction("Index", "Projects");
+            }
+            if (ModelState.IsValid)
+            {
+                FoService.AddFolder(Model);
                 return RedirectToAction("Index", new { id = Model.ProjectID });
             }
             return View();
@@ -76,6 +115,12 @@ namespace CodeFox.Controllers
         public void DeleteFile(int FileID)
         {
             FService.DeleteFile(FileID);
+        }
+
+        [HttpPost]
+        public void DeleteFolder(int FolderID)
+        {
+            FoService.DeleteFolder(FolderID);
         }
 
         [HttpPost]
@@ -128,9 +173,9 @@ namespace CodeFox.Controllers
         }
 
         [HttpPost]
-      public ActionResult Autocomplete(string term)
+        public ActionResult Autocomplete(string term)
         {
-          var AllUsers = UService.GetAllUsers(User.Identity.GetUserName());
+            var AllUsers = UService.GetAllUsers(User.Identity.GetUserName());
 
             if(term == "")
             {
@@ -140,13 +185,13 @@ namespace CodeFox.Controllers
             if (term != null)
             {
                 var PossibleOutComes = AllUsers.Where(s => s.Username.ToLower().StartsWith
-                                     (term.ToLower())).Select(w => w).ToList();
+                                        (term.ToLower())).Select(w => w).ToList();
 
                 if (PossibleOutComes == null)
                 {
                     return Json("", JsonRequestBehavior.AllowGet);
                 }
-               return Json(PossibleOutComes, JsonRequestBehavior.AllowGet);
+                return Json(PossibleOutComes, JsonRequestBehavior.AllowGet);
             }
             return Json("", JsonRequestBehavior.AllowGet);
         }

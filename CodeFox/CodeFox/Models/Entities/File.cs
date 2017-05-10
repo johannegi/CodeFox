@@ -14,7 +14,7 @@ namespace CodeFox.Models.Entities
 
         [AllowHtml]
         public string Location { get; set; }
-        public Folder FolderStructure { get; set; }
+        public virtual Folder FolderStructure { get; set; }
         public DateTime DateCreated { get; set; }
         public DateTime DateModified { get; set; }
     }

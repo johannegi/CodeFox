@@ -340,6 +340,14 @@ div.NavBar
     width: 183px;
 }
 
+.HelloUser
+{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 200px;
+}
+
 
 /**********************************************************************************/
 
@@ -434,4 +442,22 @@ td.ShareUsername
 .Circle
 {
     color: #5bc0de;
+}
+
+/***************************************/
+/*Register Page*/
+
+#DuplicateUsernameError 
+{
+<<<<<<< HEAD
+    marsgin-bottom: -10px;
+=======
+    margin-bottom: -10px;
+}
+
+.TheTree
+{
+    width: 200px;
+    overflow: auto;
+>>>>>>> 301c1f2079eee97941df580e2f964f52e5dfd28e
 }

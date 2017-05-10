@@ -14,6 +14,7 @@ namespace CodeFox.Models.ViewModels
         public UserInfo Owner { get; set; }
         public File ReadMe { get; set; }
         public List<File> Files { get; set; }
+        public List<Folder> Folders { get; set; }
         public List<UserInfo> SharedWith { get; set; }
         public File CurrentOpenFile { get; set; }
         public int FileToOpenID { get; set; }

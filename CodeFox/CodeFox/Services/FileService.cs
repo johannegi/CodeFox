@@ -3,6 +3,7 @@ using CodeFox.Models.Entities;
 using CodeFox.Models.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 
@@ -32,6 +33,7 @@ namespace CodeFox.Services
             if(Type == "Web Application")
             {
                 Default.Type = "html";
+                // Default.Location = "<!--This is the default file for this project-->"??;
             }
             else if(Type == "C++")
             {
@@ -62,11 +64,41 @@ namespace CodeFox.Services
             return Default;
         }
 
-        //Checka a USERNAME
-        public void AddFile(AddFilesViewModel Model)
+        public List<File> CreateWebApplication()
         {
-           // UserInfo Owner = DB.UsersInfo.Where(x => x.Username == Username).SingleOrDefault();
+            File CssFile = new File();
+            CssFile.Name = "Index";
+            CssFile.Type = "css";
+            CssFile.Location = "//This is the default CSS file";
+            CssFile.FolderStructure = null;
+            CssFile.DateCreated = DateTime.Now;
+            CssFile.DateModified = DateTime.Now;
 
+            File JsFile = new File();
+            JsFile.Name = "Index";
+            JsFile.Type = "js";
+            JsFile.Location = "//This is the default JavaScript file";
+            JsFile.FolderStructure = null;
+            JsFile.DateCreated = DateTime.Now;
+            JsFile.DateModified = DateTime.Now;
+
+            List<File> Files = new List<File>();
+            Files.Add(CssFile);
+            Files.Add(JsFile);
+
+            return Files;
+        } 
+
+        //Checka a USERNAME
+        public bool AddFile(AddFilesViewModel Model)
+        {
+            // UserInfo Owner = DB.UsersInfo.Where(x => x.Username == Username).SingleOrDefault();
+            var FileWithSameName = DB.FilesInProjects.Where(x => x.ProjectFile.Name == Model.Name && 
+                                                  x.FileProject.ID == Model.ProjectID).FirstOrDefault();
+            if(FileWithSameName != null)
+            {
+                return false;
+            }
             //Make the file
             File NewFile = new File();
             NewFile.Name = Model.Name;
@@ -85,6 +117,7 @@ namespace CodeFox.Services
             DB.Files.Add(NewFile);
             DB.FilesInProjects.Add(NewConnection);
             DB.SaveChanges();
+            return true;
         }
 
         public void SaveFile(int ProjectID, int FileID, string NewText)
@@ -95,6 +128,27 @@ namespace CodeFox.Services
 
             Project TheProject = DB.Projects.Find(ProjectID);
             TheProject.DateModified = DateTime.Now;
+            DB.SaveChanges();
+        }
+
+        public void MoveFile(int ProjectID, int FileID, int? NewFolderID)
+        {
+            File FileMove = DB.Files.Find(FileID);
+            Project TheProject = DB.Projects.Find(ProjectID);
+            if (NewFolderID == null)
+            {
+                var ForceLoad = FileMove.FolderStructure;
+                FileMove.FolderStructure = null;
+            }
+            else
+            {
+                Folder NewFolder = DB.Folders.Find(NewFolderID);
+                NewFolder.DateModified = DateTime.Now;
+                FileMove.FolderStructure = NewFolder;
+            }
+            FileMove.DateModified = DateTime.Now;
+            TheProject.DateModified = DateTime.Now;
+
             DB.SaveChanges();
         }
 
