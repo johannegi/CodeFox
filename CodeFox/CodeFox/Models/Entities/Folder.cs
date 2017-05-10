@@ -9,8 +9,8 @@ namespace CodeFox.Models.Entities
     {
         public int ID { get; set; }
         public string Name { get; set; }
-        public Project ProjectStructure { get; set; }
-        public Folder FolderStructure { get; set; }
+        public virtual Project ProjectStructure { get; set; }
+        public virtual Folder FolderStructure { get; set; }
         public DateTime DateCreated { get; set; }
         public DateTime DateModified { get; set; }
     }

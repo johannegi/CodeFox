@@ -3,6 +3,7 @@ using CodeFox.Models.Entities;
 using CodeFox.Models.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 
@@ -95,6 +96,27 @@ namespace CodeFox.Services
 
             Project TheProject = DB.Projects.Find(ProjectID);
             TheProject.DateModified = DateTime.Now;
+            DB.SaveChanges();
+        }
+
+        public void MoveFile(int ProjectID, int FileID, int? NewFolderID)
+        {
+            File FileMove = DB.Files.Find(FileID);
+            Project TheProject = DB.Projects.Find(ProjectID);
+            if (NewFolderID == null)
+            {
+                var ForceLoad = FileMove.FolderStructure;
+                FileMove.FolderStructure = null;
+            }
+            else
+            {
+                Folder NewFolder = DB.Folders.Find(NewFolderID);
+                NewFolder.DateModified = DateTime.Now;
+                FileMove.FolderStructure = NewFolder;
+            }
+            FileMove.DateModified = DateTime.Now;
+            TheProject.DateModified = DateTime.Now;
+
             DB.SaveChanges();
         }
 

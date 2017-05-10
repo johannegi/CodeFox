@@ -214,6 +214,7 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\ViewModels\AddFilesViewModel.cs" />
+    <Compile Include="Models\ViewModels\AddFolderViewModel.cs" />
     <Compile Include="Models\ViewModels\CreateProjectViewModel.cs" />
     <Compile Include="Models\ViewModels\EditorViewModel.cs" />
     <Compile Include="Models\ViewModels\ProjectsViewModel.cs" />
@@ -305,6 +306,7 @@
     <Content Include="Views\Shared\_EditorView.cshtml" />
     <Content Include="Views\Projects\Delete.cshtml" />
     <Content Include="Views\Editor\AddFiles.cshtml" />
+    <Content Include="Views\Editor\AddFolder.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

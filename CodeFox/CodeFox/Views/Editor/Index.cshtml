@@ -10,8 +10,8 @@
     <!-- Nav bar where SAVE EXPORT SHARE ADD FILE CLOSE AND DELETE PROJECT WILL BE-->
     @Html.ActionLink("Export", "Share", "Editor", new { @class = "btn btn-info" })
     @Html.ActionLink("Share with your foxes!", "Share", "Editor", new { id = Model.ID }, new { @class = "btn btn-info" })
-    @Html.ActionLink("Add files", "AddFiles", "Editor", new { id = Model.ID },  new { @class = "btn btn-info" })
-    <button href="#my_modal" class="btn btn-info" data-toggle="modal" data-target="#myModal">Add folder</button>
+    @Html.ActionLink("Add file", "AddFiles", "Editor", new { id = Model.ID }, new { @class = "btn btn-info" })
+    @Html.ActionLink("Add Folder", "AddFolder", "Editor", new { id = Model.ID }, new { @class = "btn btn-info" })
     @Html.ActionLink("Close", "Index", "Projects", new { area = "" }, new { @class = "btn btn-info" })
 </div>
 @if (User.Identity.Name == Model.Owner.Username)
@@ -19,7 +19,7 @@
     <div class="EditorButtons"> @Html.ActionLink("Delete project", "Delete", "Projects", new { id = Model.ID }, new { @class = "btn btn-danger DeleteButton" })</div>
 }
 
-<div class="EditorArea">   
+<div class="EditorArea">
 
     <div>
         <!-- Nav bar where SAVE EXPORT SHARE ADD FILE CLOSE AND DELETE PROJECT WILL BE-->
@@ -32,236 +32,297 @@
             </div>
             <div id="tree" class="col-lg-2"></div>
             <div class="panel-body">
-             
+
                 <pre id="Editor">@Model.CurrentOpenFile.Location</pre>
             </div>
         </div>
         <div class="text-center">---Possibly add who shared with, or when last change was made---</div>
     </div>
 
-    <div class="container">
-        <!-- Modal -->
-        <div class="modal fade" id="myModal" role="dialog">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Modal Header</h4>
-                    </div>
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label for="usr">Name:</label>
-                            <input type="text" class="form-control" id="usr">
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Confirm</button>
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
     @section scripts{
-    <script src="@Url.Content("~/Scripts/AceEditor/ace.js")" type="text/javascript" charset="utf-8"> </script>
-    <script src="@Url.Content("~/Scripts/AceEditor/ext-modelist.js")" type="text/javascript" charset="utf-8"></script>
-    <script>
-                var Editor = ace.edit("Editor");
-                Editor.setTheme("ace/theme/twilight");
-                Editor.session.setMode("ace/mode/Text");
-                Editor.$blockScrolling = Infinity;
+        <script src="@Url.Content("~/Scripts/AceEditor/ace.js")" type="text/javascript" charset="utf-8"> </script>
+        <script src="@Url.Content("~/Scripts/AceEditor/ext-modelist.js")" type="text/javascript" charset="utf-8"></script>
+        <script>
+            var Editor = ace.edit("Editor");
+            Editor.setTheme("ace/theme/twilight");
+            Editor.session.setMode("ace/mode/Text");
+            Editor.$blockScrolling = Infinity;
 
-                var TypingTimer;                //timer identifier
-                var DoneTypingInterval = 500;  //time in ms, 5 second for example
+            var TypingTimer;                //timer identifier
+            var DoneTypingInterval = 500;  //time in ms, 5 second for example
 
-                //on keyup, start the countdown
-                $('#Editor').on("keyup", function () {
-                    if (TypingTimer) clearTimeout(TypingTimer);                 // Clear if already set     
-                    TypingTimer = setTimeout(DoneTyping, DoneTypingInterval);
-                });
+            //on keyup, start the countdown
+            $('#Editor').on("keyup", function () {
+                if (TypingTimer) clearTimeout(TypingTimer);                 // Clear if already set
+                TypingTimer = setTimeout(DoneTyping, DoneTypingInterval);
+            });
 
-                //on keydown, clear the countdown 
-                $('#Editor').on("keydown", function () {
-                    clearTimeout(TypingTimer);
-                    var Selected = $('#tree').jstree(true).get_selected('full', true)
-                    Selected = Selected[0]
-                    if (Selected.type == 'file')
-                    {
-                        $('#EditorInfo').text('File will save when you stop editing');
-                    } 
-                });
-
-                //user is "finished typing," do something
-                function DoneTyping()
-                {
-                    var Selected = $('#tree').jstree(true).get_selected('full', true)
-                    Selected = Selected[0]
-                    var NewText = String(ace.edit("Editor").session.getValue());
-                    if (Selected.type == 'file')
-                    {
-                        $.ajax({
-                            url: '/Editor/SaveFile/',
-                            data:{ 'ProjectID': Number(@Model.ID), 'FileID': Number(Selected.id), 'NewText': NewText},
-                            method: 'POST',
-                            success: function (ReturnData) {
-                                $('#EditorInfo').text('File saved');
-                            }
-                        });
-                    } 
-                }
-    </script>
-    <script src="@Url.Content("~/Scripts/JsTree/jstree.min.js")" type="text/javascript"></script>
-    <script>
-        $('#tree').jstree({
-            "core": {
-                "animation": 0,
-                "check_callback": true,
-                "data": [
-                { "id": "1", "parent": "#", "text": "@Model.Name" },
-                { "id": "@Model.ReadMe.ID", "parent": "1", "text": "@Model.ReadMe.Name.@Model.ReadMe.Type", "type": "file" },
-                @foreach (var Item in Model.Files)
-                {
-                    <text>
-                        { "id": "@Item.ID", "parent": "1", "text": "@Item.Name.@Item.Type", "type": "file" },
-                    </text>
-                }
-                ]
-            },
-            "types": {
-                "#": {
-                    //"max_children": 1,
-                    //"max_depth": 4,
-                    "valid_children": ["root"]
-                },
-                /*"root": {
-                    "icon": "/static/3.1.1/assets/images/tree_icon.png",
-                    "valid_children": ["default"]
-                },*/
-                "default": {
-                    "valid_children": ["default", "file"]
-                },
-                "file": {
-                    "icon": "glyphicon glyphicon-file",
-                    "valid_children": []
-                }
-            },
-            "plugins": ["contextmenu", "dnd", "types"],
-            "contextmenu": {
-                "items": function ($node) {
-                    return {
-                        "Rename": {
-                            "separator_before": false,
-                            "separator_after": false,
-                            "label": "Rename",
-                            "action": function (obj) {
-                                var NewName = prompt("Please enter new filename", "");
-                                if (NewName != null || NewName != "")
-                                {
-                                    $.ajax({
-                                        url: '/Editor/ChangeFileName/',
-                                        data: { 'ProjectID': Number(@Model.ID), 'FileID': Number($node.id), 'NewName': NewName },
-                                        method: 'POST',
-                                        success: function (ReturnData)
-                                        {
-                                            $('#EditorInfo').text($node.text + ' Renamed to ' + ReturnData.Name + '.' + ReturnData.Type);
-                                            $("#tree").jstree('set_text', $node, (ReturnData.Name + '.' + ReturnData.Type));
-                                            ace.edit("Editor").setValue(ReturnData.Location);
-                                            var Modelist = ace.require("ace/ext/modelist")
-                                            var FilePath = ReturnData.Name + '.' + ReturnData.Type;
-                                            var Mode = Modelist.getModeForPath(FilePath).mode;
-                                            ace.edit("Editor").session.setMode(Mode);
-                                        }
-                                    });
-
-                                }
-                            }
-                        },
-                        "Remove": {
-                            "separator_before": false,
-                            "separator_after": false,
-                            "label": "Remove",
-                            "action": function (obj) {
-                                if (confirm("Are you sure you want to delete " + $node.text) == true)
-                                {
-                                    if ($node.type == 'file')
-                                    {
-                                        $.ajax({
-                                            url: '/Editor/DeleteFile/',
-                                            data: {'FileID': Number($node.id) },
-                                            method: 'POST',
-                                            success: function (ReturnData) {
-                                                $('#EditorInfo').text($node.text + ' deleted');
-                                                $("#tree").jstree('delete_node', $node);
-                                            }
-                                        });
-                                    }
-                                }
-                            }
-                        }
-                    };
-                }
-            }
-
-        });
-
-        var Parent = 0;
-        var newParent = 0;
-        var Pos = 0;
-        var newPos = 0;
-
-
-        $("#tree").on("loaded.jstree", function () {
-
-            $('#tree').jstree(true).select_node('@Model.ReadMe.ID');
-            $("#tree").on("select_node.jstree", function (event, node) {
+            //on keydown, clear the countdown
+            $('#Editor').on("keydown", function () {
+                clearTimeout(TypingTimer);
                 var Selected = $('#tree').jstree(true).get_selected('full', true)
                 Selected = Selected[0]
+                if (Selected.type == 'file') {
+                    $('#EditorInfo').text('File will save when you stop editing');
+                }
+            });
 
-                if (Selected.type == 'file')
-                {
-                    ace.edit("Editor").setReadOnly(false);
+            //user is "finished typing," do something
+            function DoneTyping() {
+                var Selected = $('#tree').jstree(true).get_selected('full', true)
+                Selected = Selected[0]
+                var NewText = String(ace.edit("Editor").session.getValue());
+                if (Selected.type == 'file') {
                     $.ajax({
-                        url: '/Editor/OpenNewFile/',
-                        data: { 'FileID': Number(Selected.id) },
+                        url: '/Editor/SaveFile/',
+                        data: { 'ProjectID': Number(@Model.ID), 'FileID': Number(Selected.id), 'NewText': NewText },
                         method: 'POST',
                         success: function (ReturnData) {
-                            ace.edit("Editor").setValue(ReturnData.Location);
-                            var Modelist = ace.require("ace/ext/modelist")
-                            var FilePath = ReturnData.Name + '.' + ReturnData.Type;
-                            var Mode = Modelist.getModeForPath(FilePath).mode;
-                            ace.edit("Editor").session.setMode(Mode);
+                            $('#EditorInfo').text('File saved');
                         }
                     });
                 }
-                else
+            }
+        </script>
+        <script src="@Url.Content("~/Scripts/JsTree/jstree.min.js")" type="text/javascript"></script>
+        <script>
+            $('#tree').jstree({
+                "core": {
+                    "animation": 0,
+                    "check_callback": true,
+                    "data": [
+                    { "id": "Project", "parent": "#", "text": "@Model.Name", "type": "root" },
+                    @foreach (var Item in Model.Folders)
                 {
-                    ace.edit("Editor").setValue('');
-                    ace.edit("Editor").setReadOnly(true);
+                    dynamic Folder;
+                    if (Item.FolderStructure == null)
+                    {
+                        Folder = "Project";
+                    }
+                    else
+                    {
+                        Folder = Item.FolderStructure.ID;
+                    }
+                    <text>
+                            { "id": "@Item.ID", "parent": "@Folder", "text": "@Item.Name" },
+                        </text>
+                }
+                    { "id": "@Model.ReadMe.ID", "parent": "Project", "text": "@Model.ReadMe.Name.@Model.ReadMe.Type", "type": "ReadMe" },
+                    @foreach (var Item in Model.Files)
+                {
+                    dynamic Folder;
+                    if (Item.FolderStructure == null)
+                    {
+                        Folder = "Project";
+                    }
+                    else
+                    {
+                        Folder = Item.FolderStructure.ID;
+                    }
+                    <text>
+                            { "id": "@Item.ID", "parent": "@Folder", "text": "@Item.Name.@Item.Type", "type": "file" },
+                        </text>
+                }
+                    ]
+                },
+                "types": {
+                    "#": {
+                        //"max_children": 1,
+                        //"max_depth": 4,
+                        "valid_children": ["root"]
+                    },
+                    "root": {
+                        "icon": "@Url.Content("~/Content/JsTree/tree-icon.png")",
+                        "valid_children": ["default", "file", "ReadMe"]
+                    },
+                    "default": {
+                        "valid_children": ["default", "file"]
+                    },
+                    "file": {
+                        "icon": "glyphicon glyphicon-file",
+                        "valid_children": []
+                    }
+                    ,
+                    "ReadMe": {
+                        "icon": "glyphicon glyphicon-file",
+                        "valid_children": []
+                    }
+                },
+                "plugins": ["contextmenu", "dnd", "types"],
+                "contextmenu": {
+                    "items": function (Node) {
+                        return {
+                            "Rename": {
+                                "separator_before": false,
+                                "separator_after": false,
+                                "label": "Rename",
+                                "action": function (obj) {
+                                    var NewName = prompt("Please enter new filename", "");
+                                    if (NewName != null || NewName != "") {
+                                        $.ajax({
+                                            url: '/Editor/ChangeFileName/',
+                                            data: { 'ProjectID': Number(@Model.ID), 'FileID': Number(Node.id), 'NewName': NewName },
+                                            method: 'POST',
+                                            success: function (ReturnData) {
+                                                $('#EditorInfo').text(Node.text + ' Renamed to ' + ReturnData.Name + '.' + ReturnData.Type);
+                                                $("#tree").jstree('set_text', Node, (ReturnData.Name + '.' + ReturnData.Type));
+                                                ace.edit("Editor").setValue(ReturnData.Location);
+                                                var Modelist = ace.require("ace/ext/modelist")
+                                                var FilePath = ReturnData.Name + '.' + ReturnData.Type;
+                                                var Mode = Modelist.getModeForPath(FilePath).mode;
+                                                ace.edit("Editor").session.setMode(Mode);
+                                            }
+                                        });
+
+                                    }
+                                }
+                            },
+                            "Remove": {
+                                "separator_before": false,
+                                "separator_after": false,
+                                "label": "Remove",
+                                "action": function (obj) {
+
+                                    if (Node.id == Number(@Model.ReadMe.ID))
+                                    {
+                                        alert("You can't delete the read me file")
+                                    }
+                                    else if (Node.id == 'Project')
+                                    {
+                                        alert("You can't delete the project root")
+                                    }
+                                    else
+                                    {
+                                            if (Node.type == 'file' && confirm("Are you sure you want to delete " + Node.text + " ?") == true)
+                                            {
+                                                $.ajax({
+                                                    url: '/Editor/DeleteFile/',
+                                                    data: { 'FileID': Number(Node.id) },
+                                                    method: 'POST',
+                                                    success: function (ReturnData)
+                                                    {
+                                                        $('#EditorInfo').text(Node.text + ' deleted');
+                                                        $("#tree").jstree('delete_node', Node);
+                                                    }
+                                                });
+                                            }
+                                            else if (confirm("Are you sure you want to delete " + Node.text + " and every file inside it ?") == true)
+                                            {
+                                                $.ajax({
+                                                    url: '/Editor/DeleteFolder/',
+                                                    data: { 'FolderID': Number(Node.id) },
+                                                    method: 'POST',
+                                                    success: function (ReturnData)
+                                                    {
+                                                        $('#EditorInfo').text(Node.text + ' deleted');
+                                                        $("#tree").jstree('delete_node', Node);
+                                                    }
+                                                });
+                                            }
+                                    }
+                                }
+                            }
+                        };
+                    }
                 }
 
             });
-        });
 
-        $(document).on('dnd_start.vakata', function (event, data) {
-            sel = "li#" + data.data.nodes[0] + ".jstree-node";
-            Parent = $('#tree').jstree(true).get_node(data.data.nodes[0]).parent;
-            Pos = $(sel).index();
-        });
+            var Parent = 0;
+            var newParent = 0;
+            var Pos = 0;
+            var newPos = 0;
 
-        $(document).on('dnd_stop.vakata', function (event, data) {
-            node = data.data.origin.get_node(data.data.nodes[0]);
-            if (node.type == "root") {
-                return false;
-            }
-            $('#tree').jstree(true).move_node(node, Parent, Pos);
+            $("#tree").on("loaded.jstree", function () {
 
-            sel = "li#" + data.data.nodes[0] + ".jstree-node";
-            newPos = $(sel).index();
-            newParent = node.parent;
-        });
-    </script>
-        
+                $('#tree').jstree(true).select_node('@Model.ReadMe.ID');
+                $("#tree").on("select_node.jstree", function (event, node) {
+                    var Selected = $('#tree').jstree(true).get_selected('full', true)
+                    Selected = Selected[0]
+
+                    if (Selected.type == 'file') {
+                        ace.edit("Editor").setReadOnly(false);
+                        $.ajax({
+                            url: '/Editor/OpenNewFile/',
+                            data: { 'FileID': Number(Selected.id) },
+                            method: 'POST',
+                            success: function (ReturnData) {
+                                ace.edit("Editor").setValue(ReturnData.Location);
+                                var Modelist = ace.require("ace/ext/modelist")
+                                var FilePath = ReturnData.Name + '.' + ReturnData.Type;
+                                var Mode = Modelist.getModeForPath(FilePath).mode;
+                                ace.edit("Editor").session.setMode(Mode);
+                            }
+                        });
+                    }
+                    else {
+                        ace.edit("Editor").setValue('');
+                        ace.edit("Editor").setReadOnly(true);
+                    }
+
+                });
+                $("#tree").bind('move_node.jstree', function (Event, Data) {
+                    if (Data.parent != Data.old_parent)
+                    {
+                        if (Data.node.type == 'file')
+                        {
+                            var NewFolder = null;
+                            if (Data.parent != 'Project') {
+                                NewFolder = Number(Data.parent)
+                            }
+                            $.ajax(
+                            {
+                                url: '/Editor/MoveFile/',
+                                data: { 'ProjectID': Number(@Model.ID), 'FileID': Number(Data.node.id), 'NewFolderID': NewFolder },
+                                method: 'POST',
+                                success: function ()
+                                {
+                                    var NewParent = $('#tree').jstree(true).get_node(Data.parent)
+                                    $('#EditorInfo').text(Data.node.text + ' Moved to folder ' + NewParent.text);
+                                }
+                            });
+                        }
+                        else if(Data.node.type != 'ReadMe')
+                        {
+                            var NewFolder = null;
+                            if (Data.parent != 'Project') {
+                                NewFolder = Number(Data.parent)
+                            }
+                            $.ajax(
+                            {
+                                url: '/Editor/MoveFolder/',
+                                data: { 'ProjectID': Number(@Model.ID), 'FolderID': Number(Data.node.id), 'NewFolderID': NewFolder },
+                                method: 'POST',
+                                success: function ()
+                                {
+                                    var NewParent = $('#tree').jstree(true).get_node(Data.parent)
+                                    $('#EditorInfo').text(Data.node.text + ' Moved to folder ' + NewParent.text);
+                                }
+                            });
+                        }
+                    }
+                });
+            });
+
+            $(document).on('dnd_start.vakata', function (event, data) {
+                Sel = "li#" + data.data.nodes[0] + ".jstree-node";
+                Parent = $('#tree').jstree(true).get_node(data.data.nodes[0]).parent;
+                Pos = $(Sel).index();
+            });
+
+            $(document).on('dnd_stop.vakata', function (event, data) {
+                node = data.data.origin.get_node(data.data.nodes[0]);
+                if (node.type == "root" || node.type == "ReadMe") {
+                    return false;
+                }
+
+                $('#tree').jstree(true).move_node(node, Parent, Pos);
+                console.log(node.text + ' ' + parent.text + ' ' + Pos)
+                sel = "li#" + data.data.nodes[0] + ".jstree-node";
+                newPos = $(sel).index();
+                newParent = node.parent;
+            });
+        </script>
+
     }
 </div>
-

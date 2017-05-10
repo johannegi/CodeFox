@@ -91,6 +91,7 @@ namespace CodeFox.Services
                 }
             }
 
+            projectView.Folders = DB.Folders.Where(x => x.ProjectStructure.ID == CurrProject.ID).ToList();
 
             return projectView;
         }

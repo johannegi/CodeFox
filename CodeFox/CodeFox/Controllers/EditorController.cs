@@ -17,6 +17,7 @@ namespace CodeFox.Controllers
     {
         private ProjectService Pservice = new ProjectService();
         private FileService FService = new FileService();
+        private FolderService FoService = new FolderService();
         private UserService UService = new UserService();
 
         // GET: Editor
@@ -60,6 +61,41 @@ namespace CodeFox.Controllers
             return View();
         }
 
+        [HttpPost]
+        public void MoveFile(int ProjectID, int FileID, int? NewFolderID)
+        {
+            FService.MoveFile(ProjectID, FileID, NewFolderID);
+        }
+
+        [HttpPost]
+        public void MoveFolder(int ProjectID, int FolderID, int? NewFolderID)
+        {
+            FoService.MoveFolder(ProjectID, FolderID, NewFolderID);
+        }
+
+        public ActionResult AddFolder(int id)
+        {
+            AddFolderViewModel Model = new AddFolderViewModel();
+            Model.ProjectID = id;
+            return View(Model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddFolder(AddFolderViewModel Model)
+        {
+            if (!Pservice.CanUserOpenProject(Model.ProjectID, User.Identity.Name))
+            {
+                return RedirectToAction("Index", "Projects");
+            }
+            if (ModelState.IsValid)
+            {
+                FoService.AddFolder(Model);
+                return RedirectToAction("Index", new { id = Model.ProjectID });
+            }
+            return View();
+        }
+
         [ValidateInput(false)]
         [HttpPost]
         public void SaveFile(int ProjectID, int FileID, string NewText)
@@ -76,6 +112,12 @@ namespace CodeFox.Controllers
         public void DeleteFile(int FileID)
         {
             FService.DeleteFile(FileID);
+        }
+
+        [HttpPost]
+        public void DeleteFolder(int FolderID)
+        {
+            FoService.DeleteFolder(FolderID);
         }
 
         [HttpPost]
@@ -128,7 +170,7 @@ namespace CodeFox.Controllers
         }
 
         [HttpPost]
-      public ActionResult Autocomplete(string term)
+        public ActionResult Autocomplete(string term)
         {
           var AllUsers = UService.GetAllUsers(User.Identity.GetUserName());
 
