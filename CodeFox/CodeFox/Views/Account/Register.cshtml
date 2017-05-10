@@ -5,11 +5,14 @@
 
 <h2>@ViewBag.Title.</h2>
 
-@using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+@using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form", id="RegisterForm" }))
 {
     @Html.AntiForgeryToken()
     <h4>Create a new account.</h4>
     <hr />
+    <ul>
+        <li class="text-danger" id="DuplicateUsernameError"></li>
+    </ul>
     @Html.ValidationSummary("", new { @class = "text-danger" })
     <div class="form-group">
         @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
@@ -59,5 +62,30 @@
 }
 
 @section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#RegisterForm').on('submit', function () {
+                var form = $(this);
+                $.ajax({
+                    url: '/Account/Register/',
+                    data: form.serialize(),
+                    method: 'POST',
+                    success: function (data) {
+                        if (data == 'Error') {
+                            $('#DuplicateUsernameError').html('Username already in use');
+                        }
+                        else {
+                            window.location.href = '@Url.Action("Index","Projects")';
+                        }
+                    }
+                });
+                return false;
+            });
+            AddAntiForgeryToken = function (data) {
+                data.__RequestVerificationToken = $('#ShareForm input[name=__RequestVerificationToken]').val();
+                return data;
+            };
+        });
+    </script>
     @Scripts.Render("~/bundles/jqueryval")
 }

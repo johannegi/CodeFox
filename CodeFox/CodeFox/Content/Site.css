@@ -435,3 +435,11 @@ td.ShareUsername
 {
     color: #5bc0de;
 }
+
+/***************************************/
+/*Register Page*/
+
+#DuplicateUsernameError 
+{
+    margin-bottom: -10px;
+}

@@ -33,6 +33,7 @@ namespace CodeFox.Services
             if(Type == "Web Application")
             {
                 Default.Type = "html";
+                // Default.Location = "<!--This is the default file for this project-->"??;
             }
             else if(Type == "C++")
             {
