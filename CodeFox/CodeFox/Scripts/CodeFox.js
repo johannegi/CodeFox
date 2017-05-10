@@ -1,7 +1,7 @@
 ﻿
 $(document).ready(function ()
 {
-    /**************************************************************SHARE/
+    /**************************************************************SHARE**************************************************************/
     /*Ajax*/
     $("#AddUsername").keyup(function ()
     {
@@ -135,4 +135,40 @@ $(document).ready(function ()
         data.__RequestVerificationToken = $('#ShareForm input[name=__RequestVerificationToken]').val();
         return data;
     };
+
+    /**************************************************************REGISTER**************************************************************/
+
+    $('#RegisterForm').on('submit', function ()
+    {
+        var form = $(this);
+        $('#DuplicateUsernameError').html('');
+        $.ajax({
+            url: '/Account/Register/',
+            data: form.serialize(),
+            method: 'POST',
+            success: function (data)
+            {
+                if (data == "success")
+                {
+                    window.location.href = 'Projects';
+                }
+                else if(!data.Succeded)
+                {
+                    var message = '<li class="text-danger">Please fill out all the input fields</li>';
+                    $('#DuplicateUsernameError').append(message);
+                }
+                else
+                {
+                    var html = "";
+                    for (var i = 0; i < data.Errors.length; i++) {
+                        html += "<li class='text-danger'>";
+                        html += data.Errors[i];
+                        html += "</li>";
+                    }
+                    $('#DuplicateUsernameError').append(html);
+                }
+            }
+        });
+        return false;
+    });
 });
