@@ -449,6 +449,9 @@ td.ShareUsername
 
 #DuplicateUsernameError 
 {
+<<<<<<< HEAD
+    marsgin-bottom: -10px;
+=======
     margin-bottom: -10px;
 }
 
@@ -456,4 +459,5 @@ td.ShareUsername
 {
     width: 200px;
     overflow: auto;
+>>>>>>> 301c1f2079eee97941df580e2f964f52e5dfd28e
 }

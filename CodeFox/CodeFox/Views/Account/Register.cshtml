@@ -10,9 +10,7 @@
     @Html.AntiForgeryToken()
     <h4>Create a new account.</h4>
     <hr />
-    <ul>
-        <li class="text-danger" id="DuplicateUsernameError"></li>
-    </ul>
+    <ul  id="DuplicateUsernameError"></ul>
     @Html.ValidationSummary("", new { @class = "text-danger" })
     <div class="form-group">
         @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
@@ -36,11 +34,11 @@
         @Html.LabelFor(m => m.Country, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
             @Html.TextBoxFor(m => m.Country, new { @class = "form-control" })
-           @* @Html.DropDownListFor(model => model.Country, new SelectList(
+           @Html.DropDownListFor(model => model.Country, new SelectList(
                   Model.CountryList.Select(x => new { Value = x, Text = x }),
                   "value",
                   "text",
-                   "Iceland"), new { @class = "form-control" }) *@
+                   "Iceland"), new { @class = "form-control" })
         </div>
     </div>
     <div class="form-group">
@@ -67,13 +65,21 @@
         $(document).ready(function () {
             $('#RegisterForm').on('submit', function () {
                 var form = $(this);
+                $('#DuplicateUsernameError').html('');
                 $.ajax({
                     url: '/Account/Register/',
                     data: form.serialize(),
                     method: 'POST',
                     success: function (data) {
-                        if (data == 'Error') {
-                            $('#DuplicateUsernameError').html('Username already in use');
+                        if (!data.Succeded) {
+                            var html = "";
+                            for(var i = 0; i < data.Errors.length; i++)
+                            {
+                                html += "<li class='text-danger'>";
+                                html += data.Errors[i];
+                                html += "</li>";                              
+                            }
+                            $('#DuplicateUsernameError').append(html);
                         }
                         else {
                             window.location.href = '@Url.Action("Index","Projects")';

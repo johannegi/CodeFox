@@ -158,7 +158,7 @@ namespace CodeFox.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
-            model.CountryList = UService.GetCountryList();
+            //model.CountryList = UService.GetCountryList();
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser { UserName = model.UserName, Email = model.Email };
@@ -183,13 +183,14 @@ namespace CodeFox.Controllers
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
                     db.UsersInfo.Add(newUser);
                     db.SaveChanges();
-                    return RedirectToAction("Index", "Home");
+                    return Json(result, JsonRequestBehavior.AllowGet);
                 }
-                //return Json("Error", JsonRequestBehavior.AllowGet);
-                AddErrors(result); //SKOÐA
+                AddErrors(result);
+                return Json(result, JsonRequestBehavior.AllowGet);
             }
+            model.CountryList = UService.GetCountryList();
             // If we got this far, something failed, redisplay form
-            return View("Register");
+            return View(model);
         }
 
         //
