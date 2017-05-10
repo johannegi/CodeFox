@@ -61,6 +61,7 @@ namespace CodeFox.Services
 
         public void CreateTempProjectFolders(int? ProjectID, string ProjectPath)
         {
+            System.IO.Directory.CreateDirectory(ProjectPath);
             var AllFolders = DB.Folders.Where(x => x.ProjectStructure.ID == ProjectID).ToList();
             foreach(Folder Fold in AllFolders)
             {

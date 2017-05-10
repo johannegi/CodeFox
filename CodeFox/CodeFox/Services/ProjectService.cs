@@ -1,6 +1,7 @@
 ﻿using CodeFox.Models;
 using CodeFox.Models.Entities;
 using CodeFox.Models.ViewModels;
+using Ionic.Zip;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -265,7 +266,7 @@ namespace CodeFox.Services
         }
 
         //Creates all folder structure in specific path and writes down all project in it
-        public void ExportProjectToTemp(int? ProjectID, string Path)
+        public void ExportProjectToDirectory(int? ProjectID, string Path)
         {
             List<FileInProject> FileProject = DB.FilesInProjects.Where(x => x.FileProject.ID == ProjectID).ToList();
             List<File> AllFiles = new List<File>();
@@ -289,6 +290,17 @@ namespace CodeFox.Services
                 }
             }
         }
+        public byte[] GetZippedProject(string GetPath, string SetPath)
+        {
+            System.IO.Directory.CreateDirectory(SetPath);
+            string FilePath = SetPath + "/tempProject.zip";
 
+            using (ZipFile zip = new ZipFile())
+            {
+                zip.AddDirectory(GetPath);
+                zip.Save(FilePath);
+                return System.IO.File.ReadAllBytes(FilePath);
+            }
+        }
     }
 }

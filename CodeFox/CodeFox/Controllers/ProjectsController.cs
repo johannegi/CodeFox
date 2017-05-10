@@ -78,20 +78,16 @@ namespace CodeFox.Controllers
             string UserTempDirectory = Server.MapPath("~/Content/UsersTemp/") + User.Identity.Name;
             string UserProjectDirectory = UserTempDirectory + "/Project";
             string UserZipDirectory = UserTempDirectory + "/ZipTemp";
-            //Directory.CreateDirectory(UserProjectDirectory);
-            Directory.CreateDirectory(UserZipDirectory);
-            string fileName = PService.GetProjectFromID(ID).Name + ".zip";
+            string FileName = PService.GetProjectFromID(ID).Name + ".zip";
 
-            PService.ExportProjectToTemp(ID, UserProjectDirectory);
+            PService.ExportProjectToDirectory(ID, UserProjectDirectory);
 
-            using (ZipFile zip = new ZipFile())
-            {
-                zip.AddDirectory(UserProjectDirectory);
-                zip.Save(UserZipDirectory + "/tempProject.zip");
-                byte[] fileBytes = System.IO.File.ReadAllBytes(UserZipDirectory + "/tempProject.zip");
-                Directory.Delete(UserTempDirectory, true);
-                return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
-            }
+            byte[] ZippedProject = PService.GetZippedProject(UserProjectDirectory, UserZipDirectory);
+
+            Directory.Delete(UserTempDirectory, true);
+
+            return File(ZippedProject, System.Net.Mime.MediaTypeNames.Application.Octet, FileName);
+
         }
 
         public ActionResult GetProject(int? ProjectID)
