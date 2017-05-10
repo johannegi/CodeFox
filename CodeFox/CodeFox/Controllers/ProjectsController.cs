@@ -87,17 +87,44 @@ namespace CodeFox.Controllers
             Directory.Delete(UserTempDirectory, true);
 
             return File(ZippedProject, System.Net.Mime.MediaTypeNames.Application.Octet, FileName);
-
         }
 
-        public ActionResult GetProject(int? ProjectID)
+        [HttpPost]
+        public JsonResult GetProject(int? ProjectID)
         {
             if (ProjectID.HasValue)
             {
+                Project Tmp = PService.GetProjectFromID(ProjectID);
+                Models.Entities.File ReadMe = Tmp.ReadMe;
+                return Json(ReadMe, JsonRequestBehavior.AllowGet);
+            }
+            return Json("", JsonRequestBehavior.AllowGet);
+        }
 
-                var ProjectCool = PService.GetProjectFromID(ProjectID).ReadMe.Location;
-                return Json(ProjectCool, JsonRequestBehavior.AllowGet);
+        [HttpPost]
+        public ActionResult Search(string Term)
+        {
+            if (Term != null && Term != "")
+            {
+                var Found = PService.Search(Term);
+                if(Found != null)
+                {
+                    return Json(Found, JsonRequestBehavior.AllowGet);
+                }               
+            }
+            return Json("", JsonRequestBehavior.AllowGet);
+        }
 
+        [HttpPost]
+        public ActionResult Sort(string Method, bool Ascending)
+        {
+            if(Method != null && Method != "")
+            {
+                var Sorted = PService.Sorted(Method, Ascending);
+                if (Sorted != null)
+                {
+                    return Json(Sorted, JsonRequestBehavior.AllowGet);
+                }
             }
             return Json("", JsonRequestBehavior.AllowGet);
         }

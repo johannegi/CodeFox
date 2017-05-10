@@ -111,6 +111,11 @@ namespace CodeFox.Controllers
             return Json(FService.ChangeFileName(ProjectID, FileID, NewName), JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult ChangeFolderName(int ProjectID, int FolderID, string NewName)
+        {
+            return Json(FoService.ChangeFolderName(ProjectID, FolderID, NewName), JsonRequestBehavior.AllowGet);
+        }
+
         [HttpPost]
         public void DeleteFile(int FileID)
         {
@@ -184,6 +189,7 @@ namespace CodeFox.Controllers
 
             if (term != null)
             {
+                // ER þetta slæmt??
                 var PossibleOutComes = AllUsers.Where(s => s.Username.ToLower().StartsWith
                                         (term.ToLower())).Select(w => w).ToList();
 

@@ -18,6 +18,10 @@ namespace CodeFox.Services
 
         public ProjectsViewModel GetProjectsViewModel(string Username)
         {
+            if(Username == "")
+            {
+                // TODO: LOG ERROR
+            }
             UserInfo user = DB.UsersInfo.Where(x => x.Username == Username).SingleOrDefault();
 
             ProjectsViewModel UserView = new ProjectsViewModel();
@@ -55,7 +59,7 @@ namespace CodeFox.Services
 
         public EditorViewModel GetEditorViewModel(int? ProjectID)
         {
-            if (ProjectID.HasValue)
+            if (!ProjectID.HasValue)
             {
                 //TODO: ERROR
             }
@@ -101,6 +105,10 @@ namespace CodeFox.Services
 
         public bool CanUserOpenProject(int? id, string Username)
         {
+            if( !id.HasValue || Username == "")
+            {
+                //LOG ERROR / THROW EXCEPTION
+            }
             EditorViewModel model = GetEditorViewModel(id);
             if (model.Owner.Username == Username)
             {
@@ -121,9 +129,13 @@ namespace CodeFox.Services
 
         public bool CreateProject (CreateProjectViewModel NewCreateProject, string Username)
         {
+            if(NewCreateProject == null || Username == "")
+            {
+                return false;
+            }
             var ProjectWithSameName = DB.Projects.Where(x => x.Owner.Username == Username
                                                         && x.Name == NewCreateProject.Name).FirstOrDefault();
-            if(ProjectWithSameName != null)
+            if(ProjectWithSameName != null )
             {
                 return false;
             }
@@ -171,6 +183,10 @@ namespace CodeFox.Services
 
         public Project GetProjectFromID(int? ProjectID)
         {
+            if(!ProjectID.HasValue)
+            {
+                // TODO: IMPLEMENT ERROR ÞARF BÆÐI???
+            }
             Project ProjectWithID = DB.Projects.Where(x => x.ID == ProjectID).SingleOrDefault();
             if(ProjectWithID == null)
             {
@@ -181,7 +197,7 @@ namespace CodeFox.Services
 
         public bool AddCollaborator(string Username, int? ProjectID)
         {
-            if(ProjectID.HasValue)
+            if(ProjectID.HasValue && Username != "")
             {
                 var CollaboratorAlreadyExists = DB.ProjectShares.Where(x => x.ShareUser.Username == Username
                                                        && x.ShareProject.ID == ProjectID).SingleOrDefault();
@@ -206,7 +222,7 @@ namespace CodeFox.Services
 
         public bool RemoveCollaborator(string Username, int? ProjectID)
         {
-            if(ProjectID.HasValue)
+            if(ProjectID.HasValue && Username != "")
             {
                 UserService getUser = new UserService();
                 var SharedUsers = getUser.GetSharedUsersFromProject(ProjectID);
@@ -235,6 +251,10 @@ namespace CodeFox.Services
 
         public void DeleteProject(int? ProjectID)
         {
+            if(!ProjectID.HasValue)
+            {
+                // TODO: ERROR
+            }
             //Deleting connection between owner and project to delete
             ProjectOwner POwner = DB.ProjectOwners.Where(x => x.OwnerProject.ID == ProjectID).FirstOrDefault();
             DB.ProjectOwners.Remove(POwner);
@@ -268,6 +288,10 @@ namespace CodeFox.Services
         //Creates all folder structure in specific path and writes down all project in it
         public void ExportProjectToDirectory(int? ProjectID, string Path)
         {
+            if(!ProjectID.HasValue)
+            {
+                //TODO: LOG ERROR
+            }
             List<FileInProject> FileProject = DB.FilesInProjects.Where(x => x.FileProject.ID == ProjectID).ToList();
             List<File> AllFiles = new List<File>();
             foreach(FileInProject item in FileProject)  //All files in the project are set in a list
@@ -295,12 +319,68 @@ namespace CodeFox.Services
             System.IO.Directory.CreateDirectory(SetPath);
             string FilePath = SetPath + "/tempProject.zip";
 
+
             using (ZipFile zip = new ZipFile())
             {
                 zip.AddDirectory(GetPath);
                 zip.Save(FilePath);
                 return System.IO.File.ReadAllBytes(FilePath);
             }
+        }
+        public List<Project> Search(string Term)
+        {
+            if(Term != null && Term != "")
+            {
+                // If we don't find anything we return null eitherway, hence if(FoundProjects == null) not neccessary
+                var FoundProjects = (from x in DB.Projects where x.Name.StartsWith(Term) select x).ToList();
+                return FoundProjects;
+            }
+            return null;
+        }
+
+        public List<Project> Sorted(string Method, bool Ascending)
+        {
+            const string DM = "Date Modified";
+            const string DC = "Date Created";
+            const string N = "Name";
+            const string O = "Owner";
+            if (Method != null && Method != "")
+            {
+                // If we don't find anything we return null eitherway, hence if(FoundProjects == null) not neccessary
+                var SortingMethod = "";
+                if(Method == N)
+                {
+                    SortingMethod = N;
+                }
+                else if(Method == DC)
+                {
+                    SortingMethod = DC;
+                }
+                else if(Method == DM)
+                {
+                    SortingMethod = DM;
+                }
+                else if(Method == O)
+                {
+                    SortingMethod = O;
+                }
+                else
+                {
+                    return null;
+                }
+                // Eða = null??
+                List<Project> SortedProjects = new List<Project>();
+                if(Ascending)
+                {
+                    SortedProjects = (from x in DB.Projects orderby SortingMethod select x).ToList();
+                }                
+                else
+                {
+                    SortedProjects = (from x in DB.Projects orderby SortingMethod descending select x).ToList();
+                }
+                return SortedProjects;
+            }
+            return null;
         }
     }
 }

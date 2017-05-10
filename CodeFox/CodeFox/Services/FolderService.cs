@@ -59,6 +59,19 @@ namespace CodeFox.Services
             DB.SaveChanges();
         }
 
+        public Folder ChangeFolderName(int ProjectID, int FolderID, string NewName)
+        {
+            Folder ToRename = DB.Folders.Find(FolderID);
+            ToRename.DateModified = DateTime.Now;
+            ToRename.Name = NewName;
+
+            Project TheProject = DB.Projects.Find(ProjectID);
+            TheProject.DateModified = DateTime.Now;
+
+            DB.SaveChanges();
+            return ToRename;
+        }
+
         public void CreateTempProjectFolders(int? ProjectID, string ProjectPath)
         {
             System.IO.Directory.CreateDirectory(ProjectPath);
