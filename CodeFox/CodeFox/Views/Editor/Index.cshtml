@@ -164,10 +164,12 @@
                                 "separator_after": false,
                                 "label": "Rename",
                                 "action": function (obj) {
-                                    var NewName = prompt("Please enter new filename", "");
+                                    var NewName = prompt("Please enter new name", "");
                                     if (NewName != null || NewName != "")
                                     {
-                                        $.ajax(
+                                        if (Node.type == 'file')
+                                        {
+                                            $.ajax(
                                             {
                                                 url: '/Editor/ChangeFileName/',
                                                 data: { 'ProjectID': Number(@Model.ID), 'FileID': Number(Node.id), 'NewName': NewName },
@@ -183,6 +185,26 @@
                                                     ace.edit("Editor").session.setMode(Mode);
                                                 }
                                             });
+                                        }
+                                        else if (Node.type != 'ReadMe')
+                                        {
+                                            $.ajax(
+                                            {
+                                                url: '/Editor/ChangeFileName/',
+                                                data: { 'ProjectID': Number(@Model.ID), 'FileID': Number(Node.id), 'NewName': NewName },
+                                                method: 'POST',
+                                                success: function (ReturnData)
+                                                {
+                                                    $('#EditorInfo').text(Node.text + ' Renamed to ' + ReturnData.Name + '.' + ReturnData.Type);
+                                                    $("#Tree").jstree('set_text', Node, (ReturnData.Name + '.' + ReturnData.Type));
+                                                    ace.edit("Editor").setValue(ReturnData.Location);
+                                                    var Modelist = ace.require("ace/ext/modelist")
+                                                    var FilePath = ReturnData.Name + '.' + ReturnData.Type;
+                                                    var Mode = Modelist.getModeForPath(FilePath).mode;
+                                                    ace.edit("Editor").session.setMode(Mode);
+                                                }
+                                            });
+                                        }
                                     }
                                 }
                             },
