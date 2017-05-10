@@ -340,6 +340,14 @@ div.NavBar
     width: 183px;
 }
 
+.HelloUser
+{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 200px;
+}
+
 
 /**********************************************************************************/
 
