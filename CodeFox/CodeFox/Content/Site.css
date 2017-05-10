@@ -447,6 +447,14 @@ td.ShareUsername
 /***************************************/
 /*Register Page*/
 
+<<<<<<< HEAD
+=======
+#DuplicateUsernameError 
+{
+    margin-bottom: -10px;
+}
+
+>>>>>>> 134d20d6cf634f6861aeff0f631d6bcc214ee851
 .TheTree
 {
     width: 200px;

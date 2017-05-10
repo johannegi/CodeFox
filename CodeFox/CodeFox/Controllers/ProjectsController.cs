@@ -94,14 +94,14 @@ namespace CodeFox.Controllers
             }
         }
 
-        public ActionResult GetProject(int? ProjectID)
+        [HttpPost]
+        public JsonResult GetProject(int? ProjectID)
         {
             if (ProjectID.HasValue)
             {
-
-                var ProjectCool = PService.GetProjectFromID(ProjectID).ReadMe.Location;
-                return Json(ProjectCool, JsonRequestBehavior.AllowGet);
-
+                Project Tmp = PService.GetProjectFromID(ProjectID);
+                Models.Entities.File ReadMe = Tmp.ReadMe;
+                return Json(ReadMe, JsonRequestBehavior.AllowGet);
             }
             return Json("", JsonRequestBehavior.AllowGet);
         }
