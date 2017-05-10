@@ -34,7 +34,7 @@
                                 <ul class="dropdown-menu">
                                     <li class="dropdown-item">@Html.ActionLink("Delete", "Delete", "Projects", new { id = item.ID }, null)</li>
                                     <li class="dropdown-item">@Html.ActionLink("Export", "Export", "Projects", new { id = item.ID }, null)</li>
-                                    <li href="#my_modal" class="dropdown-item SelectDropDown OpenModal1" data-toggle="modal"  data-id="@item.ID">Details</li>
+                                    <li href="#my_modal" class="dropdown-item SelectDropDown" data-toggle="modal"  data-id="@item.ID">Details</li>
                                 </ul>
                             </div>
                     </div>
@@ -65,24 +65,8 @@
                                 </button>
                                 <ul class="dropdown-menu">
                                     <li class="dropdown-item">@Html.ActionLink("Export", "Index", "Editor", new { id = item.ID }, null)</li>
-                                    <li href="#my_modal" class="SelectDropDown" data-toggle="modal" data-id="@item.ID">Details</li>
+                                    <li href="#my_modal" class="dropdown-item SelectDropDown" data-toggle="modal" data-id="@item.ID">Details</li>
                                 </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal" id="@item.ID">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                                    <h4 class="modal-title">Modal header</h4>
-                                </div>
-                                <div class="modal-body">
-                                    <p id="ModalText_@item.ID"></p>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                </div>
                             </div>
                         </div>
                     </div>

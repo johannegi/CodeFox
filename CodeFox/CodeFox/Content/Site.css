@@ -210,7 +210,8 @@ section h3.section-subheading
     border: 0.5px solid lightgray;
 }
 
-.modal-body {
+.modal-body
+{
     max-height: calc(100vh - 210px);
     overflow-y: auto;
     word-wrap: break-word;
@@ -218,9 +219,8 @@ section h3.section-subheading
 
 textarea
 {
-  height: 100%;
+    height: 100%;
     width: 100%;
-
 }
 
 
@@ -447,11 +447,14 @@ td.ShareUsername
 /***************************************/
 /*Register Page*/
 
+<<<<<<< HEAD
+=======
 #DuplicateUsernameError 
 {
     margin-bottom: -10px;
 }
 
+>>>>>>> 134d20d6cf634f6861aeff0f631d6bcc214ee851
 .TheTree
 {
     width: 200px;
