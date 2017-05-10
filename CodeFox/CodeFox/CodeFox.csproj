@@ -302,7 +302,6 @@
     <Content Include="Views\Editor\Index.cshtml" />
     <Content Include="Views\Projects\Index.cshtml" />
     <Content Include="Views\Projects\Create.cshtml" />
-    <Content Include="Views\Projects\Share.cshtml" />
     <Content Include="Views\Editor\Share.cshtml" />
     <Content Include="Views\Manage\ChangeName.cshtml" />
     <Content Include="Views\Manage\ChangeEmail.cshtml" />

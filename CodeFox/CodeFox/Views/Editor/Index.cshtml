@@ -1,6 +1,6 @@
 ﻿@model CodeFox.Models.ViewModels.EditorViewModel
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = Model.Name;
 }
 @Styles.Render("~/Content/JsTree/style.min.css")
 
@@ -183,42 +183,35 @@
                                 "label": "Remove",
                                 "action": function (obj) {
 
-                                    if (Node.id == Number(@Model.ReadMe.ID))
-                                    {
+                                    if (Node.id == Number(@Model.ReadMe.ID)) {
                                         alert("You can't delete the read me file")
                                     }
-                                    else if (Node.id == 'Project')
-                                    {
+                                    else if (Node.id == 'Project') {
                                         alert("You can't delete the project root")
                                     }
-                                    else
-                                    {
-                                            if (Node.type == 'file' && confirm("Are you sure you want to delete " + Node.text + " ?") == true)
-                                            {
-                                                $.ajax({
-                                                    url: '/Editor/DeleteFile/',
-                                                    data: { 'FileID': Number(Node.id) },
-                                                    method: 'POST',
-                                                    success: function (ReturnData)
-                                                    {
-                                                        $('#EditorInfo').text(Node.text + ' deleted');
-                                                        $("#tree").jstree('delete_node', Node);
-                                                    }
-                                                });
-                                            }
-                                            else if (confirm("Are you sure you want to delete " + Node.text + " and every file inside it ?") == true)
-                                            {
-                                                $.ajax({
-                                                    url: '/Editor/DeleteFolder/',
-                                                    data: { 'FolderID': Number(Node.id) },
-                                                    method: 'POST',
-                                                    success: function (ReturnData)
-                                                    {
-                                                        $('#EditorInfo').text(Node.text + ' deleted');
-                                                        $("#tree").jstree('delete_node', Node);
-                                                    }
-                                                });
-                                            }
+                                    else {
+                                        if (Node.type == 'file' && confirm("Are you sure you want to delete " + Node.text + " ?") == true) {
+                                            $.ajax({
+                                                url: '/Editor/DeleteFile/',
+                                                data: { 'FileID': Number(Node.id) },
+                                                method: 'POST',
+                                                success: function (ReturnData) {
+                                                    $('#EditorInfo').text(Node.text + ' deleted');
+                                                    $("#tree").jstree('delete_node', Node);
+                                                }
+                                            });
+                                        }
+                                        else if (confirm("Are you sure you want to delete " + Node.text + " and every file inside it ?") == true) {
+                                            $.ajax({
+                                                url: '/Editor/DeleteFolder/',
+                                                data: { 'FolderID': Number(Node.id) },
+                                                method: 'POST',
+                                                success: function (ReturnData) {
+                                                    $('#EditorInfo').text(Node.text + ' deleted');
+                                                    $("#tree").jstree('delete_node', Node);
+                                                }
+                                            });
+                                        }
                                     }
                                 }
                             }
@@ -262,10 +255,8 @@
 
                 });
                 $("#tree").bind('move_node.jstree', function (Event, Data) {
-                    if (Data.parent != Data.old_parent)
-                    {
-                        if (Data.node.type == 'file')
-                        {
+                    if (Data.parent != Data.old_parent) {
+                        if (Data.node.type == 'file') {
                             var NewFolder = null;
                             if (Data.parent != 'Project') {
                                 NewFolder = Number(Data.parent)
@@ -275,15 +266,13 @@
                                 url: '/Editor/MoveFile/',
                                 data: { 'ProjectID': Number(@Model.ID), 'FileID': Number(Data.node.id), 'NewFolderID': NewFolder },
                                 method: 'POST',
-                                success: function ()
-                                {
+                                success: function () {
                                     var NewParent = $('#tree').jstree(true).get_node(Data.parent)
                                     $('#EditorInfo').text(Data.node.text + ' Moved to folder ' + NewParent.text);
                                 }
                             });
                         }
-                        else if(Data.node.type != 'ReadMe')
-                        {
+                        else if (Data.node.type != 'ReadMe') {
                             var NewFolder = null;
                             if (Data.parent != 'Project') {
                                 NewFolder = Number(Data.parent)
@@ -293,8 +282,7 @@
                                 url: '/Editor/MoveFolder/',
                                 data: { 'ProjectID': Number(@Model.ID), 'FolderID': Number(Data.node.id), 'NewFolderID': NewFolder },
                                 method: 'POST',
-                                success: function ()
-                                {
+                                success: function () {
                                     var NewParent = $('#tree').jstree(true).get_node(Data.parent)
                                     $('#EditorInfo').text(Data.node.text + ' Moved to folder ' + NewParent.text);
                                 }
