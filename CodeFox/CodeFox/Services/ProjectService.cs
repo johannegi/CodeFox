@@ -12,6 +12,7 @@ namespace CodeFox.Services
     public class ProjectService
     {
         private FileService FService = new FileService();
+        private FolderService FoService = new FolderService();
         private ApplicationDbContext DB = new ApplicationDbContext();
 
         public ProjectsViewModel GetProjectsViewModel(string Username)
@@ -262,35 +263,32 @@ namespace CodeFox.Services
             DB.SaveChanges();
             
         }
+
+        //Creates all folder structure in specific path and writes down all project in it
         public void ExportProjectToTemp(int? ProjectID, string Path)
         {
-            Project TheProject = GetProjectFromID(ProjectID); //Get project to get ReadMe later
-            var FileProject = DB.FilesInProjects.Where(x => x.FileProject.ID == ProjectID).ToList();
+            List<FileInProject> FileProject = DB.FilesInProjects.Where(x => x.FileProject.ID == ProjectID).ToList();
             List<File> AllFiles = new List<File>();
-            foreach(FileInProject item in FileProject)
+            foreach(FileInProject item in FileProject)  //All files in the project are set in a list
             {
                 AllFiles.Add(item.ProjectFile);
             }
+            Project TheProject = GetProjectFromID(ProjectID); //Get project to add ReadMe file to AllFiles
             File ReadMe = DB.Files.Where(x => x.ID == TheProject.ReadMe.ID).FirstOrDefault();
             AllFiles.Add(ReadMe);
-            foreach(File file in AllFiles)
+
+            FoService.CreateTempProjectFolders(ProjectID, Path); //Folder structure for project created
+
+            foreach(File file in AllFiles) //All files written down in right folders
             {
                 string text = file.Location;
-                string FilePath = Path + GetFilePath(file.FolderStructure);
-                System.IO.Directory.CreateDirectory(FilePath);
+                string FilePath = Path + FoService.GetFolderPath(file.FolderStructure);
                 using (System.IO.StreamWriter outputFile = new System.IO.StreamWriter(FilePath  +  @"\" + file.Name + "." + file.Type))
                 {
                     outputFile.WriteLine(text);
                 }
             }
         }
-        public string GetFilePath(Folder Folder)
-        {
-            if(Folder == null)
-            {
-                return "/";
-            }
-            return GetFilePath(Folder.FolderStructure) + "/" + Folder.Name;
-        }
+
     }
 }
