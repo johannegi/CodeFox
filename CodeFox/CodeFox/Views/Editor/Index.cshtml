@@ -62,7 +62,7 @@
                 clearTimeout(TypingTimer);
                 var Selected = $('#tree').jstree(true).get_selected('full', true)
                 Selected = Selected[0]
-                if (Selected.type == 'file') {
+                if (Selected.type == 'file' || Selected.type == 'ReadMe') {
                     $('#EditorInfo').text('File will save when you stop editing');
                 }
             });
@@ -72,7 +72,7 @@
                 var Selected = $('#tree').jstree(true).get_selected('full', true)
                 Selected = Selected[0]
                 var NewText = String(ace.edit("Editor").session.getValue());
-                if (Selected.type == 'file') {
+                if (Selected.type == 'file' || Selected.type == 'ReadMe') {
                     $.ajax({
                         url: '/Editor/SaveFile/',
                         data: { 'ProjectID': Number(@Model.ID), 'FileID': Number(Selected.id), 'NewText': NewText },
@@ -173,7 +173,6 @@
                                                 ace.edit("Editor").session.setMode(Mode);
                                             }
                                         });
-
                                     }
                                 }
                             },
@@ -233,7 +232,7 @@
                     var Selected = $('#tree').jstree(true).get_selected('full', true)
                     Selected = Selected[0]
 
-                    if (Selected.type == 'file') {
+                    if (Selected.type == 'file' || Selected.type == 'ReadMe') {
                         ace.edit("Editor").setReadOnly(false);
                         $.ajax({
                             url: '/Editor/OpenNewFile/',
