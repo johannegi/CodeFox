@@ -6,7 +6,7 @@
     @Html.AntiForgeryToken()
 
     <ul class="nav navbar-nav navbar-right">
-        <li>
+        <li class="HelloUser">
             @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", null,  new { @class = "HoverEffect", title="Manage" })
         </li>
         <li>
