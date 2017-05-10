@@ -78,30 +78,53 @@ namespace CodeFox.Controllers
             string UserTempDirectory = Server.MapPath("~/Content/UsersTemp/") + User.Identity.Name;
             string UserProjectDirectory = UserTempDirectory + "/Project";
             string UserZipDirectory = UserTempDirectory + "/ZipTemp";
-            //Directory.CreateDirectory(UserProjectDirectory);
-            Directory.CreateDirectory(UserZipDirectory);
-            string fileName = PService.GetProjectFromID(ID).Name + ".zip";
+            string FileName = PService.GetProjectFromID(ID).Name + ".zip";
 
-            PService.ExportProjectToTemp(ID, UserProjectDirectory);
+            PService.ExportProjectToDirectory(ID, UserProjectDirectory);
 
-            using (ZipFile zip = new ZipFile())
-            {
-                zip.AddDirectory(UserProjectDirectory);
-                zip.Save(UserZipDirectory + "/tempProject.zip");
-                byte[] fileBytes = System.IO.File.ReadAllBytes(UserZipDirectory + "/tempProject.zip");
-                Directory.Delete(UserTempDirectory, true);
-                return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
-            }
+            byte[] ZippedProject = PService.GetZippedProject(UserProjectDirectory, UserZipDirectory);
+
+            Directory.Delete(UserTempDirectory, true);
+
+            return File(ZippedProject, System.Net.Mime.MediaTypeNames.Application.Octet, FileName);
         }
 
-        public ActionResult GetProject(int? ProjectID)
+        [HttpPost]
+        public JsonResult GetProject(int? ProjectID)
         {
             if (ProjectID.HasValue)
             {
+                Project Tmp = PService.GetProjectFromID(ProjectID);
+                Models.Entities.File ReadMe = Tmp.ReadMe;
+                return Json(ReadMe, JsonRequestBehavior.AllowGet);
+            }
+            return Json("", JsonRequestBehavior.AllowGet);
+        }
 
-                var ProjectCool = PService.GetProjectFromID(ProjectID).ReadMe.Location;
-                return Json(ProjectCool, JsonRequestBehavior.AllowGet);
+        [HttpPost]
+        public ActionResult Search(string Term)
+        {
+            if (Term != null && Term != "")
+            {
+                var Found = PService.Search(Term);
+                if(Found != null)
+                {
+                    return Json(Found, JsonRequestBehavior.AllowGet);
+                }               
+            }
+            return Json("", JsonRequestBehavior.AllowGet);
+        }
 
+        [HttpPost]
+        public ActionResult Sort(string Method, bool Ascending)
+        {
+            if(Method != null && Method != "")
+            {
+                var Sorted = PService.Sorted(Method, Ascending);
+                if (Sorted != null)
+                {
+                    return Json(Sorted, JsonRequestBehavior.AllowGet);
+                }
             }
             return Json("", JsonRequestBehavior.AllowGet);
         }

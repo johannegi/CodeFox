@@ -26,43 +26,18 @@
                         <img src="~/Content/Images/tester.png" data-holder-rendered="true" onclick="location.href='@Url.Action("Index", "Editor", new { id = item.ID })';return false;" />
                         <!--<div>-->
                             <h4 class="ProjectName">@Html.ActionLink(HttpUtility.HtmlDecode(Html.DisplayFor(model => item.Name).ToString()), "Index", "Editor", new { id = item.ID }, null)</h4>
-                            <p><b>Last updated:</b> <br />@Html.DisplayFor(Model => item.DateModified).ToString()</p>
+                            <p><b>Last updated:</b><br /> <i class="timeago" title="@item.DateModified"></i></p>
                             <div class="dropdown">
                                 <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
                                     <span class="glyphicon glyphicon-align-justify" aria-hidden="true"></span>
                                 </button>
                                 <ul class="dropdown-menu">
                                     <li class="dropdown-item">@Html.ActionLink("Delete", "Delete", "Projects", new { id = item.ID }, null)</li>
-
                                     <li class="dropdown-item">@Html.ActionLink("Export", "Export", "Projects", new { id = item.ID }, null)</li>
-                                    <li class="dropdown-item">@Html.ActionLink("Details", "Index", "Editor", new { id = item.ID }, null)</li>
-                                   <!-- <li class="dropdown-item CursorOnList" data-toggle="modal" data-target="#MyModal" data-id="">Details</li> -->
-                                    <li href="#my_modal" class="SelectDropDown" data-toggle="modal" data-id="@item.ID">Open Modal</li>
-
+                                    <li href="#my_modal" class="dropdown-item SelectDropDown" data-toggle="modal"  data-id="@item.ID">Details</li>
                                 </ul>
                             </div>
-                        <!--/div>-->
                     </div>
-
-                        <div class="modal" id="@item.ID Editor">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                        <h4 class="modal-title">Details</h4>
-                                    </div>
-                                    <div class="modal-body">
-                                        <textarea id="ModalText_@item.ID"></textarea>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                    </div>
-                                </div>
-                                <!-- /.modal-content -->
-                            </div>
-                            <!-- /.modal-dialog -->
-                        </div>
-                        <!-- /.modal -->
                 }   
 
 
@@ -83,31 +58,15 @@
                         <img src="~/Content/Images/tester.png" data-holder-rendered="true" onclick="location.href='@Url.Action("Index", "Editor", new { id = item.ID })';return false;" />
                         <div class="JsOnHover">
                             <h4 class="ProjectName">@Html.ActionLink(HttpUtility.HtmlDecode(Html.DisplayFor(model => item.Name).ToString()), "Index", "Editor", new { id = item.ID }, null)</h4><div class="OnHover"><b>Owned by:</b><br />@item.Owner.Username</div><hr id="HiddenLine" />
-                            <p><b>Last updated:</b><br /> @Html.DisplayFor(Model => item.DateModified).ToString()</p>
+                            <p><b>Last updated:</b><br />@Html.DisplayFor(Model => item.DateModified).ToString()</p>
                             <div class="dropdown">
                                 <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
                                     <span class="glyphicon glyphicon-align-justify" aria-hidden="true"></span>
                                 </button>
                                 <ul class="dropdown-menu">
                                     <li class="dropdown-item">@Html.ActionLink("Export", "Index", "Editor", new { id = item.ID }, null)</li>
-                                    <li href="#my_modal" class="SelectDropDown" data-toggle="modal" data-id="@item.ID">Details</li>
+                                    <li href="#my_modal" class="dropdown-item SelectDropDown" data-toggle="modal" data-id="@item.ID">Details</li>
                                 </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal" id="@item.ID">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                                    <h4 class="modal-title">Modal header</h4>
-                                </div>
-                                <div class="modal-body">
-                                    <p id="ModalText_@item.ID"></p>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -118,8 +77,46 @@
    }
 
 
+<div class="modal" id="OpenModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Details</h4>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">README</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div>
+                                <div id="Editor"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+
+
 <!-- SCRIPT TO SHOW OWNER IN SHARED PROJECTS  -->
+<script src="@Url.Content("~/Scripts/AceEditor/ace.js")" type="text/javascript" charset="utf-8"> </script>
+<script src="@Url.Content("~/Scripts/AceEditor/ext-modelist.js")" type="text/javascript" charset="utf-8"></script>
+
 <script type="text/javascript">
+
+   
 
     $(".JsOnHover").mouseover(function () {
             $(this).children(".OnHover").show();
@@ -127,12 +124,11 @@
         $(this).children(".OnHover").hide();
         });
 
-$('.SelectDropDown').on('click', function (e) {
-    // alert($(this).data("id"));
-    var ProjectID = $(this).data("id");
+    $('.SelectDropDown').on('click', function (e) {
+
+        var ProjectID = $(this).data("id");
     $.ajax({
             url: '/Projects/GetProject',
-            dataType: 'html',
             data: { 'ProjectID': ProjectID },
             method: "POST",
             success: function(data)
@@ -142,14 +138,94 @@ $('.SelectDropDown').on('click', function (e) {
                             $('#ModalText').html('Project Not Found');
                 }
             else
-            {
-                    $('#ModalText_' + ProjectID).html(data.substring(1,data.length-1));
-            }
+                {
+                    var Editor = ace.edit("Editor");
+                    Editor.setTheme("ace/theme/clouds");
+                    Editor.renderer.setShowGutter(false);
+
+                    Editor.setReadOnly(true);
+                    Editor.session.setMode("ace/mode/Text");
+                    Editor.$blockScrolling = Infinity;
+           
+                    ace.edit("Editor").setValue(data.Location);
+                    
+                    //$('#ModalText_' + ProjectID).html(data.substring(1,data.length-1));
+                }   
             }
     });
-    $('#' + ProjectID).modal();
-    return false;
-});
-
+  
+    $('#OpenModal').modal();
     
+    return false;
+    });
+    
+
+    //HELPS US TO SEE WHEN MODIFIED, SOURCE COUDE: https://coderwall.com/p/uub3pw/javascript-timeago-func-e-g-8-hours-ago
+
+    (function timeAgo(selector) {
+
+        var templates = {
+            prefix: "",
+            suffix: " ago",
+            seconds: "less than a minute",
+            minute: "about a minute",
+            minutes: "%d minutes",
+            hour: "about an hour",
+            hours: "about %d hours",
+            day: "a day",
+            days: "%d days",
+            month: "about a month",
+            months: "%d months",
+            year: "about a year",
+            years: "%d years"
+        };
+        var template = function (t, n) {
+            return templates[t] && templates[t].replace(/%d/i, Math.abs(Math.round(n)));
+        };
+
+        var timer = function (time) {
+            if (!time)
+                return;
+            time = time.replace(/\.\d+/, ""); // remove milliseconds
+            time = time.replace(/-/, "/").replace(/-/, "/");
+            time = time.replace(/T/, " ").replace(/Z/, " UTC");
+            time = time.replace(/([\+\-]\d\d)\:?(\d\d)/, " $1$2"); // -04:00 -> -0400
+            time = new Date(time * 1000 || time);
+
+            var now = new Date();
+            var seconds = ((now.getTime() - time) * .001) >> 0;
+            var minutes = seconds / 60;
+            var hours = minutes / 60;
+            var days = hours / 24;
+            var years = days / 365;
+
+            return templates.prefix + (
+                    seconds < 45 && template('seconds', seconds) ||
+                    seconds < 90 && template('minute', 1) ||
+                    minutes < 45 && template('minutes', minutes) ||
+                    minutes < 90 && template('hour', 1) ||
+                    hours < 24 && template('hours', hours) ||
+                    hours < 42 && template('day', 1) ||
+                    days < 30 && template('days', days) ||
+                    days < 45 && template('month', 1) ||
+                    days < 365 && template('months', days / 30) ||
+                    years < 1.5 && template('year', 1) ||
+                    template('years', years)
+                    ) + templates.suffix;
+        };
+
+        var elements = document.getElementsByClassName('timeago');
+        for (var i in elements) {
+            var $this = elements[i];
+            if (typeof $this === 'object') {
+                $this.innerHTML = timer($this.getAttribute('title') || $this.getAttribute('datetime'));
+            }
+        }
+        // update time every minute
+        setTimeout(timeAgo, 60000);
+
+    })();
 </script>
+
+
+
