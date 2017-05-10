@@ -10,8 +10,7 @@
     @Html.AntiForgeryToken()
     <h4>Create a new account.</h4>
     <hr />
-    <ul  id="DuplicateUsernameError">
-    </ul>
+    <ul  id="DuplicateUsernameError"></ul>
     @Html.ValidationSummary("", new { @class = "text-danger" })
     <div class="form-group">
         @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
@@ -34,7 +33,8 @@
     <div class="form-group">
         @Html.LabelFor(m => m.Country, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
-            @Html.DropDownListFor(model => model.Country, new SelectList(
+            @Html.TextBoxFor(m => m.Country, new { @class = "form-control" })
+           @Html.DropDownListFor(model => model.Country, new SelectList(
                   Model.CountryList.Select(x => new { Value = x, Text = x }),
                   "value",
                   "text",

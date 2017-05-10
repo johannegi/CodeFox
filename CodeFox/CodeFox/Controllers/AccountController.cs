@@ -147,7 +147,7 @@ namespace CodeFox.Controllers
         {
             RegisterViewModel Model = new RegisterViewModel();
             Model.CountryList = UService.GetCountryList();
-            Model.Country = "Iceland";
+            //Model.Country = "Iceland";
             return View(Model);
         }
 
@@ -187,8 +187,6 @@ namespace CodeFox.Controllers
                 }
                 AddErrors(result);
                 return Json(result, JsonRequestBehavior.AllowGet);
-               
-                
             }
             model.CountryList = UService.GetCountryList();
             // If we got this far, something failed, redisplay form
