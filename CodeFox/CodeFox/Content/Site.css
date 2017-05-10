@@ -451,3 +451,9 @@ td.ShareUsername
 {
     margin-bottom: -10px;
 }
+
+.TheTree
+{
+    width: 200px;
+    overflow: auto;
+}

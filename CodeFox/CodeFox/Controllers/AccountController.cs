@@ -147,7 +147,7 @@ namespace CodeFox.Controllers
         {
             RegisterViewModel Model = new RegisterViewModel();
             Model.CountryList = UService.GetCountryList();
-            Model.Country = "Iceland";
+            //Model.Country = "Iceland";
             return View(Model);
         }
 
@@ -185,8 +185,8 @@ namespace CodeFox.Controllers
                     db.SaveChanges();
                     return RedirectToAction("Index", "Home");
                 }
-                return Json("Error", JsonRequestBehavior.AllowGet);
-                //AddErrors(result); SKOÐA
+                //return Json("Error", JsonRequestBehavior.AllowGet);
+                AddErrors(result); //SKOÐA
             }
             // If we got this far, something failed, redisplay form
             return View("Register");
