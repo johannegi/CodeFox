@@ -158,7 +158,7 @@ namespace CodeFox.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
-            model.CountryList = UService.GetCountryList();
+            //model.CountryList = UService.GetCountryList();
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser { UserName = model.UserName, Email = model.Email };
