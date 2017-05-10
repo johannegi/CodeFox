@@ -188,6 +188,7 @@ namespace CodeFox.Controllers
                 return Json("Error", JsonRequestBehavior.AllowGet);
                 //AddErrors(result); SKOÐA
             }
+            model.CountryList = UService.GetCountryList();
             // If we got this far, something failed, redisplay form
             return View("Register");
         }
