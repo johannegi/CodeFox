@@ -189,6 +189,7 @@ namespace CodeFox.Controllers
 
             if (term != null)
             {
+                // ER þetta slæmt??
                 var PossibleOutComes = AllUsers.Where(s => s.Username.ToLower().StartsWith
                                         (term.ToLower())).Select(w => w).ToList();
 

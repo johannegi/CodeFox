@@ -106,5 +106,33 @@ namespace CodeFox.Controllers
             return Json("", JsonRequestBehavior.AllowGet);
         }
 
+        [HttpPost]
+        public ActionResult Search(string Term)
+        {
+            if (Term != null && Term != "")
+            {
+                var Found = PService.Search(Term);
+                if(Found != null)
+                {
+                    return Json(Found, JsonRequestBehavior.AllowGet);
+                }               
+            }
+            return Json("", JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public ActionResult Sort(string Method, bool Ascending)
+        {
+            if(Method != null && Method != "")
+            {
+                var Sorted = PService.Sorted(Method, Ascending);
+                if (Sorted != null)
+                {
+                    return Json(Sorted, JsonRequestBehavior.AllowGet);
+                }
+            }
+            return Json("", JsonRequestBehavior.AllowGet);
+        }
+
     }
 }
