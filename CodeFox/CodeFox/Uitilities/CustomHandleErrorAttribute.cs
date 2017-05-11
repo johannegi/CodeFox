@@ -20,7 +20,8 @@ namespace CodeFox.Utilities
             string currentController = (string)filterContext.RouteData.Values["controller"];
             string currentActionName = (string)filterContext.RouteData.Values["action"];
 
-            viewName = "Error";
+            viewName = "Error";
+
             //Create the error model information
             HandleErrorInfo model = new
             HandleErrorInfo(filterContext.Exception, currentController,

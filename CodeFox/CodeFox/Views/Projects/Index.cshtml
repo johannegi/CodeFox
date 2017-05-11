@@ -3,7 +3,7 @@
     ViewBag.Title = "Your projects";
 }
 
-<<h1 style="text-align:center">Projects</h1>
+<h1 style="text-align:center">Projects</h1>
 
 <h2  style="text-align:center">Welcome @Html.DisplayFor(model => model.Name)!</h2>
 
@@ -26,7 +26,8 @@
                         <img src="~/Content/Images/tester.png" data-holder-rendered="true" onclick="location.href='@Url.Action("Index", "Editor", new { id = item.ID })';return false;" />
                         <!--<div>-->
                             <h4 class="ProjectName">@Html.ActionLink(HttpUtility.HtmlDecode(Html.DisplayFor(model => item.Name).ToString()), "Index", "Editor", new { id = item.ID }, null)</h4>
-                            <p><b>Last updated:</b><br /> <i class="timeago" title="@item.DateModified"></i></p>
+                            <p><b>Last updated:</b><br /> <time class="timeago" title="@item.DateModified.ToString("MM-dd-yyyyTHH':'mm':'ssZ")">@item.DateModified</time></p>
+
                             <div class="dropdown">
                                 <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
                                     <span class="glyphicon glyphicon-align-justify" aria-hidden="true"></span>
@@ -51,21 +52,18 @@
     <h2 class="ProjectsCaption"><i class="ProjectArrow fa fa-caret-down" aria-hidden="true"></i>Projects Shared With Me</h2>
     <div class="SharedProjects col-sm-12 col-md-12 col-lg-12">
         <div class="container">
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                <input type="text" id="Search" placeholder="Search project by name" />
-            </div>
                 <div class="row SearchResult">
                     @foreach (var item in Model.SharedProjects)
                     {
                         <div class="col-sm-4 col-md-3 col-lg-2 Project thumbnail">
                             <img src="~/Content/Images/tester.png" data-holder-rendered="true" onclick="location.href='@Url.Action("Index", "Editor", new { id = item.ID })';return false;" />
                             <div class="JsOnHover">
-                                <h4 class="ProjectName">@Html.ActionLink(HttpUtility.HtmlDecode(Html.DisplayFor(model => item.Name).ToString()), "Index", "Editor", new { id = item.ID }, null)</h4><div class="OnHover"><b>Owned by:</b><br />@item.Owner.Username</div><hr id="HiddenLine" />
-                                <p><b>Last updated:</b><br /> <i class="timeAgo" title="@item.DateModified"></i></p>
+                                <div><b>Owned by:</b><br />@item.Owner.Username</div>
+                                <p><b>Last updated:</b><br /> <time class="timeago" title="@item.DateModified.ToString("MM-dd-yyyyTHH':'mm':'ssZ")">@item.DateModified</time></p>
                                 <div class="dropdown">
                                     <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
                                         <span class="glyphicon glyphicon-align-justify" aria-hidden="true"></span>
-                                    </button>
+                                    </button>   
                                     <ul class="dropdown-menu">
                                         <li class="dropdown-item">@Html.ActionLink("Export", "Index", "Editor", new { id = item.ID }, null)</li>
                                         <li href="#my_modal" class="dropdown-item SelectDropDown" data-toggle="modal" data-id="@item.ID">Details</li>
@@ -111,14 +109,18 @@
 </div>
 <!-- /.modal -->
 
+<time class="timeago" datetime="2008-07-17T09:24:17Z" title="July 17, 2008"></time>
 
 
 
 
-<!-- SCRIPT TO SHOW OWNER IN SHARED PROJECTS  -->
-<script src="@Url.Content("~/Scripts/AceEditor/ace.js")" type="text/javascript" charset="utf-8"> </script>
-<script src="@Url.Content("~/Scripts/AceEditor/ext-modelist.js")" type="text/javascript" charset="utf-8"></script>
+@section scripts
+{
+    <!-- SCRIPT TO SHOW OWNER IN SHARED PROJECTS  -->
+    <script src="@Url.Content("~/Scripts/AceEditor/ace.js")" type="text/javascript" charset="utf-8"> </script>
+    <script src="@Url.Content("~/Scripts/AceEditor/ext-modelist.js")" type="text/javascript" charset="utf-8"></script>
 
+    <script src="@Url.Content("~/Scripts/jquery.timeago.js")" type="text/javascript" charset="utf-8"></script>   
+    <script src="@Url.Content("~/Scripts/ProjectIndex.js")" type="text/javascript" charset="utf-8"></script>   
+}
 
-@Scripts.Render("~/Scripts/ProjectIndex.js")
-@Scripts.Render("~/Scripts/timeagojquery.js")

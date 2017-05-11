@@ -223,6 +223,7 @@
     <Compile Include="Models\Entities\Project.cs" />
     <Compile Include="Models\Entities\ProjectOwner.cs" />
     <Compile Include="Models\Entities\ProjectShare.cs" />
+    <Compile Include="Models\Entities\TreeData.cs" />
     <Compile Include="Models\Entities\UserInfo.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -263,6 +264,7 @@
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\codefox.js" />
     <Content Include="Scripts\EditorScripts.js" />
+    <Content Include="Scripts\jquery.timeago.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />

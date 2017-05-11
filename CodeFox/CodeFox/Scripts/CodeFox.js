@@ -138,10 +138,13 @@ $(document).ready(function ()
 
     /**************************************************************REGISTER**************************************************************/
 
-    $('#RegisterForm').on('submit', function ()
+    $('#RegisterForm').on('submit', function (e)
     {
-        var form = $(this);
+        e.preventDefault();
         $('#DuplicateUsernameError').html('');
+        $('.validation-summary-errors').html('');
+        var form = $(this);
+      
         $.ajax({
             url: '/Account/Register/',
             data: form.serialize(),
@@ -150,14 +153,14 @@ $(document).ready(function ()
             {
                 if (data == "success")
                 {
-                    window.location.href = 'Projects';
+                    window.location.href = '/Projects';
                 }
-                else if(!data.Succeded)
+                else if(!data.Succeded && data.Errors == undefined)
                 {
-                    var message = '<li class="text-danger">Please fill out all the input fields</li>';
+                    var message = '<li class="text-danger">Password and Confirm Password do not match</li>';
                     $('#DuplicateUsernameError').append(message);
                 }
-                else
+                else if (!data.Succeded)
                 {
                     var html = "";
                     for (var i = 0; i < data.Errors.length; i++) {

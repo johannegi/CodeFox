@@ -125,7 +125,7 @@ namespace CodeFox.Services
             return true;
         }
 
-        public void SaveFile(int ProjectID, int FileID, string NewText)
+        public bool SaveFile(int ProjectID, int FileID, string NewText)
         {
             File ToSave = DB.Files.Find(FileID);
             ToSave.Location = NewText;
@@ -133,10 +133,14 @@ namespace CodeFox.Services
 
             Project TheProject = DB.Projects.Find(ProjectID);
             TheProject.DateModified = DateTime.Now;
-            DB.SaveChanges();
+            if (DB.SaveChanges() == 0)
+            {
+                return false;
+            }
+            return true;
         }
 
-        public void MoveFile(int ProjectID, int FileID, int? NewFolderID)
+        public bool MoveFile(int ProjectID, int FileID, int? NewFolderID)
         {
             File FileMove = DB.Files.Find(FileID);
             Project TheProject = DB.Projects.Find(ProjectID);
@@ -154,7 +158,11 @@ namespace CodeFox.Services
             FileMove.DateModified = DateTime.Now;
             TheProject.DateModified = DateTime.Now;
 
-            DB.SaveChanges();
+            if (DB.SaveChanges() == 0)
+            {
+                return false;
+            }
+            return true;
         }
 
         public File ChangeFileName(int ProjectID, int FileID, string NewName)
@@ -191,13 +199,22 @@ namespace CodeFox.Services
             List<string> listinn = new List<string>(System.IO.File.ReadLines(path).ToList());
             return listinn;
         }
-        public void DeleteFile(int? ID)
+        public bool DeleteFile(int? ID)
         {
             File ToDelete = GetFileByID(ID);
+            if(ToDelete == null)
+            {
+                return false;
+            }
             FileInProject TheConnection = DB.FilesInProjects.Where(x => x.ProjectFile.ID == ToDelete.ID).FirstOrDefault();
             DB.FilesInProjects.Remove(TheConnection);
             DB.Files.Remove(ToDelete);
-            DB.SaveChanges();
+            
+            if (DB.SaveChanges() == 0)
+            {
+                return false;
+            }
+            return true;
         }
     }
 }

@@ -31,7 +31,7 @@ namespace CodeFox.Services
             DB.SaveChanges();
         }
 
-        public void MoveFolder(int ProjectID, int FolderID, int? NewFolderID)
+        public bool MoveFolder(int ProjectID, int FolderID, int? NewFolderID)
         {
             Folder FolderMove = DB.Folders.Find(FolderID);
             Project TheProject = DB.Projects.Find(ProjectID);
@@ -49,13 +49,21 @@ namespace CodeFox.Services
             FolderMove.DateModified = DateTime.Now;
             TheProject.DateModified = DateTime.Now;
 
-            DB.SaveChanges();
+            if (DB.SaveChanges() == 0)
+            {
+                return false;
+            }
+            return true;
         }
 
-        public void DeleteFolder(int FolderID)
+        public bool DeleteFolder(int FolderID)
         {
             Folder TheFolder = DB.Folders.Find(FolderID);
             Project TheProject = DB.Projects.Find(TheFolder.ProjectStructure.ID);
+            if (TheFolder == null || TheProject == null)
+            {
+                return false;
+            }
             List<Folder> AllFolders = DB.Folders.Where(x => x.ProjectStructure.ID == TheProject.ID).ToList();
             foreach(Folder Fold in AllFolders)
             {
@@ -72,7 +80,11 @@ namespace CodeFox.Services
                 DB.Files.Remove(Item);
             }
             DB.Folders.Remove(TheFolder);
-            DB.SaveChanges();
+            if (DB.SaveChanges() == 0)
+            {
+                return false;
+            }
+            return true;
         }
         public void DeleteFolderAndContent(Folder ToDelete)
         {
