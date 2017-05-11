@@ -123,7 +123,7 @@ namespace CodeFox.Services
         {
             if (Folder == null)
             {
-                return "/";
+                return "";
             }
             return GetFolderPath(Folder.FolderStructure) + "/" + Folder.Name;
         }
