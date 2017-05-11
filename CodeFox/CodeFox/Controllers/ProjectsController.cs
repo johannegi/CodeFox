@@ -40,7 +40,7 @@ namespace CodeFox.Controllers
             if (ModelState.IsValid)
             {
                 string Username = User.Identity.Name;
-                if (PService.CreateProject(Model, Username))
+                if (!PService.CreateProject(Model, Username))
                 {
                     throw new ArgumentException();
                 }
