@@ -30,7 +30,7 @@
                   Model.TypeList.Select(x => new { Value = x, Text = x }),
                   "value",
                   "text",
-                   2), new { @class = "form-control" })
+                   "Web Application"), new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.Type, "", new { @class = "text-danger" })
             </div>
         </div>
