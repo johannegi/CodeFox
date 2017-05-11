@@ -41,7 +41,7 @@ namespace CodeFox.Services
                 {
                     
                     Project tmp = DB.Projects.Find(item.OwnerProject.ID);
-                   // UserView.TimeAgo = string.Format("{ 0:MM / dd / yyy HH: mm: ss.fff}",tmp.DateModified);
+                    //UserView.TimeAgo = string.Format("{ 0:MM / dd / yyy HH: mm: ss.fff}",tmp.DateModified);
                     UserView.Projects.Add(tmp);
                 }
             }
@@ -52,7 +52,7 @@ namespace CodeFox.Services
                 foreach (var item in PShare)
                 {
                     Project tmp = DB.Projects.Find(item.ShareProject.ID);
-                 //   UserView.TimeAgo = string.Format("{ 0:MM / dd / yyy HH: mm: ss.fff}", tmp.DateModified);
+                    //UserView.TimeAgo = string.Format("{ 0:MM / dd / yyy HH: mm: ss.fff}", tmp.DateModified);
                     UserView.SharedProjects.Add(tmp);
                 }
             }
