@@ -223,6 +223,7 @@
     <Compile Include="Models\Entities\Project.cs" />
     <Compile Include="Models\Entities\ProjectOwner.cs" />
     <Compile Include="Models\Entities\ProjectShare.cs" />
+    <Compile Include="Models\Entities\TreeData.cs" />
     <Compile Include="Models\Entities\UserInfo.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
