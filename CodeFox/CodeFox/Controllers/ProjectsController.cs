@@ -49,21 +49,22 @@ namespace CodeFox.Controllers
             return View(Model);
         }
 
-        public ActionResult Delete(int? id)
+        public ActionResult Delete(int? ID)
         {
-            Project Model = PService.GetProjectFromID(id);
+            Project Model = PService.GetProjectFromID(ID);
             string Username = User.Identity.Name;
             if (Username == Model.Owner.Username)
             {
-                return View(Model);
+                return Json(Model, JsonRequestBehavior.AllowGet);
             }
             throw new ArgumentException();
         }
 
         [HttpPost]
-        public ActionResult Delete(Project Model)
+        public ActionResult Delete(int ProjectID)
         {
-            if (ModelState.IsValid)
+            Project Model = PService.GetProjectFromID(ProjectID);
+            if (Model != null)
             {
                 PService.DeleteProject(Model.ID);
                 return RedirectToAction("Index");

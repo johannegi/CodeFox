@@ -263,6 +263,7 @@
     </Content>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\codefox.js" />
+    <Content Include="Scripts\DeleteModal.js" />
     <Content Include="Scripts\EditorScripts.js" />
     <Content Include="Scripts\jquery.timeago.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -326,6 +327,7 @@
     <Content Include="Views\Projects\Delete.cshtml" />
     <Content Include="Views\Editor\AddFiles.cshtml" />
     <Content Include="Views\Editor\AddFolder.cshtml" />
+    <Content Include="Views\Shared\DeleteModalPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

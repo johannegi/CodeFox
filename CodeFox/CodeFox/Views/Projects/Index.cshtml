@@ -33,9 +33,9 @@
                                     <span class="glyphicon glyphicon-align-justify" aria-hidden="true"></span>
                                 </button>
                                 <ul class="dropdown-menu">
-                                    <li class="dropdown-item">@Html.ActionLink("Delete", "Delete", "Projects", new { id = item.ID }, null)</li>
+                                    <li class="dropdown-item Delete" data-toggle="modal" data-id="@item.ID">Delete</li>
                                     <li class="dropdown-item">@Html.ActionLink("Export", "Export", "Projects", new { id = item.ID }, null)</li>
-                                    <li href="#my_modal" class="dropdown-item SelectDropDown" data-toggle="modal"  data-id="@item.ID">Details</li>
+                                    <li class="dropdown-item SelectDropDown" data-toggle="modal"  data-id="@item.ID">Details</li>
                                 </ul>
                             </div>
                     </div>
@@ -75,10 +75,10 @@
                     </div>
             </div>
         </div>
-   }
+}
 
 
-<div class="modal" id="OpenModal">
+<div class="modal" id="OpenModalDetails">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -109,9 +109,7 @@
 </div>
 <!-- /.modal -->
 
-<time class="timeago" datetime="2008-07-17T09:24:17Z" title="July 17, 2008"></time>
-
-
+@{Html.RenderPartial("~/Views/Shared/DeleteModalPartial.cshtml", Model);}
 
 
 @section scripts
@@ -122,5 +120,6 @@
 
     <script src="@Url.Content("~/Scripts/jquery.timeago.js")" type="text/javascript" charset="utf-8"></script>   
     <script src="@Url.Content("~/Scripts/ProjectIndex.js")" type="text/javascript" charset="utf-8"></script>   
+    <script src="@Url.Content("~/Scripts/DeleteModal.js")" type="text/javascript" charset="utf-8"></script>   
 }
 
