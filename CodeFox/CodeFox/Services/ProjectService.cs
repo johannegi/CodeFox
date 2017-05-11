@@ -32,6 +32,7 @@ namespace CodeFox.Services
             UserView.Username = user.Username;
             UserView.Country = user.Country;
             UserView.Email = user.Email;
+      
 
             var POwners = DB.ProjectOwners.Where(x => x.Owner.ID == user.ID).ToList();
             if (POwners != null)
@@ -40,6 +41,7 @@ namespace CodeFox.Services
                 {
                     
                     Project tmp = DB.Projects.Find(item.OwnerProject.ID);
+                   // UserView.TimeAgo = string.Format("{ 0:MM / dd / yyy HH: mm: ss.fff}",tmp.DateModified);
                     UserView.Projects.Add(tmp);
                 }
             }
@@ -50,6 +52,7 @@ namespace CodeFox.Services
                 foreach (var item in PShare)
                 {
                     Project tmp = DB.Projects.Find(item.ShareProject.ID);
+                 //   UserView.TimeAgo = string.Format("{ 0:MM / dd / yyy HH: mm: ss.fff}", tmp.DateModified);
                     UserView.SharedProjects.Add(tmp);
                 }
             }
@@ -76,6 +79,7 @@ namespace CodeFox.Services
             projectView.ID = (int)ProjectID;
             projectView.CurrentOpenFile = projectView.ReadMe;
             projectView.FileToOpenID = projectView.ReadMe.ID;
+            
 
 
             var FilesProject = DB.FilesInProjects.Where(x => x.FileProject.ID == CurrProject.ID).ToList();
