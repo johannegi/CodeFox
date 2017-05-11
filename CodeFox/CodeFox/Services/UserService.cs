@@ -12,14 +12,11 @@ namespace CodeFox.Services
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        public List<UserInfo> GetAllUsers(string CurrentUser)
+        public List<UserInfo> Autocomplete(string Term, string Username)
         {
-            List<UserInfo> AllUsers = db.UsersInfo.Where(x => x.Username != CurrentUser).ToList();
-            if(AllUsers == null)
-            {
-                AllUsers = new List<UserInfo>();
-            }
-            return AllUsers;
+            var PossibleOutComes = db.UsersInfo.Where(s => s.Username.ToLower().StartsWith
+                                        (Term.ToLower()) && s.Username != Username).Select(w => w).ToList();
+            return PossibleOutComes;
         }
 
         public List<UserInfo> GetSharedUsersFromProject(int? ProjectID)

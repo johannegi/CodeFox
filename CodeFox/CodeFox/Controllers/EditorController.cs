@@ -21,7 +21,7 @@ namespace CodeFox.Controllers
         private UserService UService = new UserService();
 
         // GET: Editor
-        public ActionResult Index(int? id)
+        public ActionResult Index(int id)
         {
             string Username = User.Identity.Name;
             if (!Pservice.CanUserOpenProject(id, Username))
@@ -32,7 +32,7 @@ namespace CodeFox.Controllers
             return View(EdiorView);
         }
 
-        public ActionResult AddFiles(int? id)
+        public ActionResult AddFiles(int id)
         {
             if (!Pservice.CanUserOpenProject(id, User.Identity.Name))
             {
@@ -45,7 +45,6 @@ namespace CodeFox.Controllers
         }
 
         [HttpPost]
-       // [ValidateAntiForgeryToken]
         public ActionResult AddFiles(AddFilesViewModel Model)
         {
             if (!Pservice.CanUserOpenProject(Model.ProjectID, User.Identity.Name))
@@ -57,7 +56,7 @@ namespace CodeFox.Controllers
                 
                 if(!FService.AddFile(Model))
                 {
-                    return Json("Hello", JsonRequestBehavior.AllowGet);
+                    return Json("SameName", JsonRequestBehavior.AllowGet);
                 }
                 return RedirectToAction("Index", "Editor", new { id = Model.ProjectID });
             }
@@ -67,24 +66,40 @@ namespace CodeFox.Controllers
         [HttpPost]
         public void MoveFile(int ProjectID, int FileID, int? NewFolderID)
         {
-            FService.MoveFile(ProjectID, FileID, NewFolderID);
+            if (Pservice.CanUserOpenProject(ProjectID, User.Identity.Name))
+            {
+                if (!FService.MoveFile(ProjectID, FileID, NewFolderID))
+                {
+                    throw new Exception();
+                }
+            }
         }
 
         [HttpPost]
         public void MoveFolder(int ProjectID, int FolderID, int? NewFolderID)
         {
-            FoService.MoveFolder(ProjectID, FolderID, NewFolderID);
+            if (Pservice.CanUserOpenProject(ProjectID, User.Identity.Name))
+            {
+                if (!FoService.MoveFolder(ProjectID, FolderID, NewFolderID))
+                {
+                    throw new Exception();
+                }
+            }
+            
         }
 
         public ActionResult AddFolder(int id)
         {
+            if (!Pservice.CanUserOpenProject(id, User.Identity.Name))
+            {
+                return RedirectToAction("Index", "Projects");
+            }
             AddFolderViewModel Model = new AddFolderViewModel();
             Model.ProjectID = id;
             return View(Model);
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult AddFolder(AddFolderViewModel Model)
         {
             if (!Pservice.CanUserOpenProject(Model.ProjectID, User.Identity.Name))
@@ -103,29 +118,58 @@ namespace CodeFox.Controllers
         [HttpPost]
         public void SaveFile(int ProjectID, int FileID, string NewText)
         {
-            FService.SaveFile(ProjectID, FileID, NewText);
+            if (Pservice.CanUserOpenProject(ProjectID, User.Identity.Name))
+            {
+                if (!FService.SaveFile(ProjectID, FileID, NewText))
+                {
+                    throw new Exception();
+                }
+            }
         }
 
         public ActionResult ChangeFileName(int ProjectID, int FileID, string NewName)
         {
-            return Json(FService.ChangeFileName(ProjectID, FileID, NewName), JsonRequestBehavior.AllowGet);
+            var FileChanged = FService.ChangeFileName(ProjectID, FileID, NewName);
+            if(FileChanged != null)
+            {
+                return Json(FileChanged, JsonRequestBehavior.AllowGet);
+            }
+            return RedirectToAction("Index", "Projects");
         }
 
         public ActionResult ChangeFolderName(int ProjectID, int FolderID, string NewName)
         {
-            return Json(FoService.ChangeFolderName(ProjectID, FolderID, NewName), JsonRequestBehavior.AllowGet);
+            var FolderChanged = FoService.ChangeFolderName(ProjectID, FolderID, NewName);
+            if (FolderChanged != null)
+            {
+                return Json(FolderChanged, JsonRequestBehavior.AllowGet);
+            }
+            return RedirectToAction("Index", "Projects");
         }
 
         [HttpPost]
-        public void DeleteFile(int FileID)
+        public void DeleteFile(int FileID, int ProjectID)
         {
-            FService.DeleteFile(FileID);
+            if (Pservice.CanUserOpenProject(ProjectID, User.Identity.Name))
+            {
+                if (!FService.DeleteFile(FileID))
+                {
+                    throw new Exception();
+                }
+            }
         }
 
         [HttpPost]
-        public void DeleteFolder(int FolderID)
+        public void DeleteFolder(int FolderID, int ProjectID)
         {
-            FoService.DeleteFolder(FolderID);
+            if (Pservice.CanUserOpenProject(ProjectID, User.Identity.Name))
+            {
+                if (!FoService.DeleteFolder(FolderID))
+                {
+                    throw new Exception();
+                }
+            }
+            
         }
 
         [HttpPost]
@@ -133,18 +177,22 @@ namespace CodeFox.Controllers
         {
             File NewFile = new File();
             NewFile = FService.GetFileByID(FileID);
-            return Json(NewFile, JsonRequestBehavior.AllowGet);
+            if(NewFile == null)
+            {
+                return Json(NewFile, JsonRequestBehavior.AllowGet);
+            }
+            return RedirectToAction("Index", "Projects");
+
         }
 
         [HttpGet]
-        public ActionResult Share(int? id)
+        public ActionResult Share(int id)
         {
             if (!Pservice.CanUserOpenProject(id, User.Identity.Name))
             {
                 return RedirectToAction("Index", "Projects");
             }
             ShareProjectViewModel Model = new ShareProjectViewModel();
-            Model.AllUsers = UService.GetAllUsers(User.Identity.GetUserName());
             Model.SharedWith = UService.GetSharedUsersFromProject(id);
             Model.ShareProject = Pservice.GetProjectFromID(id);
             return View(Model);
@@ -162,9 +210,7 @@ namespace CodeFox.Controllers
             {
                 return Json(Username, JsonRequestBehavior.AllowGet);
             }
-            return Json("User is already a collaborator", JsonRequestBehavior.AllowGet);
-            
-            //TODO: implement error logger            
+            return Json("User is already a collaborator", JsonRequestBehavior.AllowGet);     
         }
 
         [HttpPost]
@@ -180,24 +226,9 @@ namespace CodeFox.Controllers
         [HttpPost]
         public ActionResult Autocomplete(string term)
         {
-            var AllUsers = UService.GetAllUsers(User.Identity.GetUserName());
-
-            if(term == "")
+            if (term != null && term != "" )
             {
-                return Json("", JsonRequestBehavior.AllowGet);
-            }
-
-            if (term != null)
-            {
-                // ER þetta slæmt??
-                var PossibleOutComes = AllUsers.Where(s => s.Username.ToLower().StartsWith
-                                        (term.ToLower())).Select(w => w).ToList();
-
-                if (PossibleOutComes == null)
-                {
-                    return Json("", JsonRequestBehavior.AllowGet);
-                }
-                return Json(PossibleOutComes, JsonRequestBehavior.AllowGet);
+                return Json(UService.Autocomplete(term, User.Identity.Name), JsonRequestBehavior.AllowGet);
             }
             return Json("", JsonRequestBehavior.AllowGet);
         }
