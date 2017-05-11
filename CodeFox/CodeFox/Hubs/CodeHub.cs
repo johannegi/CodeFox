@@ -18,9 +18,9 @@ namespace CodeFox.Hubs
             Groups.Add(Context.ConnectionId, Convert.ToString(FileID));
         }
 
-        public void OnChange(object ChangeData, int FileID)
+        public void OnChange(object ChangeData, int FileID, string Username)
         {
-            Clients.Group(Convert.ToString(FileID), Context.ConnectionId).OnChange(ChangeData);
+            Clients.Group(Convert.ToString(FileID), Context.ConnectionId).OnChange(ChangeData, Username);
         }
     }
 }
