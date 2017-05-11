@@ -13,12 +13,12 @@
     @Html.ActionLink("Add file", "AddFiles", "Editor", new { id = Model.ID }, new { @class = "btn btn-info" })
     @Html.ActionLink("Add Folder", "AddFolder", "Editor", new { id = Model.ID }, new { @class = "btn btn-info" })
     @Html.ActionLink("Close", "Index", "Projects", new { area = "" }, new { @class = "btn btn-info" })
-</div>
-@if (User.Identity.Name == Model.Owner.Username)
-{
-    <div class="EditorButtons"> @Html.ActionLink("Delete project", "Delete", "Projects", new { id = Model.ID }, new { @class = "btn btn-danger DeleteButton" })</div>
-}
 
+    @if (User.Identity.Name == Model.Owner.Username)
+    {
+        <a class="btn btn-danger Delete DeleteButton" data-toggle="modal" data-id="@Model.ID">Delete</a>
+    }
+</div>
 <div class="EditorArea">
 
     <div>
@@ -44,6 +44,32 @@
     <input type="hidden" value="@Model.Owner.Username" class="CurrentUser" />
     <input type="hidden" value="@Url.Content("~/Content/JsTree/tree-icon.png")" class="TreeIcon" />
 
+    <div class="modal" id="OpenModalDelete">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Details</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="container DeleteContent">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "DeleteForm" }))
+                    {
+                        <input type="hidden" value="@Model.ID" class="ProjectID" />
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    }
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+
 
     @section scripts{
     <script src="@Url.Content("~/Scripts/AceEditor/ace.js")" type="text/javascript" charset="utf-8"> </script>
@@ -52,5 +78,6 @@
     <script src="@Url.Content("~/Scripts/jquery.signalR-2.2.2.min.js")" type="text/javascript" charset="utf-8"></script>
     <script src="@Url.Content("~/signalr/hubs")"></script>
     <script src="@Url.Content("~/Scripts/EditorScripts.js")" type="text/javascript" charset="utf-8"></script>
+    <script src="@Url.Content("~/Scripts/DeleteModal.js")" type="text/javascript" charset="utf-8"></script>   
     }
 </div>

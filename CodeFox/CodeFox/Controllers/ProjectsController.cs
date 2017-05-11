@@ -46,6 +46,7 @@ namespace CodeFox.Controllers
                 }
                 //return Json("Error", JsonRequestBehavior.AllowGet);
             }
+            Model.TypeList = PService.GetTypeList();
             return View(Model);
         }
 

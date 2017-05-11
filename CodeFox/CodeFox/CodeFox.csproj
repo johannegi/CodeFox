@@ -327,7 +327,6 @@
     <Content Include="Views\Projects\Delete.cshtml" />
     <Content Include="Views\Editor\AddFiles.cshtml" />
     <Content Include="Views\Editor\AddFolder.cshtml" />
-    <Content Include="Views\Shared\DeleteModalPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
