@@ -22,7 +22,7 @@ namespace CodeFox.Controllers
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
         private ApplicationDbContext db = new ApplicationDbContext();
-        private UserService UService = new UserService();
+        private UserService UService = new UserService(null);
 
         public AccountController()
         {

@@ -16,7 +16,7 @@ namespace CodeFox.Controllers
     [Authorize]
     public class ProjectsController : Controller
     {
-        private ProjectService PService = new ProjectService();
+        private ProjectService PService = new ProjectService(null);
 
         // GET: Project
 
@@ -40,9 +40,9 @@ namespace CodeFox.Controllers
             if (ModelState.IsValid)
             {
                 string Username = User.Identity.Name;
-                if (PService.CreateProject(Model, Username))
+                if (!PService.CreateProject(Model, Username))
                 {
-                    throw new ArgumentException();
+                    return RedirectToAction("Index");
                 }
                 //return Json("Error", JsonRequestBehavior.AllowGet);
             }

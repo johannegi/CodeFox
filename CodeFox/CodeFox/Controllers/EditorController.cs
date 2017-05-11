@@ -15,10 +15,10 @@ namespace CodeFox.Controllers
     [Authorize]
     public class EditorController : Controller
     {
-        private ProjectService Pservice = new ProjectService();
-        private FileService FService = new FileService();
-        private FolderService FoService = new FolderService();
-        private UserService UService = new UserService();
+        private ProjectService Pservice = new ProjectService(null);
+        private FileService FService = new FileService(null);
+        private FolderService FoService = new FolderService(null);
+        private UserService UService = new UserService(null);
 
         // GET: Editor
         public ActionResult Index(int id)
@@ -86,7 +86,7 @@ namespace CodeFox.Controllers
                 TreeData Tmp = new TreeData();
                 Tmp.id = Convert.ToString(Item.ID);
                 Tmp.parent = Folder;
-                Tmp.text = Item.Name;
+                Tmp.text = Item.Name + '.' + Item.Type;
                 Tmp.type = "file";
                 Data.Add(Tmp);
             }
@@ -120,7 +120,7 @@ namespace CodeFox.Controllers
                 {
                     return Json("SameName", JsonRequestBehavior.AllowGet);
                 }
-                throw new ArgumentException();
+                return RedirectToAction("Index", new { id = Model.ProjectID });
             }
             return View();
         }

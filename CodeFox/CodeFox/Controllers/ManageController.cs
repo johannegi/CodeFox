@@ -18,7 +18,7 @@ namespace CodeFox.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
-        private UserService UService = new UserService();
+        private UserService UService = new UserService(null);
 
         public ManageController()
         {

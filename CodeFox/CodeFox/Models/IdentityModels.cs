@@ -19,16 +19,31 @@ namespace CodeFox.Models
         }
     }
 
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+    public interface IAppDataContext
     {
-        public DbSet<UserInfo> UsersInfo { get; set; }
-        public DbSet<Project> Projects { get; set; }
-        public DbSet<File> Files { get; set; }
-        public DbSet<Folder> Folders { get; set; }
+        IDbSet<UserInfo> UsersInfo { get; set; }
+        IDbSet<Project> Projects { get; set; }
+        IDbSet<File> Files { get; set; }
+        IDbSet<Folder> Folders { get; set; }
 
-        public DbSet<FileInProject> FilesInProjects { get; set; }
-        public DbSet<ProjectOwner> ProjectOwners { get; set; }
-        public DbSet<ProjectShare> ProjectShares { get; set; }
+        IDbSet<FileInProject> FilesInProjects { get; set; }
+        IDbSet<ProjectOwner> ProjectOwners { get; set; }
+        IDbSet<ProjectShare> ProjectShares { get; set; }
+
+        int SaveChanges();
+        
+    }
+
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>, IAppDataContext
+    {
+        public IDbSet<UserInfo> UsersInfo { get; set; }
+        public IDbSet<Project> Projects { get; set; }
+        public IDbSet<File> Files { get; set; }
+        public IDbSet<Folder> Folders { get; set; }
+
+        public IDbSet<FileInProject> FilesInProjects { get; set; }
+        public IDbSet<ProjectOwner> ProjectOwners { get; set; }
+        public IDbSet<ProjectShare> ProjectShares { get; set; }
 
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
