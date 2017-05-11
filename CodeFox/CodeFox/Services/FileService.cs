@@ -72,7 +72,7 @@ namespace CodeFox.Services
         public List<File> CreateWebApplication()
         {
             File CssFile = new File();
-            CssFile.Name = "Index";
+            CssFile.Name = "styles";
             CssFile.Type = "css";
             CssFile.Location = "//This is the default CSS file";
             CssFile.FolderStructure = null;
@@ -80,7 +80,7 @@ namespace CodeFox.Services
             CssFile.DateModified = DateTime.Now;
 
             File JsFile = new File();
-            JsFile.Name = "Index";
+            JsFile.Name = "scripts";
             JsFile.Type = "js";
             JsFile.Location = "//This is the default JavaScript file";
             JsFile.FolderStructure = null;
