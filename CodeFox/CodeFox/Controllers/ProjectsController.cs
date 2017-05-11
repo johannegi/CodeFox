@@ -67,7 +67,7 @@ namespace CodeFox.Controllers
             PService.DeleteProject(Model.ID);
             return RedirectToAction("Index");
         }
-        private ApplicationDbContext db = new ApplicationDbContext();
+        //private ApplicationDbContext db = new ApplicationDbContext();
 
         public FileResult Export(int? ID)
         {
@@ -102,15 +102,28 @@ namespace CodeFox.Controllers
         }
 
         [HttpPost]
-        public ActionResult Search(string Term)
+        public ActionResult SearchOwned(string Term)
         {
-            if (Term != null && Term != "")
+            if (Term != null)
             {
-                var Found = PService.Search(Term);
+                var Found = PService.SearchOwned(Term, User.Identity.Name);
                 if(Found != null)
                 {
                     return Json(Found, JsonRequestBehavior.AllowGet);
                 }               
+            }
+            return Json("", JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult SearchShared(string Term)
+        {
+            if (Term != null)
+            {
+                var Found = PService.SearchShared(Term, User.Identity.Name);
+                if (Found != null)
+                {
+                    return Json(Found, JsonRequestBehavior.AllowGet);
+                }
             }
             return Json("", JsonRequestBehavior.AllowGet);
         }

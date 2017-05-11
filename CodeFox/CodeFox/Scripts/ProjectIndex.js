@@ -1,5 +1,33 @@
 ﻿$(document).ready(function ()
 {
+    $("#Search").keyup(function () {
+        var prefix = $("#Search").val();
+        $.ajax({
+            url: '/Projects/Search/',
+            data: { 'Term': prefix },
+            method: 'POST',
+            success: function (data) {
+
+                $('.SearchResult').html('');
+                if (data != "") {
+                    var html = "<ul>";
+                    for (var i = 0; i < data.length; i++) {
+                        html += "<div name='SelectFoundUsers' class='SelectClass list-group-item col-sm-12 col-md-12 col-lg-12'>";
+                        html += data[i].Username;
+                        html += "</div>";
+                    }
+                    html += '</ul>';
+                    $('.SearchResult').append(html);
+                }
+                else if (prefix == "") {
+                    $('.SearchResult').html('');
+                }
+                else {
+                    $('.SearchResult').html('<p>User Not found</p>');
+                }
+            }
+        });
+    });
 
     $(".JsOnHover").mouseover(function ()
     {
@@ -48,22 +76,20 @@
         var OwnedProjects = $(this).attr('id');
         if (OwnedProjects == "OwnedProjectIndex")
         {
-            $('.OwnProjects').toggle(function()
-            {
-                alert('1');
-            }, function ()
-            {
-                alert('2');
-            });
+            $(".OwnProjects").toggle();
+            $(this).toggleClass('fa-caret-down');
+            $(this).toggleClass('fa-caret-right');
         }
         else
         {
             $('.SharedProjects').toggle();
+            $(this).toggleClass('fa-caret-down');
+            $(this).toggleClass('fa-caret-right');
         }
     });
 
 
-    //HELPS US TO SEE WHEN MODIFIED, SOURCE COUDE: https://coderwall.com/p/uub3pw/javascript-timeago-func-e-g-8-hours-ago
+    //HELPS US TO SEE WHEN MODIFIED, SOURCE CODE: https://coderwall.com/p/uub3pw/javascript-timeago-func-e-g-8-hours-ago
 
     (function timeAgo(selector) {
 
@@ -89,7 +115,7 @@
         var timer = function (time) {
             if (!time)
                 return;
-            time = time.replace(/\.\d+/, ""); // remove milliseconds
+            time = time.replace(/.\d+/, ""); // remove milliseconds
             time = time.replace(/-/, "/").replace(/-/, "/");
             time = time.replace(/T/, " ").replace(/Z/, " UTC");
             time = time.replace(/([\+\-]\d\d)\:?(\d\d)/, " $1$2"); // -04:00 -> -0400

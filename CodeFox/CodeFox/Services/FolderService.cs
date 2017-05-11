@@ -11,6 +11,7 @@ namespace CodeFox.Services
     public class FolderService
     {
         private ApplicationDbContext DB = new ApplicationDbContext();
+        private FileService FService = new FileService();
 
         public void AddFolder(AddFolderViewModel Model)
         {
@@ -47,6 +48,16 @@ namespace CodeFox.Services
 
         public void DeleteFolder(int FolderID)
         {
+            Folder TheFolder = DB.Folders.Find(FolderID);
+            Project TheProject = DB.Projects.Find(TheFolder.ProjectStructure.ID);
+            List<Folder> AllFolders = DB.Folders.Where(x => x.ProjectStructure.ID == TheProject.ID).ToList();
+            foreach(Folder Fold in AllFolders)
+            {
+                if(Fold.FolderStructure != null && Fold.FolderStructure.ID == FolderID)
+                {
+                    DeleteFolder(Fold.ID);
+                }
+            }
             List<File> FilesInFolder = DB.Files.Where(x => x.FolderStructure.ID == FolderID).ToList();
             foreach (var Item in FilesInFolder)
             {
@@ -54,9 +65,16 @@ namespace CodeFox.Services
                 DB.FilesInProjects.Remove(Tmp);
                 DB.Files.Remove(Item);
             }
-            Folder ToDelete = DB.Folders.Find(FolderID);
-            DB.Folders.Remove(ToDelete);
+            DB.Folders.Remove(TheFolder);
             DB.SaveChanges();
+        }
+        public void DeleteFolderAndContent(Folder ToDelete)
+        {
+            List<File> AllFiles = DB.Files.Where(x => x.FolderStructure.ID == ToDelete.ID).ToList();
+            foreach(File Item in AllFiles)
+            {
+                FService.DeleteFile(Item.ID);
+            }
         }
 
         public Folder ChangeFolderName(int ProjectID, int FolderID, string NewName)

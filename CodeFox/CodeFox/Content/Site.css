@@ -213,8 +213,6 @@ section h3.section-subheading
     min-height: 302.6px;
 }
 
-
-
 .SharedProjects
 {
     padding-top: 15px;
@@ -242,6 +240,9 @@ textarea
     max-height: 300px;
 }
 
+input#Search{
+    width: 4000px;
+}
 
 /**********************************************************************************/
 /*Styles for About*/
@@ -466,14 +467,6 @@ td.ShareUsername
 /***************************************/
 /*Register Page*/
 
-<<<<<<< HEAD
-=======
-#DuplicateUsernameError 
-{
-    margin-bottom: -10px;
-}
-
->>>>>>> 134d20d6cf634f6861aeff0f631d6bcc214ee851
 .TheTree
 {
     width: 200px;
