@@ -120,7 +120,7 @@ namespace CodeFox.Controllers
                 {
                     return Json("SameName", JsonRequestBehavior.AllowGet);
                 }
-                throw new ArgumentException();
+                return RedirectToAction("Index", new { id = Model.ProjectID });
             }
             return View();
         }
