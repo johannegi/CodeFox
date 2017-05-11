@@ -12,13 +12,15 @@ namespace CodeFox.Services
 {
     public class ProjectService
     {
-        private FileService FService = new FileService(null);
-        private FolderService FoService = new FolderService(null);
+        private readonly FileService FService;
+        private readonly FolderService FoService;
         private readonly IAppDataContext DB;
 
         public ProjectService(IAppDataContext context)
         {
             DB = context ?? new ApplicationDbContext();
+            FService = new FileService(context);
+            FoService = new FolderService(context);
         }
 
         public ProjectsViewModel GetProjectsViewModel(string Username)
