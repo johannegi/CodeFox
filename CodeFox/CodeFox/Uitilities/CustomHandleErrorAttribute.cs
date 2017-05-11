@@ -20,7 +20,15 @@ namespace CodeFox.Utilities
             string currentController = (string)filterContext.RouteData.Values["controller"];
             string currentActionName = (string)filterContext.RouteData.Values["action"];
 
-            viewName = "Error";
+            if (ex is System.Web.HttpException)
+            {
+                viewName = "NotFound";
+            }
+            else
+            {
+                viewName = "Error";
+            }
+            
 
             //Create the error model information
             HandleErrorInfo model = new
