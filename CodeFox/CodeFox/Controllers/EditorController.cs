@@ -26,7 +26,7 @@ namespace CodeFox.Controllers
             string Username = User.Identity.Name;
             if (!Pservice.CanUserOpenProject(id, Username))
             {
-                return RedirectToAction("Index", "Projects");
+                throw new ArgumentException();
             }
             EditorViewModel EditorView = Pservice.GetEditorViewModel(id);
             return View(EditorView);
@@ -37,7 +37,7 @@ namespace CodeFox.Controllers
             string Username = User.Identity.Name;
             if (!Pservice.CanUserOpenProject(ProjectID, Username))
             {
-                return RedirectToAction("Index", "Projects");
+                throw new ArgumentException();
             }
             EditorViewModel EditorView = Pservice.GetEditorViewModel(ProjectID);
             List<TreeData> Data = new List<TreeData>();
@@ -98,7 +98,7 @@ namespace CodeFox.Controllers
         {
             if (!Pservice.CanUserOpenProject(id, User.Identity.Name))
             {
-                return RedirectToAction("Index", "Projects");
+                throw new ArgumentException();
             }
             AddFilesViewModel Model = new AddFilesViewModel();
             Model.TypeList = FService.GetTypeList();
@@ -111,7 +111,7 @@ namespace CodeFox.Controllers
         {
             if (!Pservice.CanUserOpenProject(Model.ProjectID, User.Identity.Name))
             {
-                return RedirectToAction("Index", "Projects");
+                throw new ArgumentException();
             }
             if (ModelState.IsValid)
             {
@@ -120,7 +120,7 @@ namespace CodeFox.Controllers
                 {
                     return Json("SameName", JsonRequestBehavior.AllowGet);
                 }
-                return RedirectToAction("Index", "Editor", new { id = Model.ProjectID });
+                throw new ArgumentException();
             }
             return View();
         }
@@ -154,7 +154,7 @@ namespace CodeFox.Controllers
         {
             if (!Pservice.CanUserOpenProject(id, User.Identity.Name))
             {
-                return RedirectToAction("Index", "Projects");
+                throw new ArgumentException();
             }
             AddFolderViewModel Model = new AddFolderViewModel();
             Model.ProjectID = id;
@@ -166,7 +166,7 @@ namespace CodeFox.Controllers
         {
             if (!Pservice.CanUserOpenProject(Model.ProjectID, User.Identity.Name))
             {
-                return RedirectToAction("Index", "Projects");
+                throw new ArgumentException();
             }
             if (ModelState.IsValid)
             {
@@ -196,7 +196,7 @@ namespace CodeFox.Controllers
             {
                 return Json(FileChanged, JsonRequestBehavior.AllowGet);
             }
-            return RedirectToAction("Index", "Projects");
+            throw new ArgumentException(); ;
         }
 
         public ActionResult ChangeFolderName(int ProjectID, int FolderID, string NewName)
@@ -206,7 +206,7 @@ namespace CodeFox.Controllers
             {
                 return Json(FolderChanged, JsonRequestBehavior.AllowGet);
             }
-            return RedirectToAction("Index", "Projects");
+            throw new ArgumentException();
         }
 
         [HttpPost]
@@ -243,7 +243,7 @@ namespace CodeFox.Controllers
             {
                 return Json(NewFile, JsonRequestBehavior.AllowGet);
             }
-            return RedirectToAction("Index", "Projects");
+            throw new ArgumentException();
 
         }
 
@@ -252,7 +252,7 @@ namespace CodeFox.Controllers
         {
             if (!Pservice.CanUserOpenProject(id, User.Identity.Name))
             {
-                return RedirectToAction("Index", "Projects");
+                throw new ArgumentException();
             }
             ShareProjectViewModel Model = new ShareProjectViewModel();
             Model.SharedWith = UService.GetSharedUsersFromProject(id);
@@ -266,7 +266,7 @@ namespace CodeFox.Controllers
         {
             if (!Pservice.CanUserOpenProject(ProjectID, User.Identity.Name))
             {
-                return RedirectToAction("Index", "Projects");
+                throw new ArgumentException();
             }
             if (Pservice.AddCollaborator(Username, ProjectID))
             {
