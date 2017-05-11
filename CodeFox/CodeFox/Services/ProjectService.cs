@@ -20,7 +20,7 @@ namespace CodeFox.Services
         {
             if(Username == "")
             {
-                // TODO: LOG ERROR
+                throw new Exception();
             }
             UserInfo user = DB.UsersInfo.Where(x => x.Username == Username).SingleOrDefault();
 
@@ -64,7 +64,7 @@ namespace CodeFox.Services
         {
             if (!ProjectID.HasValue)
             {
-                //TODO: ERROR
+                throw new Exception();
             }
             EditorViewModel projectView = new EditorViewModel();
 
@@ -107,11 +107,11 @@ namespace CodeFox.Services
             return projectView;
         }
 
-        public bool CanUserOpenProject(int? id, string Username)
+        public bool CanUserOpenProject(int id, string Username)
         {
-            if( !id.HasValue || Username == "")
+            if(Username == "")
             {
-                //LOG ERROR / THROW EXCEPTION
+                throw new Exception();
             }
             EditorViewModel model = GetEditorViewModel(id);
             if (model.Owner.Username == Username)
@@ -187,14 +187,10 @@ namespace CodeFox.Services
 
         public Project GetProjectFromID(int? ProjectID)
         {
-            if(!ProjectID.HasValue)
-            {
-                // TODO: IMPLEMENT ERROR ÞARF BÆÐI???
-            }
             Project ProjectWithID = DB.Projects.Where(x => x.ID == ProjectID).SingleOrDefault();
             if(ProjectWithID == null)
             {
-                //TODO:implement error
+                throw new Exception();
             }
             return ProjectWithID;
         }
@@ -257,7 +253,7 @@ namespace CodeFox.Services
         {
             if(!ProjectID.HasValue)
             {
-                // TODO: ERROR
+                throw new Exception();
             }
             //Deleting connection between owner and project to delete
             ProjectOwner POwner = DB.ProjectOwners.Where(x => x.OwnerProject.ID == ProjectID).FirstOrDefault();
@@ -294,7 +290,7 @@ namespace CodeFox.Services
         {
             if(!ProjectID.HasValue)
             {
-                //TODO: LOG ERROR
+                throw new Exception();
             }
             List<FileInProject> FileProject = DB.FilesInProjects.Where(x => x.FileProject.ID == ProjectID).ToList();
             List<File> AllFiles = new List<File>();
@@ -392,7 +388,6 @@ namespace CodeFox.Services
                 {
                     return null;
                 }
-                // Eða = null??
                 List<Project> SortedProjects = new List<Project>();
                 if(Ascending)
                 {

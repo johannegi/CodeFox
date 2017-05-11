@@ -44,7 +44,7 @@ namespace CodeFox.Controllers
                 {
                     return RedirectToAction("Index");
                 }
-                return Json("Error", JsonRequestBehavior.AllowGet);
+                //return Json("Error", JsonRequestBehavior.AllowGet);
             }
             return View(Model);
         }
@@ -61,15 +61,17 @@ namespace CodeFox.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult Delete(Project Model)
         {
-            PService.DeleteProject(Model.ID);
-            return RedirectToAction("Index");
+            if (ModelState.IsValid)
+            {
+                PService.DeleteProject(Model.ID);
+                return RedirectToAction("Index");
+            }
+            return View(Model);
         }
-        //private ApplicationDbContext db = new ApplicationDbContext();
 
-        public FileResult Export(int? ID)
+        public FileResult Export(int ID)
         {
             if (!PService.CanUserOpenProject(ID, User.Identity.Name))
             {
@@ -90,7 +92,7 @@ namespace CodeFox.Controllers
         }
 
         [HttpPost]
-        public JsonResult GetProject(int? ProjectID)
+        public JsonResult GetReadMe(int? ProjectID)
         {
             if (ProjectID.HasValue)
             {
@@ -101,29 +103,16 @@ namespace CodeFox.Controllers
             return Json("", JsonRequestBehavior.AllowGet);
         }
 
-        [HttpPost]
-        public ActionResult SearchOwned(string Term)
+        /*[HttpPost]
+        public ActionResult Search(string Term, bool Owned)
         {
             if (Term != null)
             {
-                var Found = PService.SearchOwned(Term, User.Identity.Name);
+                var Found = PService.Search(Term, User.Identity.Name);
                 if(Found != null)
                 {
                     return Json(Found, JsonRequestBehavior.AllowGet);
                 }               
-            }
-            return Json("", JsonRequestBehavior.AllowGet);
-        }
-
-        public ActionResult SearchShared(string Term)
-        {
-            if (Term != null)
-            {
-                var Found = PService.SearchShared(Term, User.Identity.Name);
-                if (Found != null)
-                {
-                    return Json(Found, JsonRequestBehavior.AllowGet);
-                }
             }
             return Json("", JsonRequestBehavior.AllowGet);
         }
@@ -140,7 +129,7 @@ namespace CodeFox.Controllers
                 }
             }
             return Json("", JsonRequestBehavior.AllowGet);
-        }
+        }*/
 
     }
 }

@@ -77,7 +77,7 @@
             if (ChangeData.action == 'remove') {
                 $('#EditorInfo').text(Username + ' removed at line ' + (ChangeData.end.row + 1));
             }
-            
+
             Silent = false;
         }
 
@@ -256,7 +256,7 @@
                                             $.ajax(
                                                 {
                                                     url: '/Editor/DeleteFile/',
-                                                    data: { 'FileID': Number(Node.id) },
+                                                    data: { 'FileID': Number(Node.id), 'ProjectID': Number(@Model.ID) },
                                                     method: 'POST',
                                                     success: function (ReturnData) {
                                                         $('#EditorInfo').text(Node.text + ' deleted');
@@ -269,7 +269,7 @@
                                             $.ajax(
                                                 {
                                                     url: '/Editor/DeleteFolder/',
-                                                    data: { 'FolderID': Number(Node.id) },
+                                                    data: { 'FolderID': Number(Node.id), 'ProjectID': Number(@Model.ID) },
                                                     method: 'POST',
                                                     success: function (ReturnData) {
                                                         $('#EditorInfo').text(Node.text + ' deleted');
@@ -343,7 +343,7 @@
                             success: function () {
                                 var NewParent = $('#Tree').jstree(true).get_node(Data.parent)
                                 $('#EditorInfo').text(Data.node.text + ' Moved to folder ' + NewParent.text);
-                            }
+                            },
                         });
                     }
                         //Move Folder
