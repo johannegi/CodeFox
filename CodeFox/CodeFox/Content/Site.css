@@ -182,12 +182,26 @@ section h3.section-subheading
 {
     background: #428bca;
 }
-/*.Hamburger
+
+.ProjectsCaption
 {
-    float: right;
-    border: none;
-    cursor: pointer;  
-}*/
+    background-color: #5bc0de;
+    padding: 10px;
+    margin-left: -3%;
+    margin-right:-3%;
+    color: white;
+}
+
+.ProjectArrow
+{
+    padding: 15px;
+    color: white;
+}
+
+.ProjectArrow:hover
+{
+    color: #eee;
+}
 
 .OwnProjects
 {   
@@ -198,8 +212,6 @@ section h3.section-subheading
     border: 0.5px solid lightgray;
     min-height: 302.6px;
 }
-
-
 
 .SharedProjects
 {
@@ -223,6 +235,14 @@ textarea
     width: 100%;
 }
 
+#ModalEditor
+{
+    max-height: 300px;
+}
+
+input#Search{
+    width: 4000px;
+}
 
 /**********************************************************************************/
 /*Styles for About*/
@@ -447,14 +467,6 @@ td.ShareUsername
 /***************************************/
 /*Register Page*/
 
-<<<<<<< HEAD
-=======
-#DuplicateUsernameError 
-{
-    margin-bottom: -10px;
-}
-
->>>>>>> 134d20d6cf634f6861aeff0f631d6bcc214ee851
 .TheTree
 {
     width: 200px;

@@ -327,12 +327,32 @@ namespace CodeFox.Services
                 return System.IO.File.ReadAllBytes(FilePath);
             }
         }
-        public List<Project> Search(string Term)
+        public List<Project> SearchShared(string Term, string Username)
         {
-            if(Term != null && Term != "")
+            var User = DB.UsersInfo.Where(x => x.Username == Username).SingleOrDefault();
+            int UserID = User.ID;
+            if(Term != null && User != null)
             {
                 // If we don't find anything we return null eitherway, hence if(FoundProjects == null) not neccessary
-                var FoundProjects = (from x in DB.Projects where x.Name.StartsWith(Term) select x).ToList();
+                var FoundProjectConnections = (from x in DB.ProjectShares where x.ShareUser.ID == UserID 
+                                     select x.ShareProject).ToList();
+                var FoundProjects = FoundProjectConnections.Where(x => x.Name.StartsWith(Term)).ToList();
+                return FoundProjects;
+            }
+            return null;
+        }
+
+        public List<Project> SearchOwned(string Term, string Username)
+        {
+            var User = DB.UsersInfo.Where(x => x.Username == Username).SingleOrDefault();
+            int UserID = User.ID;
+            if (Term != null && User != null)
+            {
+                // If we don't find anything we return null eitherway, hence if(FoundProjects == null) not neccessary
+                var FoundProjects = (from x in DB.Projects
+                                     where x.Owner.ID == UserID
+                                     && x.Name.StartsWith(Term)
+                                     select x).ToList();
                 return FoundProjects;
             }
             return null;
