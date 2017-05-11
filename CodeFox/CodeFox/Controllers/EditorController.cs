@@ -86,7 +86,7 @@ namespace CodeFox.Controllers
                 TreeData Tmp = new TreeData();
                 Tmp.id = Convert.ToString(Item.ID);
                 Tmp.parent = Folder;
-                Tmp.text = Item.Name;
+                Tmp.text = Item.Name + '.' + Item.Type;
                 Tmp.type = "file";
                 Data.Add(Tmp);
             }
