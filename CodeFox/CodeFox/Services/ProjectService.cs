@@ -12,9 +12,14 @@ namespace CodeFox.Services
 {
     public class ProjectService
     {
-        private FileService FService = new FileService();
-        private FolderService FoService = new FolderService();
-        private ApplicationDbContext DB = new ApplicationDbContext();
+        private FileService FService = new FileService(null);
+        private FolderService FoService = new FolderService(null);
+        private readonly IAppDataContext DB;
+
+        public ProjectService(IAppDataContext context)
+        {
+            DB = context ?? new ApplicationDbContext();
+        }
 
         public ProjectsViewModel GetProjectsViewModel(string Username)
         {
@@ -223,7 +228,7 @@ namespace CodeFox.Services
         {
             if(ProjectID.HasValue && Username != "")
             {
-                UserService getUser = new UserService();
+                UserService getUser = new UserService(null);
                 var SharedUsers = getUser.GetSharedUsersFromProject(ProjectID);
                 var RemoveUser = SharedUsers.Where(x => x.Username == Username).SingleOrDefault();
                 if(RemoveUser != null)

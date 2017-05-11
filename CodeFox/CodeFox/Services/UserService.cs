@@ -10,7 +10,12 @@ namespace CodeFox.Services
 {
     public class UserService
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private readonly IAppDataContext db;
+
+        public UserService(IAppDataContext context)
+        {
+            db = context ?? new ApplicationDbContext();
+        }
 
         public List<UserInfo> Autocomplete(string Term, string Username)
         {
@@ -49,7 +54,10 @@ namespace CodeFox.Services
         }
         public void EditUser(UserInfo User)
         {
-            db.Entry(User).State = EntityState.Modified;
+            UserInfo ToEdit = db.UsersInfo.Find(User.ID);
+            ToEdit.Name = User.Name;
+            ToEdit.Email = User.Email;
+            ToEdit.Country = User.Country;
             db.SaveChanges();
         }
     }

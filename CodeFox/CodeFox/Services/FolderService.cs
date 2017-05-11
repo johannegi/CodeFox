@@ -10,8 +10,14 @@ namespace CodeFox.Services
 {
     public class FolderService
     {
-        private ApplicationDbContext DB = new ApplicationDbContext();
-        private FileService FService = new FileService();
+        private readonly IAppDataContext DB;
+
+        public FolderService(IAppDataContext context)
+        {
+            DB = context ?? new ApplicationDbContext();
+        }
+        //private ApplicationDbContext DB = new ApplicationDbContext();
+        private FileService FService = new FileService(null);
 
         public void AddFolder(AddFolderViewModel Model)
         {
@@ -112,7 +118,7 @@ namespace CodeFox.Services
             }
         }
 
-        //Creates path from specific folder to the root of project recursively
+        //Returns path from specific folder to the root of project recursively
         public string GetFolderPath(Folder Folder)
         {
             if (Folder == null)
@@ -120,6 +126,11 @@ namespace CodeFox.Services
                 return "/";
             }
             return GetFolderPath(Folder.FolderStructure) + "/" + Folder.Name;
+        }
+        public Folder GetFolderByID(int? FolderID)
+        {
+            Folder Returner = DB.Folders.Where(x => x.ID == FolderID).FirstOrDefault();
+            return Returner;
         }
     }
 }

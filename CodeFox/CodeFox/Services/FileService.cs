@@ -11,7 +11,12 @@ namespace CodeFox.Services
 {
     public class FileService
     {
-        private ApplicationDbContext DB = new ApplicationDbContext();
+        private readonly IAppDataContext DB;
+
+        public FileService(IAppDataContext context)
+        {
+            DB = context ?? new ApplicationDbContext();
+        }
 
         public File CreateReadMe(string Text)
         {
