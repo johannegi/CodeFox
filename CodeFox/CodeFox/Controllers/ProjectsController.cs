@@ -42,7 +42,7 @@ namespace CodeFox.Controllers
                 string Username = User.Identity.Name;
                 if (PService.CreateProject(Model, Username))
                 {
-                    return RedirectToAction("Index");
+                    throw new ArgumentException();
                 }
                 //return Json("Error", JsonRequestBehavior.AllowGet);
             }
@@ -57,7 +57,7 @@ namespace CodeFox.Controllers
             {
                 return View(Model);
             }
-            return RedirectToAction("Index");
+            throw new ArgumentException();
         }
 
         [HttpPost]
