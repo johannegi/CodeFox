@@ -13,7 +13,6 @@
  *
  * Copyright (c) 2008-2017, Ryan McGeary (ryan -[at]- mcgeary [*dot*] org)
  */
-
 (function (factory) {
     if (typeof define === 'function' && define.amd) {
         // AMD. Register as an anonymous module.
@@ -100,16 +99,16 @@
             }
 
             var words = seconds < 45 && substitute($l.seconds, Math.round(seconds)) ||
-              seconds < 90 && substitute($l.minute, 1) ||
-              minutes < 45 && substitute($l.minutes, Math.round(minutes)) ||
-              minutes < 90 && substitute($l.hour, 1) ||
-              hours < 24 && substitute($l.hours, Math.round(hours)) ||
-              hours < 42 && substitute($l.day, 1) ||
-              days < 30 && substitute($l.days, Math.round(days)) ||
-              days < 45 && substitute($l.month, 1) ||
-              days < 365 && substitute($l.months, Math.round(days / 30)) ||
-              years < 1.5 && substitute($l.year, 1) ||
-              substitute($l.years, Math.round(years));
+                seconds < 90 && substitute($l.minute, 1) ||
+                minutes < 45 && substitute($l.minutes, Math.round(minutes)) ||
+                minutes < 90 && substitute($l.hour, 1) ||
+                hours < 24 && substitute($l.hours, Math.round(hours)) ||
+                hours < 42 && substitute($l.day, 1) ||
+                days < 30 && substitute($l.days, Math.round(days)) ||
+                days < 45 && substitute($l.month, 1) ||
+                days < 365 && substitute($l.months, Math.round(days / 30)) ||
+                years < 1.5 && substitute($l.year, 1) ||
+                substitute($l.years, Math.round(years));
 
             var separator = $l.wordSeparator || "";
             if ($l.wordSeparator === undefined) { separator = " "; }

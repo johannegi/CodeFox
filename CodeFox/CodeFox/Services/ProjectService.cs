@@ -41,7 +41,6 @@ namespace CodeFox.Services
                 {
                     
                     Project tmp = DB.Projects.Find(item.OwnerProject.ID);
-                    //UserView.TimeAgo = string.Format("{ 0:MM / dd / yyy HH: mm: ss.fff}",tmp.DateModified);
                     UserView.Projects.Add(tmp);
                 }
             }
