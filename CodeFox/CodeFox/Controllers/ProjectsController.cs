@@ -16,7 +16,7 @@ namespace CodeFox.Controllers
     [Authorize]
     public class ProjectsController : Controller
     {
-        private ProjectService PService = new ProjectService();
+        private ProjectService PService = new ProjectService(null);
 
         // GET: Project
 
