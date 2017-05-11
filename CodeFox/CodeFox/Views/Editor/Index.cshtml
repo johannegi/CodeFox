@@ -59,13 +59,23 @@
         var FileID = Number(@Model.ReadMe.ID);
 
         //When another user makes a change
-        CodeHub.client.onChange = function (ChangeData) {
+        CodeHub.client.onChange = function (ChangeData, Username) {
             Silent = true;
             Editor.getSession().getDocument().applyDelta(ChangeData);
             console.log(ChangeData);
             if (ChangeData.action == 'insert')
             {
-                $('#EditorInfo').text('User inserted at line ' + (ChangeData.end.row + 1));
+                if (ChangeData.end.column == 0)
+                {
+                    $('#EditorInfo').text(Username + ' added new line ' + (ChangeData.end.row + 1));
+                }
+                else
+                {
+                    $('#EditorInfo').text(Username + ' inserted at line ' + (ChangeData.end.row + 1));
+                }
+            }
+            if (ChangeData.action == 'remove') {
+                $('#EditorInfo').text(Username + ' removed at line ' + (ChangeData.end.row + 1));
             }
             
             Silent = false;
@@ -79,7 +89,7 @@
                 if (Silent) {
                     return;
                 }
-                CodeHub.server.onChange(Obj, FileID);
+                CodeHub.server.onChange(Obj, FileID, '@Model.Owner.Username');
             });
         });
 
