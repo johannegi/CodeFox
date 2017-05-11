@@ -1,7 +1,5 @@
 ﻿$(document).ready(function ()
 {
-    //$("time.timeago").timeago();
-
     $("#Search").keyup(function () {
         var prefix = $("#Search").val();
         $.ajax({
@@ -60,11 +58,11 @@
             }
         });
 
-        $('#OpenModal').modal();
+        $('#OpenModalDetails').modal();
 
         return false;
     });
-
+ 
     $('.ProjectArrow').on('click', function ()
     {
         var OwnedProjects = $(this).attr('id');
@@ -83,7 +81,8 @@
     });
 
 
-    //HELPS US TO SEE WHEN MODIFIED, SOURCE CODE: https://coderwall.com/p/uub3pw/javascript-timeago-func-e-g-8-hours-ago
+    //Gives us time difference, we modified the code a little bit so that it
+    //can read the datformat we provided, SOURCE CODE: https://coderwall.com/p/uub3pw/javascript-timeago-func-e-g-8-hours-ago
     (function timeAgo(selector) {
 
         var templates = {

@@ -142,10 +142,27 @@ section h3.section-subheading
     line-height: 1.428571429;
     color: #333333;
     white-space: nowrap;
-
 }
 
 .SelectDropDown:hover
+{
+    color: white;
+    cursor: pointer;
+    background : #428bca; 
+}
+
+.Delete
+{
+        display: block;
+    padding: 3px 20px;
+    clear: both;
+    font-weight: normal;
+    line-height: 1.428571429;
+    color: #333333;
+    white-space: nowrap;
+}
+
+.Delete:hover
 {
     color: white;
     cursor: pointer;
@@ -235,6 +252,19 @@ textarea
 input#Search
 {
     width: 4000px;
+}
+
+.DeleteTitle
+{
+    display:inline-block;
+    font-weight: bold;
+}
+
+.DeleteText
+{
+    font-size: 25px;
+    display:inline-block;
+    padding-left: 10px;
 }
 
 /**********************************************************************************/
@@ -396,6 +426,9 @@ div.NavBar
 {
     float: right;
     margin-right: 18px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    color: white;
 }
 
 #ProjectName
