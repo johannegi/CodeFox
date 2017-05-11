@@ -127,16 +127,6 @@ section h3.section-subheading
     transition-duration: 0.1s;
 }
 
-.OnHover
-{
-    display: none;
-}
-
-#HiddenLine
-{
-    display: none;
-}
-
 .Project a
 {
     color: black;
@@ -227,6 +217,7 @@ section h3.section-subheading
     max-height: calc(100vh - 210px);
     overflow-y: auto;
     word-wrap: break-word;
+
 }
 
 textarea
@@ -237,10 +228,12 @@ textarea
 
 #ModalEditor
 {
-    max-height: 300px;
+       
+    min-height: 300px;
 }
 
-input#Search{
+input#Search
+{
     width: 4000px;
 }
 
@@ -344,7 +337,6 @@ div.NavBar
 .navbar-inverse .navbar-nav > li >.HoverEffect:active,
 .navbar-inverse .navbar-nav > li >.HoverEffect:hover,
 .navbar-inverse .HoverEffect:hover
-
 {
     background-color: #5bc0de;
 }
