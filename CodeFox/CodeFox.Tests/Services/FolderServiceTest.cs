@@ -5,6 +5,8 @@ using CodeFox.Models.Entities;
 using CodeFox.Services;
 using CodeFox.Tests;
 using CodeFox.Models.ViewModels;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace CodeFox.Tests.Services
 {
@@ -21,10 +23,10 @@ namespace CodeFox.Tests.Services
             var P1 = new Project
             {
                 ID = 1,
-                Name = "Project1"
+                Name = "Project1",
             };
-            /*MockDb.Projects.Add(P1);
-            var P2 = new Project
+            MockDb.Projects.Add(P1);
+           /* var P2 = new Project
             {
                 ID = 2,
                 Name = "Project2"
@@ -36,7 +38,7 @@ namespace CodeFox.Tests.Services
                 ID = 1,
                 Name = "1Root",
                 FolderStructure = null,
-                //ProjectStructure = P1
+                ProjectStructure = P1
             };
             MockDb.Folders.Add(F1);
             var F2 = new Folder
@@ -44,7 +46,7 @@ namespace CodeFox.Tests.Services
                 ID = 2,
                 Name = "11Child",
                 FolderStructure = F1,
-                //ProjectStructure = P1
+                ProjectStructure = P1
             };
             MockDb.Folders.Add(F2);
             var F3 = new Folder
@@ -123,16 +125,13 @@ namespace CodeFox.Tests.Services
         public void TestAddFolder()
         {
             //Arrange
-            AddFolderViewModel NewFolder = new AddFolderViewModel
-            {
-                Name = "NewFold",
-                ProjectID = 1
-            };
+            
 
             //Act
-            service.AddFolder(NewFolder);
+            
+            
 
-
+            Assert.AreEqual(null, null);
         }
     }
 }
