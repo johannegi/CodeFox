@@ -111,7 +111,7 @@ namespace CodeFox.Services
         public void CreateTempProjectFolders(int? ProjectID, string ProjectPath)
         {
             System.IO.Directory.CreateDirectory(ProjectPath);
-            var AllFolders = DB.Folders.Where(x => x.ProjectStructure.ID == ProjectID).ToList();
+            var AllFolders = GetAllFoldersInProject(ProjectID);
             foreach(Folder Fold in AllFolders)
             {
                 System.IO.Directory.CreateDirectory(ProjectPath + GetFolderPath(Fold));
@@ -130,6 +130,12 @@ namespace CodeFox.Services
         public Folder GetFolderByID(int? FolderID)
         {
             Folder Returner = DB.Folders.Where(x => x.ID == FolderID).FirstOrDefault();
+            return Returner;
+        }
+
+        List<Folder> GetAllFoldersInProject(int? ProjectID)
+        {
+            List<Folder> Returner = DB.Folders.Where(x => x.ProjectStructure.ID == ProjectID).ToList();
             return Returner;
         }
     }

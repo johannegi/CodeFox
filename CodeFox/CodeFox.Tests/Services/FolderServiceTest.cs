@@ -122,11 +122,16 @@ namespace CodeFox.Tests.Services
         [TestMethod]
         public void TestAddFolder()
         {
+            //Arrange
             AddFolderViewModel NewFolder = new AddFolderViewModel
             {
                 Name = "NewFold",
                 ProjectID = 1
             };
+
+            //Act
+            service.AddFolder(NewFolder);
+
 
         }
     }

@@ -56,7 +56,7 @@ namespace CodeFox.Controllers
                 }
                 else
                 {
-                    Folder = Item.FolderStructure.ID;
+                    Folder = Convert.ToString(Item.FolderStructure.ID);
                 }
                 TreeData Tmp = new TreeData();
                 Tmp.id = Convert.ToString(Item.ID);
@@ -173,7 +173,7 @@ namespace CodeFox.Controllers
                 FoService.AddFolder(Model);
                 return RedirectToAction("Index", new { id = Model.ProjectID });
             }
-            return View();
+            return View(Model);
         }
 
         [ValidateInput(false)]
