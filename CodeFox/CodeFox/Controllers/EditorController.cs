@@ -28,8 +28,70 @@ namespace CodeFox.Controllers
             {
                 return RedirectToAction("Index", "Projects");
             }
-            EditorViewModel EdiorView = Pservice.GetEditorViewModel(id);
-            return View(EdiorView);
+            EditorViewModel EditorView = Pservice.GetEditorViewModel(id);
+            return View(EditorView);
+        }
+
+        public ActionResult GetTreeJson(int ProjectID)
+        {
+            string Username = User.Identity.Name;
+            if (!Pservice.CanUserOpenProject(ProjectID, Username))
+            {
+                return RedirectToAction("Index", "Projects");
+            }
+            EditorViewModel EditorView = Pservice.GetEditorViewModel(ProjectID);
+            List<TreeData> Data = new List<TreeData>();
+            TreeData Root = new TreeData();
+            Root.id = "Project";
+            Root.parent = "#";
+            Root.text = EditorView.Name;
+            Root.type = "root";
+            Data.Add(Root);
+            foreach (var Item in EditorView.Folders)
+            {
+                dynamic Folder;
+                if (Item.FolderStructure == null)
+                {
+                    Folder = "Project";
+                }
+                else
+                {
+                    Folder = Item.FolderStructure.ID;
+                }
+                TreeData Tmp = new TreeData();
+                Tmp.id = Convert.ToString(Item.ID);
+                Tmp.parent = Folder;
+                Tmp.text = Item.Name;
+                Tmp.type = "default";
+                Data.Add(Tmp);
+            }
+
+            TreeData ReadMe = new TreeData();
+            ReadMe.id = Convert.ToString(EditorView.ReadMe.ID);
+            ReadMe.parent = "Project";
+            ReadMe.text = EditorView.ReadMe.Name + "." + EditorView.ReadMe.Type;
+            ReadMe.type = "ReadMe";
+            Data.Add(ReadMe);
+            foreach (var Item in EditorView.Files)
+            {
+                dynamic Folder;
+                if (Item.FolderStructure == null)
+                {
+                    Folder = "Project";
+                }
+                else
+                {
+                    Folder = Convert.ToString(Item.FolderStructure.ID);
+                }
+                TreeData Tmp = new TreeData();
+                Tmp.id = Convert.ToString(Item.ID);
+                Tmp.parent = Folder;
+                Tmp.text = Item.Name;
+                Tmp.type = "file";
+                Data.Add(Tmp);
+            }
+            
+            return Json(Data, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult AddFiles(int id)
@@ -177,7 +239,7 @@ namespace CodeFox.Controllers
         {
             File NewFile = new File();
             NewFile = FService.GetFileByID(FileID);
-            if(NewFile == null)
+            if(NewFile != null)
             {
                 return Json(NewFile, JsonRequestBehavior.AllowGet);
             }
