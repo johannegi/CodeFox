@@ -37,13 +37,13 @@ namespace CodeFox.Controllers
             return View(Model);
         }
 
-        [HttpPost]
+        [HttpPost]      //Creates a project
         public ActionResult Create(CreateProjectViewModel Model)
         {
             // If the Model is valid.
             if (ModelState.IsValid)
             {
-                string Username = User.Identity.Name;
+                string Username = User.Identity.Name; //Creates project on users account
                 if (PService.CreateProject(Model, Username))
                 {
                     return RedirectToAction("Index");

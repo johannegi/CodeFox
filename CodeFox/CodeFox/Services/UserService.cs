@@ -43,18 +43,18 @@ namespace CodeFox.Services
             }
             return SharedUsers;
         }
-        public UserInfo GetUserByUsername(string Username)
+        public UserInfo GetUserByUsername(string Username) //Returns Userinfo with specific Username
         {
             UserInfo tmp = db.UsersInfo.Where(x => x.Username == Username).FirstOrDefault();
             return tmp;
         }
-        public List<string> GetCountryList()
+        public List<string> GetCountryList() //Returns all lines of file in path as a List of strings with country names
         {
             string path = System.Web.HttpContext.Current.Server.MapPath("~/Content/Lists/Countries.txt");
             List<string> listinn = new List<string>(System.IO.File.ReadLines(path).ToList());
             return listinn;
         }
-        public void EditUser(UserInfo User)
+        public void EditUser(UserInfo User) //Saves the changes of specific User in database
         {
             UserInfo ToEdit = db.UsersInfo.Find(User.ID);
             ToEdit.Name = User.Name;

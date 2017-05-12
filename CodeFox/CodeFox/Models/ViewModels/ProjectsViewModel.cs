@@ -15,6 +15,5 @@ namespace CodeFox.Models.ViewModels
         public string Country { get; set; }
         public List<Project> Projects { get; set; }
         public List<Project> SharedProjects { get; set; }
-        public string TimeAgo { get; set;  }
     }
 }
