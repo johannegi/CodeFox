@@ -211,7 +211,7 @@ section h3.section-subheading
 {
     color: white;
     cursor: pointer;
-    background : #428bca; 
+    background : #d9534f; 
 }
 
 .Project img:hover
@@ -471,12 +471,49 @@ div.NavBar
     padding-bottom: 20px;
 }
 
-.TheTree
+
+    .TheTree
+    {
+        width: 200px;
+        height: 410px;
+        overflow: auto;
+    }
+
+@media screen and (max-width: 1199px) 
 {
-    width: 200px;
-    height: 410px;
-    overflow: auto;
+    #Tree
+    {
+        float:left;
+        height: 300px;
+        width:300px;
+        margin-right: 10px;
+    }
+    .InfoView
+    {
+        position: relative; 
+        width: 300px;
+        overflow: auto;
+        height: 300px;
+        border: 1px solid gray;
+        margin: 5px;
+    }
 }
+
+@media screen and (min-width: 1200px) 
+{
+    .InfoView
+    {
+        position: relative; 
+        width: 190px;
+        overflow: auto;
+        height: 300px;
+        clear: both;
+        border: 1px solid gray;
+        margin: 5px;
+    }
+}
+
+
 /**********************************************************************************/
 /*Styles for Share*/
 .ShareWindow 
@@ -526,13 +563,3 @@ td.ShareUsername
 /***************************************/
 /*Register Page*/
 
-.InfoView
-{
-    position: relative; 
-    width: 190px;
-    overflow: auto;
-    height: 300px;
-    clear:both;
-    border: 1px solid gray;
-    margin: 5px;
-}

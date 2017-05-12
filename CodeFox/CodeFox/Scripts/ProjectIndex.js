@@ -1,7 +1,7 @@
 ﻿$(document).ready(function ()
 {
     // SelectDropDown is the class on the readme link in project index page.
-    $('.SelectDropDown').on('click', function (e) 
+    $('.SelectDropDown').on('click', function () 
     {
         var ProjectID = $(this).data("id");
         $.ajax({
@@ -9,9 +9,9 @@
             url: '/Projects/GetReadMe', 
             data: { 'ProjectID': ProjectID },
             method: "POST",
-            success: function (data)
+            success: function (Data)
             {
-                if (data == "") {
+                if (Data == "") {
                     $('#ModalText').html('Project Not Found');
                 }
                 else
@@ -25,7 +25,7 @@
                     Editor.session.setMode("ace/mode/Text");
                     Editor.$blockScrolling = Infinity;
                     // Readme file content inserted into Ace editor.
-                    ace.edit("ModalEditor").setValue(data.Location);            
+                    ace.edit("ModalEditor").setValue(Data.Location);            
                 }
             }
         });
@@ -57,7 +57,6 @@
     // This is the functionality that allows the user to leave project.
     $(document).on('click', ".LeaveProject", function ()
     {
-        
         var ProjectID = $('.LeaveSelected').attr('id');
         $('.LeaveSelectedDropDown').removeClass('.LeaveSelected')
         $.ajax({
@@ -65,7 +64,8 @@
             url: '/Projects/LeaveProject',
             data: { 'ProjectID': ProjectID },
             method: "POST",
-            success: function (data) {
+            success: function (Data)
+            {
                 window.location = '/Projects';
             }
         });

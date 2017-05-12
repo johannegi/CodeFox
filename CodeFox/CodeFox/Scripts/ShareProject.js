@@ -4,29 +4,28 @@ $(document).ready(function ()
     /*Ajax*/
     $("#AddUsername").keyup(function ()
     {
-        var form = $(this);
-        var prefix = $("#AddUsername").val();
+        var Prefix = $("#AddUsername").val();
         $.ajax({
             url: '/Editor/Autocomplete/',
-            data: { 'Term': prefix },
+            data: { 'Term': Prefix },
             method: 'POST',
-            success: function (data)
+            success: function (Data)
             {
 
                 $('.ShowFound').html('');
-                if (data != "")
+                if (Data != "")
                 {
-                    var html = "<ul>";
-                    for (var i = 0; i < data.length; i++)
+                    var Html = "<ul>";
+                    for (var i = 0; i < Data.length; i++)
                     {
-                        html += "<div name='SelectFoundUsers' class='SelectClass list-group-item col-sm-12 col-md-12 col-lg-12'>";
-                        html += data[i].Username;
-                        html += "</div>";
+                        Html += "<div name='SelectFoundUsers' class='SelectClass list-group-item col-sm-12 col-md-12 col-lg-12'>";
+                        Html += Data[i].Username;
+                        Html += "</div>";
                     }
-                    html += '</ul>';
-                    $('.ShowFound').append(html);
+                    Html += '</ul>';
+                    $('.ShowFound').append(Html);
                 }
-                else if (prefix == "")
+                else if (Prefix == "")
                 {
                     $('.ShowFound').html('');
                 }
@@ -59,14 +58,14 @@ $(document).ready(function ()
                 else
                 {
                     $('.ShowFound').html('');
-                    var html = '<tr">';
-                    html += '<td class="ShareUsername">' + AddUser + '</td>';
+                    var Html = '<tr">';
+                    Html += '<td class="ShareUsername">' + AddUser + '</td>';
                     if (CurrentUser == Owner)
                     {
-                        html += ' <td><span class="RemoveShare glyphicon glyphicon-remove"></span></td>';
+                        Html += ' <td><span class="RemoveShare glyphicon glyphicon-remove"></span></td>';
                     }
-                    html += '</tr>';
-                    $('.ListOfCollaborators').append(html);
+                    Html += '</tr>';
+                    $('.ListOfCollaborators').append(Html);
                     $('.ShowFound').html('Collaborator added!');
                 }
                 $('.SelectedFoundUser').removeClass('SelectedFoundUser');
@@ -89,9 +88,9 @@ $(document).ready(function ()
                 dataType: 'html',
                 data: { 'Username': RemoveUser, 'ProjectID': ProjectID },
                 method: 'POST',
-                success: function (data)
+                success: function (Data)
                 {
-                    if (data == '"Success"')
+                    if (Data == '"Success"')
                     {
                         CurrentRow.remove();
                     }
@@ -108,8 +107,6 @@ $(document).ready(function ()
 
     /***********************************************************************************/
     /*Other*/
-
-    var first = true;
     $('div.ShowFound').on('click', '.SelectClass', function ()
     {
         var ElementArray = document.getElementsByClassName('SelectedFoundUser');
