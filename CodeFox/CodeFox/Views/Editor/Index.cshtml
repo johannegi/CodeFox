@@ -4,7 +4,7 @@
 }
 @Styles.Render("~/Content/JsTree/style.min.css")
 
-<h1 id="ProjectName">Project name: @Html.DisplayFor(model => model.Name)</h1>
+<h1 id="ProjectName"><strong>Project name:</strong> @Html.DisplayFor(model => model.Name)</h1>
 <div class="EditorButtons">
     <!-- Class created to construct the look of the buttons on EditorPage -->
     <!-- Nav bar where SAVE EXPORT SHARE ADD FILE CLOSE AND DELETE PROJECT WILL BE-->
@@ -39,92 +39,90 @@
             </div>
         </div>
     </div>
-
+    <!--HIDDEN INPUT FIELDS TO GET VALUES FROM MODEL-->
     <input type="hidden" value="@Model.ID" class="ProjectID" />
     <input type="hidden" value="@Model.ReadMe.ID" class="ReadMeID" />
     <input type="hidden" value="@User.Identity.Name" class="CurrentUser" />
     <input type="hidden" value="@Url.Content("~/Content/JsTree/tree-icon.png")" class="TreeIcon" />
 
 
-    <!--DELETE MODAL-->
-    <div class="modal" id="OpenModalDelete">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title">Details</h4>
+  </div>
+  <!--DELETE MODAL-->
+<div class="modal" id="OpenModalDelete">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Delete Project</h4>
+            </div>
+            <div class="modal-body">
+                <div class="container DeleteContent">
                 </div>
-                <div class="modal-body">
-                    <div class="container DeleteContent">
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "DeleteForm" }))
-                    {
-                        <input type="hidden" value="@Model.ID" class="ProjectID" />
+            </div>
+            <div class="modal-footer">
+                @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "DeleteForm" }))
+                {
+                    <input type="hidden" value="@Model.ID" class="ProjectID" />
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                         <button class="btn btn-danger DeleteProject">Delete</button>
-                    }
+                }
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+<!--ADD FILE MODAL-->
+<div class="modal" id="OpenModalAddFile">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Add File</h4>
+            </div>
+            <div class="modal-body">
+                <div class="container AddFilesContainer">
                 </div>
             </div>
-            <!-- /.modal-content -->
+            <div class="modal-footer">
+            </div>
         </div>
-        <!-- /.modal-dialog -->
+        <!-- /.modal-content -->
     </div>
-    <!-- /.modal -->
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+<!--ADD FOLDER MODAL-->
+<div class="modal" id="OpenModalAddFolder">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Add Folder</h4>
+            </div>
+            <div class="modal-body">
+                <div class="container AddFolderContainer">
 
-    <!--ADD FILE MODAL-->
-    <div class="modal" id="OpenModalAddFile">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title">Details</h4>
-                </div>
-                <div class="modal-body">
-                    <div class="container AddFilesContainer">                      
-                    </div>
-                </div>
-                <div class="modal-footer">
                 </div>
             </div>
-            <!-- /.modal-content -->
-        </div>
-        <!-- /.modal-dialog -->
-    </div>
-    <!-- /.modal -->
-
-    <!--ADD FOLDER MODAL-->
-    <div class="modal" id="OpenModalAddFolder">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title">Details</h4>
-                </div>
-                <div class="modal-body">
-                    <div class="container AddFolderContainer">
-                     
-                    </div>
-                </div>
-                <div class="modal-footer">
-                </div>
+            <div class="modal-footer">
             </div>
-            <!-- /.modal-content -->
         </div>
-        <!-- /.modal-dialog -->
+        <!-- /.modal-content -->
     </div>
-    <!-- /.modal -->
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
 
 
 
-    @section scripts{
+@section scripts{
     <script src="@Url.Content("~/Scripts/AceEditor/ace.js")" type="text/javascript" charset="utf-8"> </script>
     <script src="@Url.Content("~/Scripts/AceEditor/ext-modelist.js")" type="text/javascript" charset="utf-8"></script>
     <script src="@Url.Content("~/Scripts/JsTree/jstree.min.js")" type="text/javascript" charset="utf-8"></script>
     <script src="@Url.Content("~/Scripts/jquery.signalR-2.2.2.min.js")" type="text/javascript" charset="utf-8"></script>
     <script src="@Url.Content("~/signalr/hubs")"></script>
     <script src="@Url.Content("~/Scripts/EditorScripts.js")" type="text/javascript" charset="utf-8"></script>
-    <script src="@Url.Content("~/Scripts/DeleteModal.js")" type="text/javascript" charset="utf-8"></script>   
-    }
-</div>
+    <script src="@Url.Content("~/Scripts/DeleteModal.js")" type="text/javascript" charset="utf-8"></script>
+}
