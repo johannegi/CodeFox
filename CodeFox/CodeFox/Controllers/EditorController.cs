@@ -202,6 +202,10 @@ namespace CodeFox.Controllers
             {
                 return Json(FileChanged, JsonRequestBehavior.AllowGet);
             }
+            else
+            {
+                return Json("SameName", JsonRequestBehavior.AllowGet);
+            }
             throw new ArgumentException(); ;
         }
 
