@@ -15,20 +15,21 @@ namespace CodeFox.Controllers
     [Authorize]
     public class EditorController : Controller
     {
+        // This controller talks to all the services, so we have an instance of each one.
         private ProjectService Pservice = new ProjectService(null);
         private FileService FService = new FileService(null);
         private FolderService FoService = new FolderService(null);
         private UserService UService = new UserService(null);
 
         // GET: Editor
-        public ActionResult Index(int id)
+        public ActionResult Index(int ID)
         {
             string Username = User.Identity.Name;
-            if (!Pservice.CanUserOpenProject(id, Username))
+            if (!Pservice.CanUserOpenProject(ID, Username))
             {
                 throw new ArgumentException();
             }
-            EditorViewModel EditorView = Pservice.GetEditorViewModel(id);
+            EditorViewModel EditorView = Pservice.GetEditorViewModel(ID);
             return View(EditorView);
         }
 
