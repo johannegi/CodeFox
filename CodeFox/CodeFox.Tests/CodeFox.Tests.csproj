@@ -98,6 +98,7 @@
     <Compile Include="Controllers\HomeControllerTest.cs" />
     <Compile Include="Services\FolderServiceTest.cs" />
     <Compile Include="Services\FileServiceTest.cs" />
+    <Compile Include="Services\ProjectServiceTest.cs" />
     <Compile Include="Services\UserServiceTest.cs" />
   </ItemGroup>
   <ItemGroup>
