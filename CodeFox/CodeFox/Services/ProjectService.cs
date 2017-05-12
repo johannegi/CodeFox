@@ -46,8 +46,8 @@ namespace CodeFox.Services
             {
                 foreach (var item in POwners)
                 {
-                    
-                    Project tmp = DB.Projects.Find(item.OwnerProject.ID);
+
+                    Project tmp = GetProjectFromID(item.OwnerProject.ID); //DB.Projects.Find(item.OwnerProject.ID);
                     UserView.Projects.Add(tmp);
                 }
             }
@@ -74,7 +74,7 @@ namespace CodeFox.Services
             }
             EditorViewModel projectView = new EditorViewModel();
 
-            Project CurrProject = DB.Projects.Find(ProjectID);
+            Project CurrProject = GetProjectFromID(ProjectID); //DB.Projects.Find(ProjectID);
             projectView.Files = new List<File>();
             projectView.SharedWith = new List<UserInfo>();
 

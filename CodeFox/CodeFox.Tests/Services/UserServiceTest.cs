@@ -68,7 +68,7 @@ namespace CodeFox.Tests.Services
 
             var PS2 = new ProjectShare
             {
-                ID = 1,
+                ID = 2,
                 ShareProject = P1,
                 ShareUser = U3
             };
@@ -76,7 +76,7 @@ namespace CodeFox.Tests.Services
 
             var PS3 = new ProjectShare
             {
-                ID = 1,
+                ID = 3,
                 ShareProject = P1,
                 ShareUser = U4
             };
@@ -102,12 +102,13 @@ namespace CodeFox.Tests.Services
         public void TestGetUserByUsername()
         {
             //Arrange
-            const string Username = "Nonni";
+            const string Username = "Nonni123";
 
             //Act
             var result = Service.GetUserByUsername(Username);
 
             //Assert
+            Assert.IsNotNull(result);
             Assert.AreEqual(Username, result.Username);
             Assert.AreEqual(4, result.ID);
         }
