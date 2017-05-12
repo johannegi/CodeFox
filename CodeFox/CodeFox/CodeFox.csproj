@@ -326,7 +326,6 @@
     <Content Include="Views\Manage\ChangeCountry.cshtml" />
     <Content Include="Views\Shared\_EditorView.cshtml" />
     <Content Include="Views\Projects\Delete.cshtml" />
-    <Content Include="Views\Editor\AddFolder.cshtml" />
     <Content Include="Views\Editor\AddFilesModal.cshtml" />
     <Content Include="Views\Editor\AddFolderModal.cshtml" />
     <Content Include="Views\Shared\NotFound.cshtml" />
