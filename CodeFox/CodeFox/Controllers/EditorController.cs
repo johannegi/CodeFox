@@ -181,7 +181,7 @@ namespace CodeFox.Controllers
         [HttpPost]
         public ActionResult AddFolder(AddFolderViewModel Model)
         {
-            if (!Pservice.CanUserOpenProject(Model.ProjectID, User.Identity.Name))
+            if (Pservice.CanUserOpenProject(Model.ProjectID, User.Identity.Name))
             {
                 if (ModelState.IsValid)
                 {
