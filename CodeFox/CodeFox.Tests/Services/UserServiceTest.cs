@@ -31,7 +31,10 @@ namespace CodeFox.Tests.Services
             {
                 ID = 2,
                 Name = "Alex",
-                Username = "Alex123"
+                Username = "Alex123",
+                Country = "Iceland",
+                Email = "alex@beggi.is",
+                DateCreated = DateTime.Now
             };
             MockDb.UsersInfo.Add(U2);
 
@@ -58,6 +61,20 @@ namespace CodeFox.Tests.Services
             };
             MockDb.Projects.Add(P1);
 
+            var P2 = new Project
+            {
+                ID = 2,
+                Owner = U1
+            };
+            MockDb.Projects.Add(P2);
+
+            var P3 = new Project
+            {
+                ID = 3,
+                Owner = U2
+            };
+            MockDb.Projects.Add(P3);
+
             var PS1 = new ProjectShare
             {
                 ID = 1,
@@ -82,11 +99,19 @@ namespace CodeFox.Tests.Services
             };
             MockDb.ProjectShares.Add(PS3);
 
+            var PS4 = new ProjectShare
+            {
+                ID = 4,
+                ShareProject = P3,
+                ShareUser = U4
+            };
+            MockDb.ProjectShares.Add(PS4);
+
             Service = new UserService(MockDb);
         }
 
         [TestMethod]
-        public void TestGetSharedUsersFromProject()
+        public void TestGetSharedUsersFromProjectWith3Shares()
         {
             //Arrange
             const int ProjectID = 1;
@@ -96,6 +121,32 @@ namespace CodeFox.Tests.Services
 
             //Assert
             Assert.AreEqual(3, result.Count);
+        }
+
+        [TestMethod]
+        public void TestGetSharedUsersFromProjectWith0Shares()
+        {
+            //Arrange
+            const int ProjectID = 2;
+
+            //Act
+            var result = Service.GetSharedUsersFromProject(ProjectID);
+
+            //Assert
+            Assert.AreEqual(0, result.Count);
+        }
+
+        [TestMethod]
+        public void TestGetSharedUsersFromProjectWith1Share()
+        {
+            //Arrange
+            const int ProjectID = 3;
+
+            //Act
+            var result = Service.GetSharedUsersFromProject(ProjectID);
+
+            //Assert
+            Assert.AreEqual(1, result.Count);
         }
 
         [TestMethod]

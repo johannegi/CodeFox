@@ -59,10 +59,13 @@ namespace CodeFox.Tests.Services
         [TestMethod]
         public void TestCreateReadMe()
         {
+            //Arrange
             string text = "Does it work?";
 
+            //Act
             File NewReadMe = Service.CreateReadMe(text);
 
+            //Assert
             Assert.AreEqual(NewReadMe.Location, text);
             Assert.AreEqual(NewReadMe.Type, "txt");
             Assert.AreEqual(NewReadMe.Name, "ReadMe");
@@ -71,68 +74,88 @@ namespace CodeFox.Tests.Services
         [TestMethod]
         public void TestCreateDefaultForWebApp()
         {
+            //Arrange
             string ProjectType = "Web Application";
 
+            //Act
             File NewFile = Service.CreateDefaultFile(ProjectType);
 
+            //Assert
             Assert.AreEqual(NewFile.Type, "html");
         }
 
         [TestMethod]
         public void TestCreateDefaultForCpp()
         {
+            //Arrange
             string ProjectType = "C++";
 
+            //Act
             File NewFile = Service.CreateDefaultFile(ProjectType);
 
+            //Assert
             Assert.AreEqual(NewFile.Type, "cpp");
         }
 
         [TestMethod]
         public void TestCreateDefaultForCs()
         {
+            //Arrange
             string ProjectType = "C#";
 
+            //Act
             File NewFile = Service.CreateDefaultFile(ProjectType);
 
+            //Assert
             Assert.AreEqual(NewFile.Type, "cs");
         }
 
         [TestMethod]
         public void TestCreateDefaultForJs()
         {
+            //Arrange
             string ProjectType = "JavaScript";
 
+            //Act
             File NewFile = Service.CreateDefaultFile(ProjectType);
 
+            //Assert
             Assert.AreEqual(NewFile.Type, "js");
         }
 
         [TestMethod]
         public void TestCreateDefaultForJava()
         {
+            //Arrange
             string ProjectType = "Java";
 
+            //Act
             File NewFile = Service.CreateDefaultFile(ProjectType);
 
+            //Assert
             Assert.AreEqual(NewFile.Type, "java");
         }
 
         [TestMethod]
         public void TestCreateDefaultForDifferent()
         {
+            //Arrange
             string ProjectType = "Random";
 
+            //Act
             File NewFile = Service.CreateDefaultFile(ProjectType);
 
+            //Assert
             Assert.AreEqual(NewFile.Type, "txt");
         }
 
         [TestMethod]
         public void TestCreateExtraForWebApp()
         {
+            //Arrange and act
             List<File> DefaultExtra = Service.CreateWebApplication();
 
+            //Assert
             Assert.AreEqual(2, DefaultExtra.Count);
             Assert.AreEqual(DefaultExtra[0].Type, "css");
             Assert.AreEqual(DefaultExtra[1].Type, "js");
@@ -141,12 +164,14 @@ namespace CodeFox.Tests.Services
         [TestMethod]
         public void TestSaveFile()
         {
+            //Arrange
             const string NewText = "This is the new text";
 
+            //Act
             Service.SaveFile(1, 1, NewText);
-
             File ChangedFile = Service.GetFileByID(1);
 
+            //Assert
             Assert.AreEqual(ChangedFile.Location, NewText);
         }
 
