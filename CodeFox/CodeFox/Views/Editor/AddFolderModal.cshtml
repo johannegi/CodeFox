@@ -1,15 +1,8 @@
 ﻿@model CodeFox.Models.ViewModels.AddFolderViewModel
 
-@{
-    ViewBag.Title = "AddFolder";
-}
-
-<h2>AddFolder</h2>
-
-@using (Html.BeginForm()) 
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "AddFolderForm" }))
 {
-    @Html.AntiForgeryToken()
-    
+            
     <div class="form-horizontal">
         <h4>AddFolderViewModel</h4>
         <hr />
@@ -25,12 +18,8 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-               <input type="button" class="btn btn-default CreateFolder" value="Create"/>
+                <input type="submit" value="Create" class="btn btn-default" />
             </div>
         </div>
     </div>
 }
-
-<div>
-    @Html.ActionLink("Back to List", "Index", new { id = Model.ProjectID })
-</div>

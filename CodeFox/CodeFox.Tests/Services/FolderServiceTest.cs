@@ -71,6 +71,19 @@ namespace CodeFox.Tests.Services
         }
 
         [TestMethod]
+        public void TestGetFolderByID()
+        {
+            //Arrange
+            const int FolderID = 3;
+
+            //Act
+            Folder Result = service.GetFolderByID(FolderID);
+
+            //Assert
+            Assert.IsNotNull(Result);
+        }
+
+        [TestMethod]
         public void TestGet111GrandchildFolderPath()
         {
             //Arrange
