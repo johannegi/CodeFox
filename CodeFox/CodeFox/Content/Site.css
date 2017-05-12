@@ -143,6 +143,24 @@ section h3.section-subheading
     text-decoration: none;
 }
 
+.LeaveProjectDropDown
+{
+    display: block;
+    padding: 3px 20px;
+    clear: both;
+    font-weight: normal;
+    line-height: 1.428571429;
+    color: #333333;
+    white-space: nowrap;
+}
+
+.LeaveProjectDropDown:hover
+{
+    color: white;
+    cursor: pointer;
+    background : #428bca; 
+}
+
 .SelectDropDown
 {   
     display: block;

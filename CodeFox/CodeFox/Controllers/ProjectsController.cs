@@ -17,18 +17,21 @@ namespace CodeFox.Controllers
     [Authorize]
     public class ProjectsController : Controller
     {
+        // An instance we use to talk to ProjectService.
         private ProjectService PService = new ProjectService(null);
 
         // GET: Project
 
         public ActionResult Index()
         {
+            // We get the user and then the ProjectViewModel for the user.
             string Username = User.Identity.Name;
             return View(PService.GetProjectsViewModel(Username));
         }
 
         public ActionResult Create()
         {
+            // Create a new CreateProjectViewModel and initilize it.
             CreateProjectViewModel Model = new CreateProjectViewModel();
             Model.TypeList = PService.GetTypeList();
             return View(Model);
@@ -38,6 +41,7 @@ namespace CodeFox.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(CreateProjectViewModel Model)
         {
+            // If the Model is valid.
             if (ModelState.IsValid)
             {
                 string Username = User.Identity.Name;
@@ -45,18 +49,21 @@ namespace CodeFox.Controllers
                 {
                     return RedirectToAction("Index");
                 }
-                //return Json("Error", JsonRequestBehavior.AllowGet);
+                //return Json("Error", JsonRequestBehavior.AllowGet); MUNA AÐ LAGA
             }
+            // If the model is not valid we return it to the original view.
             Model.TypeList = PService.GetTypeList();
             return View(Model);
         }
 
         public ActionResult Delete(int? ID)
         {
+            // We check if the user is the owner of the project.
             Project Model = PService.GetProjectFromID(ID);
             string Username = User.Identity.Name;
             if (Username == Model.Owner.Username)
             {
+               // If so we pop up the modal via Javascript.
                 return Json(Model, JsonRequestBehavior.AllowGet);
             }
             throw new ArgumentException();
@@ -65,6 +72,7 @@ namespace CodeFox.Controllers
         [HttpPost]
         public ActionResult Delete(int ProjectID)
         {
+            //We get the project and if we get null we return the view.
             Project Model = PService.GetProjectFromID(ProjectID);
             if (Model != null)
             {
@@ -76,6 +84,7 @@ namespace CodeFox.Controllers
 
         public FileResult Export(int ID)
         {
+            // We check if the user can open the project.
             if (!PService.CanUserOpenProject(ID, User.Identity.Name))
             {
                 throw new Exception();
@@ -97,53 +106,32 @@ namespace CodeFox.Controllers
         [HttpPost]
         public JsonResult GetReadMe(int? ProjectID)
         {
+  
             if (ProjectID.HasValue)
             {
+                // We get the project and from that we get the ReadMe file,
+                // that we show via model in the Project Index.
                 Project Tmp = PService.GetProjectFromID(ProjectID);
                 Models.Entities.File ReadMe = Tmp.ReadMe;
                 return Json(ReadMe, JsonRequestBehavior.AllowGet);
             }
+            // We use this for JavaScript
             return Json("", JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
         public ActionResult LeaveProject(int ProjectID)
         {
-            if(PService.CanUserOpenProject(ProjectID, User.Identity.Name))
+            // If the user can open this project he can also leave it, unless he is the owner.
+            Project CurrentProject = PService.GetProjectFromID(ProjectID);
+            var CurrentUser = User.Identity.Name;
+            if(PService.CanUserOpenProject(ProjectID, CurrentUser) && CurrentProject.Owner.Username != CurrentUser)
             {
                 PService.RemoveCollaborator(User.Identity.Name, ProjectID);
                 return RedirectToAction("Index", "Projects");
             }
             throw new ArgumentException();
         }
-
-        /*[HttpPost]
-        public ActionResult Search(string Term, bool Owned)
-        {
-            if (Term != null)
-            {
-                var Found = PService.Search(Term, User.Identity.Name);
-                if(Found != null)
-                {
-                    return Json(Found, JsonRequestBehavior.AllowGet);
-                }               
-            }
-            return Json("", JsonRequestBehavior.AllowGet);
-        }
-
-        [HttpPost]
-        public ActionResult Sort(string Method, bool Ascending)
-        {
-            if(Method != null && Method != "")
-            {
-                var Sorted = PService.Sorted(Method, Ascending);
-                if (Sorted != null)
-                {
-                    return Json(Sorted, JsonRequestBehavior.AllowGet);
-                }
-            }
-            return Json("", JsonRequestBehavior.AllowGet);
-        }*/
 
     }
 }
