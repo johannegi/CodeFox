@@ -34,13 +34,12 @@
 
         var ProjectID = $(this).data("id");
         $.ajax({
-            url: '/Projects/GetReadMe',
+            url: '/Projects/LeaveProject',
             data: { 'ProjectID': ProjectID },
-            method: "POST",
+            method: "",
             success: function (data)
             {
-                if (data == "")
-                {
+                if (data == "") {
                     $('#ModalText').html('Project Not Found');
                 }
                 else
@@ -60,6 +59,37 @@
 
         $('#OpenModalDetails').modal();
 
+        return false;
+    });
+
+    $('.LeaveProjectDropDown').on('click', function ()
+    {
+        $(this).addClass('LeaveSelected');
+        $('#OpenModalLeave').modal('show');
+    });
+
+    $(document).on('click', '.CloseLeave', function (e) {
+        e.preventDefault();
+        $('.LeaveSelected').removeClass('LeaveSelected');
+        $('#OpenModalLeave').modal('hide');
+    });
+
+    $("#OpenModalLeave").on('hidden.bs.modal', function () {
+        $('.LeaveSelected').removeClass('LeaveSelected');
+    });
+
+    $(document).on('click', ".LeaveProject", function (e) {
+
+        var ProjectID = $('.LeaveSelected').attr('id');
+        $('.LeaveSelectedDropDown').removeClass('.LeaveSelected')
+        $.ajax({
+            url: '/Projects/LeaveProject',
+            data: { 'ProjectID': ProjectID },
+            method: "POST",
+            success: function (data) {
+                window.location = '/Projects';
+            }
+        });
         return false;
     });
  

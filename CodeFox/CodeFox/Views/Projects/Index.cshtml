@@ -35,7 +35,7 @@
                                 <ul class="dropdown-menu">
                                     <li class="dropdown-item Delete" data-toggle="modal" data-id="@item.ID">Delete</li>
                                     <li class="dropdown-item">@Html.ActionLink("Export", "Export", "Projects", new { id = item.ID }, null)</li>
-                                    <li class="dropdown-item SelectDropDown" data-toggle="modal"  data-id="@item.ID">Details</li>
+                                    <li class="dropdown-item SelectDropDown" data-toggle="modal"  id="@item.ID">Details</li>
                                 </ul>
                             </div>
                     </div>
@@ -67,6 +67,7 @@
                                     <ul class="dropdown-menu">
                                         <li class="dropdown-item">@Html.ActionLink("Export", "Index", "Editor", new { id = item.ID }, null)</li>
                                         <li href="#my_modal" class="dropdown-item SelectDropDown" data-toggle="modal" data-id="@item.ID">Details</li>
+                                        <li class="dropdown-item LeaveProjectDropDown" data-toggle="modal" id="@item.ID">Leave Project</li>
                                     </ul>
                                 </div>
                             </div>
@@ -118,13 +119,12 @@
                 <h4 class="modal-title">Details</h4>
             </div>
             <div class="modal-body">
-                <div class="container DeleteContent">
+                <div class="container DeleteContent">                    
                 </div>
             </div>
             <div class="modal-footer">
                 @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "DeleteForm" }))
                 {
-                    <input type="hidden" value="@Model.ID" class="ProjectID" />
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-danger">Delete</button>
                 }
@@ -136,6 +136,32 @@
 </div>
 <!-- /.modal -->
 
+<div class="modal" id="OpenModalLeave">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close CloseLeave" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Leave the project?</h4>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <p>Are you sure you want to leave this project? There is no turning back...</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                @using (Html.BeginForm(null, null, FormMethod.Post, new { id="LeaveProjectForm"}))
+                {
+                    <input type="hidden" value="@Model.ID" class="ProjectID" />
+                    <button type="button" class="btn btn-default CloseLeave">Cancel</button>
+                    <button type="button" class="btn btn-danger LeaveProject">Leave Project</button>
+                }
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
 
 @section scripts
 {
@@ -145,6 +171,6 @@
 
     <script src="@Url.Content("~/Scripts/jquery.timeago.js")" type="text/javascript" charset="utf-8"></script>   
     <script src="@Url.Content("~/Scripts/ProjectIndex.js")" type="text/javascript" charset="utf-8"></script>   
-   
+   <script src="@Url.Content("~/Scripts/DeleteModal.js")" type="text/javascript" charset="utf-8"></script>
 }
 

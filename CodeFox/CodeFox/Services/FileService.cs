@@ -99,7 +99,8 @@ namespace CodeFox.Services
         {
             // UserInfo Owner = DB.UsersInfo.Where(x => x.Username == Username).SingleOrDefault();
             var FileWithSameName = DB.FilesInProjects.Where(x => x.ProjectFile.Name == Model.Name && 
-                                                  x.FileProject.ID == Model.ProjectID).FirstOrDefault();
+                                                  x.FileProject.ID == Model.ProjectID 
+                                                  && x.ProjectFile.Type == Model.Type).FirstOrDefault();
             if(FileWithSameName != null)
             {
                 return false;

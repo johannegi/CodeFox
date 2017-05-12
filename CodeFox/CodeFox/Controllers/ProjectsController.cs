@@ -106,6 +106,17 @@ namespace CodeFox.Controllers
             return Json("", JsonRequestBehavior.AllowGet);
         }
 
+        [HttpPost]
+        public ActionResult LeaveProject(int ProjectID)
+        {
+            if(PService.CanUserOpenProject(ProjectID, User.Identity.Name))
+            {
+                PService.RemoveCollaborator(User.Identity.Name, ProjectID);
+                return RedirectToAction("Index", "Projects");
+            }
+            throw new ArgumentException();
+        }
+
         /*[HttpPost]
         public ActionResult Search(string Term, bool Owned)
         {
