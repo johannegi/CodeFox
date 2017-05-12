@@ -35,7 +35,7 @@
         });
         // Then we open the modal
         $('#OpenModalDelete').modal();
-        $('#DeleteForm').on('submit', function (e) {
+        $('.DeleteProject').on('click', function (e) {
             $.ajax({
                 url: '/Projects/Delete',
                 data: { 'ProjectID': ProjectID },
