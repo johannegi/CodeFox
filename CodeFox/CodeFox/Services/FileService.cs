@@ -64,7 +64,7 @@ namespace CodeFox.Services
                 Default.Type = "txt";
             }
             
-            // continue initializing.
+            // Continue initializing.
             Default.Location = "//This is the default file for this project";
             Default.FolderStructure = null;
             Default.DateCreated = DateTime.Now;
@@ -156,6 +156,7 @@ namespace CodeFox.Services
             Project TheProject = DB.Projects.Find(ProjectID);
             if (NewFolderID == null)
             {
+                // We had to make this variable to be able to set null in database.
                 var ForceLoad = FileMove.FolderStructure;
                 FileMove.FolderStructure = null;
             }
@@ -181,6 +182,7 @@ namespace CodeFox.Services
             File ToRename = DB.Files.Find(FileID);
             
             ToRename.DateModified = DateTime.Now;
+            // Precautions if user puts the extension of the file, or he doesn't
             if (NewName.Contains('.'))
             {
                 string Type = NewName.Substring(NewName.LastIndexOf('.') + 1);
@@ -192,6 +194,7 @@ namespace CodeFox.Services
             {
                 ToRename.Name = NewName;
             }
+            // If there is a file with the same name and same type we do not not change the name.
             var FileWithSameName = DB.FilesInProjects.Where(x => x.ProjectFile.Name == ToRename.Name &&
                                                   x.FileProject.ID == ProjectID
                                                   && x.ProjectFile.Type == ToRename.Type).FirstOrDefault();
@@ -208,7 +211,7 @@ namespace CodeFox.Services
 
         public File GetFileByID(int? ID)
         {
-            return DB.Files.Where(x => x.ID == ID).FirstOrDefault(); //Find(ID);
+            return DB.Files.Where(x => x.ID == ID).FirstOrDefault();
         }
 
         public List<string> GetTypeList()
