@@ -57,6 +57,7 @@
                     {
                         <div class="col-sm-4 col-md-3 col-lg-2 Project thumbnail">
                             <img src="~/Content/Images/tester.png" data-holder-rendered="true" onclick="location.href='@Url.Action("Index", "Editor", new { id = item.ID })';return false;" />
+                            <h4 class="ProjectName">@Html.ActionLink(HttpUtility.HtmlDecode(Html.DisplayFor(model => item.Name).ToString()), "Index", "Editor", new { id = item.ID }, null)</h4>
                             <div class="JsOnHover">
                                 <div><b>Owned by:</b><br />@item.Owner.Username</div>
                                 <p><b>Last updated:</b><br /> <time class="timeago" title="@item.DateModified.ToString("MM-dd-yyyyTHH':'mm':'ssZ")">@item.DateModified</time></p>
