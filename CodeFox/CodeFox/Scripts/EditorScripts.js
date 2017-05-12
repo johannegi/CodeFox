@@ -227,7 +227,8 @@ $(document).ready(function () {
                             //Right click on node to rename function
                             "action": function () {
                                 var NewName = prompt("Please enter new name", "");
-                                if (NewName != null && NewName != "") {
+                                if (NewName != null && NewName != "")
+                                {
                                     //Rename File
                                     if (Node.type == 'file') {
                                         $.ajax(
@@ -236,6 +237,11 @@ $(document).ready(function () {
                                             data: { 'ProjectID': ProjectID, 'FileID': Number(Node.id), 'NewName': NewName },
                                             method: 'POST',
                                             success: function (ReturnData) {
+                                                if (ReturnData == 'SameName')
+                                                {
+                                                    alert('A file in this project already has this name');
+                                                    return false;
+                                                }
                                                 $('#EditorInfo').text(Node.text + ' Renamed to ' + ReturnData.Name + '.' + ReturnData.Type);
                                                 CodeHub.server.onTreeChange(ProjectID, (CurrentUser + ' renamed ' + Node.text + ' to ' + ReturnData.Name + '.' + ReturnData.Type), CurrentUser);
                                                 $("#Tree").jstree('set_text', Node, (ReturnData.Name + '.' + ReturnData.Type));

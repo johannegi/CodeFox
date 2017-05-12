@@ -167,6 +167,7 @@ namespace CodeFox.Services
 
         public File ChangeFileName(int ProjectID, int FileID, string NewName)
         {
+            
             File ToRename = DB.Files.Find(FileID);
             
             ToRename.DateModified = DateTime.Now;
@@ -180,6 +181,13 @@ namespace CodeFox.Services
             else
             {
                 ToRename.Name = NewName;
+            }
+            var FileWithSameName = DB.FilesInProjects.Where(x => x.ProjectFile.Name == ToRename.Name &&
+                                                  x.FileProject.ID == ProjectID
+                                                  && x.ProjectFile.Type == ToRename.Type).FirstOrDefault();
+            if (FileWithSameName != null || (ToRename.Name == "ReadMe" && ToRename.Type == "txt"))
+            {
+                return null;
             }
 
             Project TheProject = DB.Projects.Find(ProjectID);
