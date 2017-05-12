@@ -73,7 +73,6 @@ namespace CodeFox.Tests.Services
             var PVM = new ProjectsViewModel()
             {
                 ID = 1,
-                Projects = MockDb.Projects;
             };
 
             Service = new ProjectService(MockDb);
