@@ -14,6 +14,8 @@ var CodeHub = $.connection.codeHub;
 $.connection.hub.start();
 var Silent = false;
 var FileID = ReadMeID;
+var LastLineInsert
+var LastLineRemove
 
 //When another user makes a change
 CodeHub.client.onChange = function (ChangeData, Username) {
@@ -23,17 +25,22 @@ CodeHub.client.onChange = function (ChangeData, Username) {
     {
         if (ChangeData.end.column == 0)
         {
-            $('#EditorInfo').text(Username + ' added new line ' + (ChangeData.end.row + 1));
+            $('#InfoView').append("<p>" + (Username + ' added new line ' + (ChangeData.end.row + 1)) + "</p>");
         }
-        else
+        else if (ChangeData.end.row != LastLineInsert)
         {
-            $('#EditorInfo').text(Username + ' inserted at line ' + (ChangeData.end.row + 1));
+            $('#InfoView').append("<p>" + (Username + ' inserted at line ' + (ChangeData.end.row + 1)) + "</p>");
+            LastLineInsert = ChangeData.end.row;
         }
+        
     }
-    if (ChangeData.action == 'remove') {
-        $('#EditorInfo').text(Username + ' removed at line ' + (ChangeData.end.row + 1));
+    else if (ChangeData.action == 'remove' && ChangeData.end.row != LastLineRemove)
+    {
+        $('#InfoView').append("<p>" + (Username + ' removed at line ' + (ChangeData.end.row + 1)) + "</p>");
+        LastLineRemove = ChangeData.end.row;
     }
-
+    var myDiv = document.getElementById("InfoView");
+    myDiv.scrollTop = myDiv.scrollHeight;
     Silent = false;
 }
 
@@ -61,7 +68,7 @@ CodeHub.client.onTreeChange = function (ActionText, Username)
             }
             if (CurrentUser != Username)
             {
-                $('#EditorInfo').text(ActionText);
+                $('#InfoView').append("<p>" + ActionText + "</p>");
             } 
         }
     });
