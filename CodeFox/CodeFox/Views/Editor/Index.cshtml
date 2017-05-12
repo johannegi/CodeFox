@@ -10,8 +10,8 @@
     <!-- Nav bar where SAVE EXPORT SHARE ADD FILE CLOSE AND DELETE PROJECT WILL BE-->
     @Html.ActionLink("Export", "Export", "Projects", new { id = Model.ID }, new { @class = "btn btn-info" })
     @Html.ActionLink("Share with your foxes!", "Share", "Editor", new { id = Model.ID }, new { @class = "btn btn-info" })
-    @Html.ActionLink("Add file", "AddFiles", "Editor", new { id = Model.ID }, new { @class = "btn btn-info" })
-    @Html.ActionLink("Add Folder", "AddFolder", "Editor", new { id = Model.ID }, new { @class = "btn btn-info" })
+    <a class="btn btn-info AddFileButton" data-toggle="modal">Add File</a>
+    <a class="btn btn-info AddFolderButton" data-toggle="modal">Add Folder</a>
     @Html.ActionLink("Close", "Index", "Projects", new { area = "" }, new { @class = "btn btn-info" })
 
     @if (User.Identity.Name == Model.Owner.Username)
@@ -43,6 +43,8 @@
     <input type="hidden" value="@Model.Owner.Username" class="CurrentUser" />
     <input type="hidden" value="@Url.Content("~/Content/JsTree/tree-icon.png")" class="TreeIcon" />
 
+
+    <!--DELETE MODAL-->
     <div class="modal" id="OpenModalDelete">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -68,6 +70,50 @@
         <!-- /.modal-dialog -->
     </div>
     <!-- /.modal -->
+
+    <!--ADD FILE MODAL-->
+    <div class="modal" id="OpenModalAddFile">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Details</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="container AddFilesContainer">                      
+                    </div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+
+    <!--ADD FOLDER MODAL-->
+    <div class="modal" id="OpenModalAddFolder">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Details</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="container AddFolderContainer">
+                     
+                    </div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+
 
 
     @section scripts{

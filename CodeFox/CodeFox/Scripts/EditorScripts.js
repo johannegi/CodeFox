@@ -89,6 +89,64 @@ function DoneTyping() {
 
 var TreeData;
 $(document).ready(function () {
+    $('.AddFileButton').on('click', function()
+    {
+        $.ajax({
+            url: '/Editor/AddFiles',
+            data: { 'ID': ProjectID },
+            method: "GET",
+            success: function (data) {
+                $('.AddFilesContainer').html(data);
+            }
+        });
+
+        $('#OpenModalAddFile').modal('show');
+    })
+
+    $(document).on("click", ".CreateFile", function (e) {
+        var form = $('#AddFileForm');
+        $.ajax({
+            url: '/Editor/AddFiles',
+            data: form.serialize(),
+            method: "POST",
+            success: function (data) {
+                if (data == 'SameName') {
+                    $('#DuplicateName').html('This project has a file with the same name.');
+                }
+                else {
+                    window.location = '/Editor/Index/' + ProjectID;
+                }
+            }
+        });
+        return false;
+    });
+
+    $('.AddFolderButton').on('click', function () {
+        $.ajax({
+            url: '/Editor/AddFolder',
+            data: { 'ID': ProjectID },
+            method: "GET",
+            success: function (data) {
+                $('.AddFolderContainer').html(data);
+            }
+        });
+
+        $('#OpenModalAddFolder').modal('show');
+    })
+
+    $(document).on("click", ".CreateFolder", function (e) {
+        var form = $('#AddFolderForm');
+        $.ajax({
+            url: '/Editor/AddFolder',
+            data: form.serialize(),
+            method: "POST",
+            success: function (data) {
+                window.location = '/Editor/Index/' + ProjectID;
+            }
+        });
+        return false;
+    });
+
     $.ajax(
 {
     url: '/Editor/GetTreeJson/',

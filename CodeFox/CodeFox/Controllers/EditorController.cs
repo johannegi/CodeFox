@@ -32,6 +32,12 @@ namespace CodeFox.Controllers
             return View(EditorView);
         }
 
+        [HttpPost]
+        public ActionResult Index(AddFilesViewModel Model)
+        {
+            return Json("SameName", JsonRequestBehavior.AllowGet);
+        }
+
         public ActionResult GetTreeJson(int ProjectID)
         {
             string Username = User.Identity.Name;
@@ -94,16 +100,16 @@ namespace CodeFox.Controllers
             return Json(Data, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult AddFiles(int id)
+        public ActionResult AddFiles(int ID)
         {
-            if (!Pservice.CanUserOpenProject(id, User.Identity.Name))
+            if (!Pservice.CanUserOpenProject(ID, User.Identity.Name))
             {
                 throw new ArgumentException();
             }
             AddFilesViewModel Model = new AddFilesViewModel();
             Model.TypeList = FService.GetTypeList();
-            Model.ProjectID = (int)id;
-            return View(Model);
+            Model.ProjectID = ID;
+            return PartialView("AddFilesModal", Model);
         }
 
         [HttpPost]
@@ -150,15 +156,15 @@ namespace CodeFox.Controllers
             
         }
 
-        public ActionResult AddFolder(int id)
+        public ActionResult AddFolder(int ID)
         {
-            if (!Pservice.CanUserOpenProject(id, User.Identity.Name))
+            if (!Pservice.CanUserOpenProject(ID, User.Identity.Name))
             {
                 throw new ArgumentException();
             }
             AddFolderViewModel Model = new AddFolderViewModel();
-            Model.ProjectID = id;
-            return View(Model);
+            Model.ProjectID = ID;
+            return PartialView("AddFolderModal", Model);
         }
 
         [HttpPost]
