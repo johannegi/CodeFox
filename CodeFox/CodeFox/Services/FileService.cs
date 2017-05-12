@@ -20,10 +20,12 @@ namespace CodeFox.Services
 
         public File CreateReadMe(string Text)
         {
+            // We create the ReadMe and initialize it.
             File ReadMe = new File();
             ReadMe.Name = "ReadMe";
             ReadMe.Type = "txt";
             ReadMe.Location = Text;
+            // FolderStructur == null thus in root.
             ReadMe.FolderStructure = null;
             ReadMe.DateCreated = DateTime.Now;
             ReadMe.DateModified = DateTime.Now;
@@ -33,12 +35,13 @@ namespace CodeFox.Services
 
         public File CreateDefaultFile(string Type)
         {
+            // We create the default file.
             File Default = new File();
             Default.Name = "Index";
+            // Here we find the extension for the default file.
             if(Type == "Web Application")
             {
                 Default.Type = "html";
-                // Default.Location = "<!--This is the default file for this project-->"??;
             }
             else if(Type == "C++")
             {
@@ -61,6 +64,7 @@ namespace CodeFox.Services
                 Default.Type = "txt";
             }
             
+            // continue initializing.
             Default.Location = "//This is the default file for this project";
             Default.FolderStructure = null;
             Default.DateCreated = DateTime.Now;
@@ -71,6 +75,7 @@ namespace CodeFox.Services
 
         public List<File> CreateWebApplication()
         {
+            // We create the web application with both CSS and JS file.
             File CssFile = new File();
             CssFile.Name = "styles";
             CssFile.Type = "css";
@@ -94,10 +99,8 @@ namespace CodeFox.Services
             return Files;
         } 
 
-        //Checka a USERNAME
         public bool AddFile(AddFilesViewModel Model)
-        {
-            // UserInfo Owner = DB.UsersInfo.Where(x => x.Username == Username).SingleOrDefault();
+        {            
             var FileWithSameName = DB.FilesInProjects.Where(x => x.ProjectFile.Name == Model.Name && 
                                                   x.FileProject.ID == Model.ProjectID 
                                                   && x.ProjectFile.Type == Model.Type).FirstOrDefault();
@@ -105,7 +108,7 @@ namespace CodeFox.Services
             {
                 return false;
             }
-            //Make the file
+            // Make the file.
             File NewFile = new File();
             NewFile.Name = Model.Name;
             NewFile.Type = Model.Type;
@@ -114,25 +117,31 @@ namespace CodeFox.Services
             NewFile.DateCreated = DateTime.Now;
             NewFile.DateModified = DateTime.Now;
 
-            //Add the connection
+            // Add the connection.
             FileInProject NewConnection = new FileInProject();
             NewConnection.ProjectFile = NewFile;
             Project TheProj = DB.Projects.Where(x => x.ID == Model.ProjectID).FirstOrDefault();
             NewConnection.FileProject = TheProj;
            
+            // Adding to the database.
             DB.Files.Add(NewFile);
             DB.FilesInProjects.Add(NewConnection);
-            DB.SaveChanges();
+            // If no changes are made to the database we return false.
+            if (DB.SaveChanges() == 0)
+            {
+                return false;
+            }
             return true;
         }
 
         public bool SaveFile(int ProjectID, int FileID, string NewText)
         {
-            File ToSave = GetFileByID(FileID); //DB.Files.Find(FileID);
+            // Finding the file to save, saving it and then updating the DateModified.
+            File ToSave = GetFileByID(FileID);
             ToSave.Location = NewText;
             ToSave.DateModified = DateTime.Now;
 
-            Project TheProject = DB.Projects.Where(x => x.ID == ProjectID).FirstOrDefault(); //Find(ProjectID);
+            Project TheProject = DB.Projects.Where(x => x.ID == ProjectID).FirstOrDefault();
             TheProject.DateModified = DateTime.Now;
             if (DB.SaveChanges() == 0)
             {
