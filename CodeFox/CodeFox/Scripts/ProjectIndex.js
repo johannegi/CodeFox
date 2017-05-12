@@ -1,40 +1,12 @@
 ﻿$(document).ready(function ()
 {
-    $("#Search").keyup(function () {
-        var prefix = $("#Search").val();
-        $.ajax({
-            url: '/Projects/Search/',
-            data: { 'Term': prefix },
-            method: 'POST',
-            success: function (data) {
-
-                $('.SearchResult').html('');
-                if (data != "") {
-                    var html = "<ul>";
-                    for (var i = 0; i < data.length; i++) {
-                        html += "<div name='SelectFoundUsers' class='SelectClass list-group-item col-sm-12 col-md-12 col-lg-12'>";
-                        html += data[i].Username;
-                        html += "</div>";
-                    }
-                    html += '</ul>';
-                    $('.SearchResult').append(html);
-                }
-                else if (prefix == "") {
-                    $('.SearchResult').html('');
-                }
-                else {
-                    $('.SearchResult').html('<p>User Not found</p>');
-                }
-            }
-        });
-    });
-
-    $('.SelectDropDown').on('click', function (e)
+    // SelectDropDown is the class on the readme link in project index page.
+    $('.SelectDropDown').on('click', function (e) 
     {
-
         var ProjectID = $(this).data("id");
         $.ajax({
-            url: '/Projects/GetReadMe',
+            // Fetches the readme file on specific project ID.
+            url: '/Projects/GetReadMe', 
             data: { 'ProjectID': ProjectID },
             method: "POST",
             success: function (data)
@@ -44,45 +16,52 @@
                 }
                 else
                 {
-                    var Editor = ace.edit("ModalEditor");
+                    // Loads Ace editor.
+                    var Editor = ace.edit("ModalEditor"); 
                     Editor.setTheme("ace/theme/clouds");
                     Editor.renderer.setShowGutter(false);
 
                     Editor.setReadOnly(true);
                     Editor.session.setMode("ace/mode/Text");
                     Editor.$blockScrolling = Infinity;
-
-                    ace.edit("ModalEditor").setValue(data.Location);                  
+                    // Readme file content inserted into Ace editor.
+                    ace.edit("ModalEditor").setValue(data.Location);            
                 }
             }
         });
-
+        // Opens the modal window with ID. 
         $('#OpenModalDetails').modal();
 
         return false;
     });
-
+    // On click, add the class "LeaveSelected" and show the modal.
     $('.LeaveProjectDropDown').on('click', function ()
     {
         $(this).addClass('LeaveSelected');
         $('#OpenModalLeave').modal('show');
     });
-
-    $(document).on('click', '.CloseLeave', function (e) {
-        e.preventDefault();
+    // We had to open and close the modal manually because we had to add and remove the class "LeaveSelected" 
+    // to get the projectID.
+    // Because this is in a modal we have to use this technique.
+    // We remove the selected elements and hide the modal. 
+    $(document).on('click', '.CloseLeave', function ()
+    {
         $('.LeaveSelected').removeClass('LeaveSelected');
         $('#OpenModalLeave').modal('hide');
     });
-
-    $("#OpenModalLeave").on('hidden.bs.modal', function () {
+    // When the user clicks outside the modal, we will remove the class "LeaveSelected".
+    $("#OpenModalLeave").on('hidden.bs.modal', function ()
+    {
         $('.LeaveSelected').removeClass('LeaveSelected');
     });
-
-    $(document).on('click', ".LeaveProject", function (e) {
-
+    // This is the functionality that allows the user to leave project.
+    $(document).on('click', ".LeaveProject", function ()
+    {
+        
         var ProjectID = $('.LeaveSelected').attr('id');
         $('.LeaveSelectedDropDown').removeClass('.LeaveSelected')
         $.ajax({
+            // Ajax request to leave project, handled int the ProjectsController
             url: '/Projects/LeaveProject',
             data: { 'ProjectID': ProjectID },
             method: "POST",
@@ -92,7 +71,7 @@
         });
         return false;
     });
- 
+    // This isthe functionality that allows the user to toggle the projects 
     $('.ProjectArrow').on('click', function ()
     {
         var OwnedProjects = $(this).attr('id');
@@ -113,7 +92,8 @@
 
     //Gives us time difference, we modified the code a little bit so that it
     //can read the datformat we provided, SOURCE CODE: https://coderwall.com/p/uub3pw/javascript-timeago-func-e-g-8-hours-ago
-    (function timeAgo(selector) {
+    (function timeAgo(selector)
+    {
 
         var templates = {
             prefix: "",
