@@ -136,16 +136,32 @@ namespace CodeFox.Tests.Services
         }
 
         [TestMethod]
-        public void ChangeFoldersName()
+        public void ChangeChildAndParentFoldersName()
         {
             //Arrange
-            const int FolderID = 3;
+            const int FolderID = 2;
             const int ProjectID = 4;
-            Folder Folder3 = service.GetFolderByID(3);
+            Folder Folder3 = service.GetFolderByID(FolderID);
             string NewName = "KAlli";
             //Act
             Folder Renamed = service.ChangeFolderName(ProjectID, FolderID, NewName);
             
+
+            Assert.AreEqual(Folder3.Name, NewName);
+            Assert.AreEqual(Folder3, Renamed);
+        }
+
+        [TestMethod]
+        public void ChangeRootFoldersName()
+        {
+            //Arrange
+            const int FolderID = 1;
+            const int ProjectID = 4;
+            Folder Folder3 = service.GetFolderByID(FolderID);
+            string NewName = "KAlli";
+            //Act
+            Folder Renamed = service.ChangeFolderName(ProjectID, FolderID, NewName);
+
 
             Assert.AreEqual(Folder3.Name, NewName);
             Assert.AreEqual(Folder3, Renamed);
