@@ -163,21 +163,6 @@ namespace CodeFox.Tests.Services
             //Act
             Assert.IsTrue(Service.AddCollaborator(Username, ProjectID));
             Assert.IsTrue(Service.CanUserOpenProject(ProjectID, Username));
-        }
-
-        [TestMethod]
-        public void TestRemoveCollaborator()
-        {
-            //Arrange
-            const int ProjectID = 1;
-            const string Username = "Jonni";
-            TestAddCollaborator();
-
-            //Act & Assert
-            Assert.IsTrue(Service.CanUserOpenProject(ProjectID, Username));
-            Assert.IsFalse(Service.RemoveCollaborator(Username, ProjectID));
-        }
-
-        
+        }        
     }
 }
