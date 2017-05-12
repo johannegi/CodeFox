@@ -11,19 +11,20 @@ namespace CodeFox.Services
     public class FolderService
     {
         private readonly IAppDataContext DB;
-
+        private readonly FileService FService;
         public FolderService(IAppDataContext context)
         {
             DB = context ?? new ApplicationDbContext();
+            FService = new FileService(context);
         }
         //private ApplicationDbContext DB = new ApplicationDbContext();
-        private FileService FService = new FileService(null);
+        
 
         public void AddFolder(AddFolderViewModel Model)
         {
             Folder NewFolder = new Folder();
             NewFolder.Name = Model.Name;
-            NewFolder.ProjectStructure = DB.Projects.Find(Model.ProjectID);
+            NewFolder.ProjectStructure = DB.Projects.Where(x => x.ID == Model.ProjectID).FirstOrDefault();//Find(Model.ProjectID);
             NewFolder.FolderStructure = null;
             NewFolder.DateCreated = DateTime.Now;
             NewFolder.DateModified = DateTime.Now;
@@ -86,14 +87,14 @@ namespace CodeFox.Services
             }
             return true;
         }
-        public void DeleteFolderAndContent(Folder ToDelete)
+/*        public void DeleteFolderAndContent(Folder ToDelete)
         {
             List<File> AllFiles = DB.Files.Where(x => x.FolderStructure.ID == ToDelete.ID).ToList();
             foreach(File Item in AllFiles)
             {
                 FService.DeleteFile(Item.ID);
             }
-        }
+        } */
 
         public Folder ChangeFolderName(int ProjectID, int FolderID, string NewName)
         {
@@ -133,7 +134,7 @@ namespace CodeFox.Services
             return Returner;
         }
 
-        List<Folder> GetAllFoldersInProject(int? ProjectID)
+        public List<Folder> GetAllFoldersInProject(int? ProjectID)
         {
             List<Folder> Returner = DB.Folders.Where(x => x.ProjectStructure.ID == ProjectID).ToList();
             return Returner;

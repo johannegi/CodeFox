@@ -1,0 +1,13 @@
+﻿@model System.Web.Mvc.HandleErrorInfo
+
+@{
+    ViewBag.Title = "404";
+}
+
+<div>
+    <h1 class="text-danger">404</h1>
+    <h2 class="text-danger">Opps, sorry we can't find that page</h2>
+    <h3 class="text-danger">Either something went wrong or the page doesnt exist anymore.</h3>
+    @Html.ActionLink("Go Home", "Index", "Home", null, new { @class = "btn btn-info" })
+</div>
+
