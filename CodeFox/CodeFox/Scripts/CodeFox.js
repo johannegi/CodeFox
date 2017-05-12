@@ -9,7 +9,7 @@ $(document).ready(function ()
         var prefix = $("#AddUsername").val();
         $.ajax({
             url: '/Editor/Autocomplete/',
-            data: { 'term': prefix },
+            data: { 'Term': prefix },
             method: 'POST',
             success: function (data)
             {
@@ -49,7 +49,7 @@ $(document).ready(function ()
         $.ajax({
             url: '/Editor/Share/',
             dataType: 'html',
-            data: AddAntiForgeryToken({ 'Username': AddUser, 'ProjectID': ProjectID }),
+            data: { 'Username': AddUser, 'ProjectID': ProjectID },
             method: 'POST',
             success: function (data)
             {
@@ -88,7 +88,7 @@ $(document).ready(function ()
             $.ajax({
                 url: '/Editor/DeleteShare/',
                 dataType: 'html',
-                data: AddAntiForgeryToken({ 'Username': RemoveUser, 'ProjectID': ProjectID }),
+                data: { 'Username': RemoveUser, 'ProjectID': ProjectID },
                 method: 'POST',
                 success: function (data)
                 {
@@ -128,13 +128,6 @@ $(document).ready(function ()
             document.getElementById("ShareSubmitButton").disabled = false;
         }
     });
-    // Link: http://stackoverflow.com/questions/4074199/jquery-ajax-calls-and-the-html-antiforgerytoken
-    // We found a way to pass parameters to function that validate AntiForgeryTokens. 
-    AddAntiForgeryToken = function (data)
-    {
-        data.__RequestVerificationToken = $('#ShareForm input[name=__RequestVerificationToken]').val();
-        return data;
-    };
 
     /**************************************************************REGISTER**************************************************************/
 

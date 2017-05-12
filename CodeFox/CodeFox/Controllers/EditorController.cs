@@ -36,7 +36,7 @@ namespace CodeFox.Controllers
 
         public ActionResult GetTreeJson(int ProjectID)
         {
-            // We check if if the user can't open the project
+            // We check if if the user can't open the project.
             string Username = User.Identity.Name;
             if (!Pservice.CanUserOpenProject(ProjectID, Username))
             {
@@ -115,12 +115,12 @@ namespace CodeFox.Controllers
         [HttpPost]
         public ActionResult AddFiles(AddFilesViewModel Model)
         {
-            // We check if if the user can't open the project
+            // We check if if the user can't open the project.
             if (Pservice.CanUserOpenProject(Model.ProjectID, User.Identity.Name))
             {
                 if (ModelState.IsValid)
                 {
-                    // The AddFile(Model) returns a boolean
+                    // The AddFile(Model) returns a boolean.
                     if (!FService.AddFile(Model))
                     {
                         // This is the message we send to the Ajax controller,
@@ -132,14 +132,14 @@ namespace CodeFox.Controllers
                 }
             }
             // If the user can't open the project, or modelstate isn't valid we throw
-            // an ArgumentException
+            // an ArgumentException.
             throw new ArgumentException();
         }
 
         [HttpPost]
         public void MoveFile(int ProjectID, int FileID, int? NewFolderID)
         {
-            // We check if if the user can't open the project
+            // We check if if the user can't open the project.
             if (Pservice.CanUserOpenProject(ProjectID, User.Identity.Name))
             {
                 //If succesfully returned we return to Javascript code.
@@ -153,7 +153,7 @@ namespace CodeFox.Controllers
         [HttpPost]
         public void MoveFolder(int ProjectID, int FolderID, int? NewFolderID)
         {
-            // See MoveFolder for explanations
+            // See MoveFolder for explanations.
             if (Pservice.CanUserOpenProject(ProjectID, User.Identity.Name))
             {
                 if (!FoService.MoveFolder(ProjectID, FolderID, NewFolderID))
@@ -171,7 +171,7 @@ namespace CodeFox.Controllers
             {
                 throw new ArgumentException();
             }
-            // We initialize the AddFolderViewModel and return a partialview
+            // We initialize the AddFolderViewModel and return a partialview.
             AddFolderViewModel Model = new AddFolderViewModel();
             Model.ProjectID = ID;
             // See JavaScript files for the receiving end.
@@ -213,7 +213,7 @@ namespace CodeFox.Controllers
             // If the user can open the project he can also change file names.
             if(Pservice.CanUserOpenProject(ProjectID, User.Identity.Name))
             {
-                // If the we get the file that was changed we return it 
+                // If the we get the file that was changed we return it.
                 var FileChanged = FService.ChangeFileName(ProjectID, FileID, NewName);
                 if (FileChanged != null)
                 {
@@ -277,7 +277,7 @@ namespace CodeFox.Controllers
         [HttpPost]
         public ActionResult OpenNewFile(int FileID)
         {
-            // We get the file and return the file if we find it
+            // We get the file and return the file if we find it.
             File NewFile = new File();
             NewFile = FService.GetFileByID(FileID);
             if(NewFile != null)
@@ -289,28 +289,29 @@ namespace CodeFox.Controllers
 
         }
 
-        public ActionResult Share(int id)
+        public ActionResult Share(int ID)
         {
             // If the user can't open the file an exception is thrown.
-            if (!Pservice.CanUserOpenProject(id, User.Identity.Name))
+            if (!Pservice.CanUserOpenProject(ID, User.Identity.Name))
             {
                 throw new ArgumentException();
             }
             // Initializing the ShareProjectViewModel.
             ShareProjectViewModel Model = new ShareProjectViewModel();
-            Model.SharedWith = UService.GetSharedUsersFromProject(id);
-            Model.ShareProject = Pservice.GetProjectFromID(id);
+            Model.SharedWith = UService.GetSharedUsersFromProject(ID);
+            Model.ShareProject = Pservice.GetProjectFromID(ID);
             return View(Model);
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult Share(string Username, int ProjectID)
         {
+            // If the user can't open the file an exception is thrown.
             if (!Pservice.CanUserOpenProject(ProjectID, User.Identity.Name))
             {
                 throw new ArgumentException();
             }
+            // If the user isn't already a collaborator we add him.
             if (Pservice.AddCollaborator(Username, ProjectID))
             {
                 return Json(Username, JsonRequestBehavior.AllowGet);
@@ -319,9 +320,15 @@ namespace CodeFox.Controllers
         }
 
         [HttpPost]
-        public ActionResult DeleteShare(string Username, int? ProjectID)
+        public ActionResult DeleteShare(string Username, int ProjectID)
         {
-            if(Pservice.RemoveCollaborator(Username, ProjectID))
+            // If the user can't open the file an exception is thrown.
+            if (!Pservice.CanUserOpenProject(ProjectID, User.Identity.Name))
+            {
+                throw new ArgumentException();
+            }
+            // We remove the collaborator and update the client with JavaScript.
+            if (Pservice.RemoveCollaborator(Username, ProjectID))
             {
                 return Json("Success", JsonRequestBehavior.AllowGet);
             }
@@ -329,11 +336,13 @@ namespace CodeFox.Controllers
         }
 
         [HttpPost]
-        public ActionResult Autocomplete(string term)
+        public ActionResult Autocomplete(string Term)
         {
-            if (term != null && term != "" )
+            //If the term is empty or null we just return an empty string.
+            if (Term != null && Term != "" )
             {
-                return Json(UService.Autocomplete(term, User.Identity.Name), JsonRequestBehavior.AllowGet);
+                // We return the list from userservice.
+                return Json(UService.Autocomplete(Term, User.Identity.Name), JsonRequestBehavior.AllowGet);
             }
             return Json("", JsonRequestBehavior.AllowGet);
         }
