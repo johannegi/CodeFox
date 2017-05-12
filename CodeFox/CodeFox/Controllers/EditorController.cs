@@ -130,6 +130,10 @@ namespace CodeFox.Controllers
                     // If succeded we return to Editor
                     return RedirectToAction("Index", new { id = Model.ProjectID });
                 }
+                else if (Model.Name == null)
+                {
+                    return Json("EmptyString", JsonRequestBehavior.AllowGet);
+                }
             }
             // If the user can't open the project, or modelstate isn't valid we throw
             // an ArgumentException.
@@ -181,13 +185,17 @@ namespace CodeFox.Controllers
         [HttpPost]
         public ActionResult AddFolder(AddFolderViewModel Model)
         {
-            if (!Pservice.CanUserOpenProject(Model.ProjectID, User.Identity.Name))
+            if (Pservice.CanUserOpenProject(Model.ProjectID, User.Identity.Name))
             {
                 if (ModelState.IsValid)
                 {
                     // We add the folder and redirect to the Editor.
                     FoService.AddFolder(Model);
                     return RedirectToAction("Index", new { id = Model.ProjectID });
+                }
+                else if (Model.Name == null)
+                {
+                    return Json("EmptyString", JsonRequestBehavior.AllowGet);
                 }
             }
             throw new ArgumentException();

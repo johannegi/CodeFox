@@ -25,8 +25,8 @@ namespace CodeFox.Services
             NewFolder.FolderStructure = null; //It goes to root of project by default
             NewFolder.DateCreated = DateTime.Now; //DateTime attributes are setted
             NewFolder.DateModified = DateTime.Now;
-            NewFolder.ProjectStructure.DateModified = DateTime.Now;
-            DB.Folders.Add(NewFolder);
+            NewFolder.ProjectStructure.DateModified = DateTime.Now; //Date modified resetted on project
+            DB.Folders.Add(NewFolder); //Added to database and saved
             DB.SaveChanges();
         }
 

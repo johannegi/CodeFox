@@ -101,6 +101,16 @@ section h3.section-subheading
 /**********************************************************************************/
 /*Styles for Projectview*/
 
+#HeaderTextProjectIndex
+{
+    text-align:center;
+}
+
+#WelcomeTextProjectIndex
+{
+    text-align:center;
+}
+
 .Create
 {   
     height: 269px;
@@ -131,6 +141,24 @@ section h3.section-subheading
 {
     color: black;
     text-decoration: none;
+}
+
+.LeaveProjectDropDown
+{
+    display: block;
+    padding: 3px 20px;
+    clear: both;
+    font-weight: normal;
+    line-height: 1.428571429;
+    color: #333333;
+    white-space: nowrap;
+}
+
+.LeaveProjectDropDown:hover
+{
+    color: white;
+    cursor: pointer;
+    background : #428bca; 
 }
 
 .SelectDropDown

@@ -67,14 +67,17 @@ namespace CodeFox.Models
 
         [Required]
         [EmailAddress]
+        [StringLength(35, ErrorMessage = "The {0} can only be {1} characters long.")]
         [Display(Name = "Email")]
         public string Email { get; set; }
 
         [Required]
+        [StringLength(35, ErrorMessage = "The {0} can only be {1} characters long.")]
         [Display(Name = "Username")]
         public string UserName { get; set; }
 
         [Required]
+        [StringLength(35, ErrorMessage = "The {0} can only be {1} characters long.")]
         [Display(Name = "Name")]
         public string Name { get; set; }
 
