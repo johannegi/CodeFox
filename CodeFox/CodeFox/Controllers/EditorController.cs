@@ -125,6 +125,10 @@ namespace CodeFox.Controllers
                     {
                         // This is the message we send to the Ajax controller,
                         // if the file has the same name, which handles the error message.
+                        if (Model.Name == "ReadMe.txt")
+                        {
+                            return Json("SameName", JsonRequestBehavior.AllowGet);
+                        }
                         return Json("SameName", JsonRequestBehavior.AllowGet);
                     }
                     // If succeded we return to Editor

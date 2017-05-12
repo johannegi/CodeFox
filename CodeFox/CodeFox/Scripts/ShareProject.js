@@ -41,7 +41,7 @@ $(document).ready(function ()
     var Owner = $('.ModelOwner').val();
     var CurrentUser = $('.CurrentUser').val();
 
-    $('#ShareForm').on('submit', function ()
+    $('#ShareSubmitButton').on('click', function ()
     {
         var AddUserHtml = document.getElementsByClassName('SelectedFoundUser');
         var AddUser = AddUserHtml[0].valueOf().innerHTML;
