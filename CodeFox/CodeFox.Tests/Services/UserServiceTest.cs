@@ -21,7 +21,7 @@ namespace CodeFox.Tests.Services
             {
                 ID = 1,
                 Name = "Patti",
-                Username = "Patti"
+                Username = "Patti123"
             };
             MockDb.UsersInfo.Add(U1);
 
@@ -29,7 +29,7 @@ namespace CodeFox.Tests.Services
             {
                 ID = 2,
                 Name = "Alex",
-                Username = "Alex"
+                Username = "Alex123"
             };
             MockDb.UsersInfo.Add(U2);
 
@@ -37,7 +37,7 @@ namespace CodeFox.Tests.Services
             {
                 ID = 3,
                 Name = "Joey",
-                Username = "Joey"
+                Username = "Joey123"
             };
             MockDb.UsersInfo.Add(U3);
 
@@ -45,7 +45,7 @@ namespace CodeFox.Tests.Services
             {
                 ID = 4,
                 Name = "Nonni",
-                Username = "Nonni"
+                Username = "Nonni123"
             };
             MockDb.UsersInfo.Add(U4);
 
