@@ -82,6 +82,7 @@ namespace CodeFox.Controllers
             return View(Model);
         }
 
+        //Exports a project with specific ID to client's machine
         public FileResult Export(int ID)
         {
             // We check if the user can open the project.
@@ -89,17 +90,20 @@ namespace CodeFox.Controllers
             {
                 throw new Exception();
             }
+            //Makes path in server's drive as a string to a folder with clients Username to prevent conflicts
             string UserTempDirectory = Server.MapPath("~/Content/UsersTemp/") + User.Identity.Name;
-            string UserProjectDirectory = UserTempDirectory + "/Project";
-            string UserZipDirectory = UserTempDirectory + "/ZipTemp";
-            string FileName = PService.GetProjectFromID(ID).Name + ".zip";
+            string UserProjectDirectory = UserTempDirectory + "/Project"; //directory is made to put all project files and folders in
+            string UserZipDirectory = UserTempDirectory + "/ZipTemp";   //directory is made to put zipped file to export to client
+            string FileName = PService.GetProjectFromID(ID).Name + ".zip"; //Name of the zipped file
 
-            PService.ExportProjectToDirectory(ID, UserProjectDirectory);
+            PService.ExportProjectToDirectory(ID, UserProjectDirectory); //Makes the project in the users project path
 
-            byte[] ZippedProject = PService.GetZippedProject(UserProjectDirectory, UserZipDirectory);
+            //zippes the project from the project path and it is saved in zip path and saved as an array of bytes
+            byte[] ZippedProject = PService.GetZippedProject(UserProjectDirectory, UserZipDirectory); 
 
-            Directory.Delete(UserTempDirectory, true);
+            Directory.Delete(UserTempDirectory, true); //Users directory in server used to make project and zipped file is deleted
 
+            //Returns the array of bytes made as a zipped file to client's machine
             return File(ZippedProject, System.Net.Mime.MediaTypeNames.Application.Octet, FileName);
         }
 

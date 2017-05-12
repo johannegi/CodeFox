@@ -17,6 +17,7 @@ namespace CodeFox.Services
             db = context ?? new ApplicationDbContext();
         }
 
+        //Returns List of User by prefix search
         public List<UserInfo> Autocomplete(string Term, string Username)
         {
             var PossibleOutComes = db.UsersInfo.Where(s => s.Username.ToLower().StartsWith
@@ -24,15 +25,16 @@ namespace CodeFox.Services
             return PossibleOutComes;
         }
 
+        //Returns a List of Users that have specific project shared with them
         public List<UserInfo> GetSharedUsersFromProject(int? ProjectID)
         {
-            List<UserInfo> SharedUsers = new List<UserInfo>();
+            List<UserInfo> SharedUsers = new List<UserInfo>();       //Get all share connections between specific project and users
             List<ProjectShare> PShare = db.ProjectShares.Where(x => x.ShareProject.ID == ProjectID).ToList();
-            if (PShare != null)
+            if (PShare != null) 
             {
-                foreach (var item in PShare)
+                foreach (var item in PShare) //Loops through all share connections in the list
                 {
-                    if(item.ShareUser != null)
+                    if(item.ShareUser != null) //Adds all Users in connections to List wich is returned
                     {
                         UserInfo tmp = db.UsersInfo.Where(x => x.ID == item.ShareUser.ID).SingleOrDefault();
                         SharedUsers.Add(tmp);
