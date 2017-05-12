@@ -35,7 +35,7 @@
                                 <ul class="dropdown-menu">
                                     <li class="dropdown-item Delete" data-toggle="modal" data-id="@item.ID">Delete</li>
                                     <li class="dropdown-item">@Html.ActionLink("Export", "Export", "Projects", new { id = item.ID }, null)</li>
-                                    <li class="dropdown-item SelectDropDown" data-toggle="modal"  id="@item.ID">Details</li>
+                                    <li class="dropdown-item SelectDropDown" data-toggle="modal"  data-id="@item.ID">Details</li>
                                 </ul>
                             </div>
                     </div>
@@ -68,7 +68,7 @@
                                     <ul class="dropdown-menu">
                                         <li class="dropdown-item">@Html.ActionLink("Export", "Index", "Editor", new { id = item.ID }, null)</li>
                                         <li href="#my_modal" class="dropdown-item SelectDropDown" data-toggle="modal" data-id="@item.ID">Details</li>
-                                        <li class="dropdown-item LeaveProjectDropDown" data-toggle="modal" id="@item.ID">Leave Project</li>
+                                        <li class="dropdown-item LeaveProjectDropDown" data-toggle="modal" data-id="@item.ID">Leave Project</li>
                                     </ul>
                                 </div>
                             </div>

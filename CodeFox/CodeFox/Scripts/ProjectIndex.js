@@ -34,9 +34,9 @@
 
         var ProjectID = $(this).data("id");
         $.ajax({
-            url: '/Projects/LeaveProject',
+            url: '/Projects/GetReadMe',
             data: { 'ProjectID': ProjectID },
-            method: "",
+            method: "POST",
             success: function (data)
             {
                 if (data == "") {
