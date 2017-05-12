@@ -43,7 +43,7 @@ namespace CodeFox.Services
         }
         public UserInfo GetUserByUsername(string Username)
         {
-            UserInfo tmp = db.UsersInfo.Where(x => x.Username == Username).SingleOrDefault();
+            UserInfo tmp = db.UsersInfo.Where(x => x.Username == Username).FirstOrDefault();
             return tmp;
         }
         public List<string> GetCountryList()

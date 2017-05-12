@@ -37,9 +37,40 @@ CodeHub.client.onChange = function (ChangeData, Username) {
     Silent = false;
 }
 
+CodeHub.client.onTreeChange = function (ActionText, Username)
+{
+    $.ajax(
+    {
+        url: '/Editor/GetTreeJson/',
+        data: { 'ProjectID': ProjectID },
+        method: 'POST',
+        success: function (ReturnData)
+        {
+            var Selected = $('#Tree').jstree(true).get_selected('full', true)
+            $('#Tree').jstree(true).settings.core.data = ReturnData;
+            $('#Tree').jstree(true).refresh();
+            var SelectedAfter = $('#Tree').jstree(true).get_selected('full', true)
+            
+            if (Selected == SelectedAfter)
+            {
+                $('#Tree').jstree(true).select_node(String(Selected[0].id));
+            }
+            else
+            {
+                $('#Tree').jstree(true).select_node(String(ReadMeID));
+            }
+            if (CurrentUser != Username)
+            {
+                $('#EditorInfo').text(ActionText);
+            } 
+        }
+    });
+}
+
 //Sends changes with signalR to other users
 $.connection.hub.start().done(function () {
     CodeHub.server.joinFile(FileID);
+    CodeHub.server.joinProject(ProjectID);
     ace.edit("Editor").on('change', function (Obj) {
         if (Silent) {
             return;
@@ -114,7 +145,10 @@ $(document).ready(function () {
                     $('#DuplicateName').html('This project has a file with the same name.');
                 }
                 else {
-                    window.location = '/Editor/Index/' + ProjectID;
+                    console.log(form[0]);
+                    CodeHub.server.onTreeChange(ProjectID, (CurrentUser + " added new file"), CurrentUser);
+                    $('#OpenModalAddFile').modal('hide');
+                    //window.location = '/Editor/Index/' + ProjectID;
                 }
             }
         });
@@ -141,7 +175,8 @@ $(document).ready(function () {
             data: form.serialize(),
             method: "POST",
             success: function (data) {
-                window.location = '/Editor/Index/' + ProjectID;
+                CodeHub.server.onTreeChange(ProjectID, (CurrentUser + " added new folder"), CurrentUser);
+                $('#OpenModalAddFolder').modal('hide');
             }
         });
         return false;
@@ -202,6 +237,7 @@ $(document).ready(function () {
                                             method: 'POST',
                                             success: function (ReturnData) {
                                                 $('#EditorInfo').text(Node.text + ' Renamed to ' + ReturnData.Name + '.' + ReturnData.Type);
+                                                CodeHub.server.onTreeChange(ProjectID, (CurrentUser + ' renamed ' + Node.text + ' to ' + ReturnData.Name + '.' + ReturnData.Type), CurrentUser);
                                                 $("#Tree").jstree('set_text', Node, (ReturnData.Name + '.' + ReturnData.Type));
                                                 ace.edit("Editor").setValue(ReturnData.Location);
                                                 var Modelist = ace.require("ace/ext/modelist")
@@ -221,6 +257,7 @@ $(document).ready(function () {
                                             success: function (ReturnData) {
                                                 $('#EditorInfo').text(Node.text + ' Renamed to ' + ReturnData.Name);
                                                 $("#Tree").jstree('set_text', Node, (ReturnData.Name));
+                                                CodeHub.server.onTreeChange(ProjectID, (CurrentUser + ' renamed ' + Node.text + ' to ' + ReturnData.Name), CurrentUser);
                                             }
                                         });
                                     }
@@ -250,11 +287,13 @@ $(document).ready(function () {
                                                 success: function (ReturnData) {
                                                     $('#EditorInfo').text(Node.text + ' deleted');
                                                     $("#Tree").jstree('delete_node', Node);
+                                                    $('#Tree').jstree(true).select_node(String(ReadMeID));
+                                                    CodeHub.server.onTreeChange(ProjectID, (CurrentUser + ' deleted ' + Node.text), CurrentUser);
                                                 }
                                             });
                                     }
                                         //Delete Folder
-                                    else if (confirm("Are you sure you want to delete " + Node.text + " and every file inside it ?") == true) {
+                                    else if (Node.type != 'file' && confirm("Are you sure you want to delete " + Node.text + " and every file inside it ?") == true) {
                                         $.ajax(
                                             {
                                                 url: '/Editor/DeleteFolder/',
@@ -263,6 +302,8 @@ $(document).ready(function () {
                                                 success: function (ReturnData) {
                                                     $('#EditorInfo').text(Node.text + ' deleted');
                                                     $("#Tree").jstree('delete_node', Node);
+                                                    $('#Tree').jstree(true).select_node(String(ReadMeID));
+                                                    CodeHub.server.onTreeChange(ProjectID, (CurrentUser + ' deleted ' + Node.text), CurrentUser);
                                                 }
                                             });
                                     }
@@ -337,6 +378,7 @@ $("#Tree").on("loaded.jstree", function () {
                     success: function () {
                         var NewParent = $('#Tree').jstree(true).get_node(Data.parent)
                         $('#EditorInfo').text(Data.node.text + ' Moved to folder ' + NewParent.text);
+                        CodeHub.server.onTreeChange(ProjectID, (CurrentUser + ' moved ' + Data.node.text + ' to folder ' + NewParent.text), CurrentUser);
                     },
                 });
             }
@@ -354,6 +396,7 @@ $("#Tree").on("loaded.jstree", function () {
                     success: function () {
                         var NewParent = $('#Tree').jstree(true).get_node(Data.parent)
                         $('#EditorInfo').text(Data.node.text + ' Moved to folder ' + NewParent.text);
+                        CodeHub.server.onTreeChange(ProjectID, (CurrentUser + ' moved ' + Data.node.text + ' to folder ' + NewParent.text), CurrentUser);
                     }
                 });
             }

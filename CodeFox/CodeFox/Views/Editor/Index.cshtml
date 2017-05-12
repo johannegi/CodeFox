@@ -40,7 +40,7 @@
 
     <input type="hidden" value="@Model.ID" class="ProjectID" />
     <input type="hidden" value="@Model.ReadMe.ID" class="ReadMeID" />
-    <input type="hidden" value="@Model.Owner.Username" class="CurrentUser" />
+    <input type="hidden" value="@User.Identity.Name" class="CurrentUser" />
     <input type="hidden" value="@Url.Content("~/Content/JsTree/tree-icon.png")" class="TreeIcon" />
 
 
