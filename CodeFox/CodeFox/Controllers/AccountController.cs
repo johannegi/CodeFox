@@ -181,6 +181,7 @@ namespace CodeFox.Controllers
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
                     db.UsersInfo.Add(newUser);
                     db.SaveChanges();
+                    return RedirectToAction("Index", "Projects");
                 }
                 AddErrors(result);
             }

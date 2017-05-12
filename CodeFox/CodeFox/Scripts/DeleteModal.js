@@ -1,5 +1,5 @@
-﻿$('.Delete').on('click', function (e) {
-
+﻿$('.Delete').on('click', function (e)
+{
     var ProjectID = $(this).data("id");
     $.ajax({
         url: '/Projects/Delete',
@@ -32,7 +32,8 @@
     });
 
     $('#OpenModalDelete').modal();
-    $('#DeleteForm').on('submit', function (e) {
+    $('.DeleteProject').on('click', function (e)
+    {
         $.ajax({
             url: '/Projects/Delete',
             data: { 'ProjectID': ProjectID },

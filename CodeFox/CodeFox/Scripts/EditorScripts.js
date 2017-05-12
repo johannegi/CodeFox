@@ -158,7 +158,6 @@ $(document).ready(function () {
                 else {
                     CodeHub.server.onTreeChange(ProjectID, (CurrentUser + " added new file"), CurrentUser);
                     $('#OpenModalAddFile').modal('hide');
-                    //window.location = '/Editor/Index/' + ProjectID;
                 }
             }
         });
