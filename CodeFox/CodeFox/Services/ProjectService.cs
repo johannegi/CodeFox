@@ -308,9 +308,9 @@ namespace CodeFox.Services
             File ReadMe = DB.Files.Where(x => x.ID == TheProject.ReadMe.ID).FirstOrDefault();
             AllFiles.Add(ReadMe);
 
-            FoService.CreateTempProjectFolders(ProjectID, Path); //Folder structure for project created
+            FoService.CreateTempProjectFolders(ProjectID, Path); //Folder structure for project created on drive
 
-            foreach(File file in AllFiles) //All files written down in right folders
+            foreach(File file in AllFiles) //All files written down in their correct folder that was created on drive
             {
                 string text = file.Location;
                 string FilePath = Path + FoService.GetFolderPath(file.FolderStructure);

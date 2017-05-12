@@ -1,4 +1,7 @@
-﻿body 
+﻿
+/**********************************************************************************/
+/* General styling */
+body 
 {
     padding-top: 50px;
     padding-bottom:60px;   /* Height of the footer */
@@ -27,6 +30,9 @@ textarea
     max-width: 280px;
 }
 
+/**********************************************************************************/
+/* Styles for MainPage */
+
 .MainPageCenter
 {
     margin-left: auto;
@@ -52,7 +58,14 @@ textarea
 }
 .navbar-inverse
 {
+     /* Overrides the Bootstrap css to make the navbar white */
      background-color: white !important; 
+}
+
+#MainPageSlogan
+{
+    font-family: 'Open Sans Condensed', sans-serif;
+    font-size: 40px;
 }
 
 .MainPageImage img
@@ -61,19 +74,18 @@ textarea
    margin:0 auto;
    width:900px;
    padding: 20px;
-
 }
 
 .float-left 
 {
     float:left;
-    width:300px; /* or 33% for equal width independent of parent width*/
+    width:300px; 
 }
 
-/*This is the section where we talk nicely about CodeFox on the main page*/
+/* This is the section where we talk nicely about CodeFox on the main page */
 section 
 {
-    padding: 100px 0;
+    padding: 100px 0; 
 }
 section h2.section-heading
 {
@@ -98,8 +110,13 @@ section h3.section-subheading
     text-transform: none;
 }
 
+.Circle
+{
+    color: #5bc0de;
+}
+
 /**********************************************************************************/
-/*Styles for Projectview*/
+/* Styles for Projectview */
 
 #HeaderTextProjectIndex
 {
@@ -181,7 +198,7 @@ section h3.section-subheading
 
 .Delete
 {
-        display: block;
+    display: block;
     padding: 3px 20px;
     clear: both;
     font-weight: normal;
@@ -336,15 +353,6 @@ input#Search
     float: right;
 }
 
-/*Ends*/
-    
-
-#MainPageSlogan
-{
-    font-family: 'Open Sans Condensed', sans-serif;
-    font-size: 40px;
-}
-
 a.attempt:hover
 {
     color: red;
@@ -420,14 +428,12 @@ div.NavBar
 
 
 /**********************************************************************************/
-
-
 /*styles for Editor*/
+
 .BorderEditor
 {
     border: 0.5px solid red;
 }
-
 
 .AceEditor
 {
@@ -465,6 +471,12 @@ div.NavBar
     padding-bottom: 20px;
 }
 
+.TheTree
+{
+    width: 200px;
+    height: 410px;
+    overflow: auto;
+}
 /**********************************************************************************/
 /*Styles for Share*/
 .ShareWindow 
@@ -488,7 +500,7 @@ td.ShareUsername
     margin-bottom: 30px;
 }
 
-.InputField  label
+.InputField label
 {
     margin-bottom: 20px;
 }
@@ -512,21 +524,7 @@ td.ShareUsername
 }
 
 /***************************************/
-/*Home Page*/
-.Circle
-{
-    color: #5bc0de;
-}
-
-/***************************************/
 /*Register Page*/
-
-.TheTree
-{
-    width: 200px;
-    height: 410px;
-    overflow: auto;
-}
 
 .InfoView
 {
