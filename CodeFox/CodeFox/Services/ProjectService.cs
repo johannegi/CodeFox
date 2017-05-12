@@ -232,11 +232,11 @@ namespace CodeFox.Services
             {
                 UserService getUser = new UserService(null);
                 var SharedUsers = getUser.GetSharedUsersFromProject(ProjectID);
-                var RemoveUser = SharedUsers.Where(x => x.Username == Username).SingleOrDefault();
+                var RemoveUser = SharedUsers.Where(x => x.Username == Username).FirstOrDefault();
                 if(RemoveUser != null)
                 {
                     ProjectShare DeleteShare = (from x in DB.ProjectShares where x.ShareUser.Username == Username
-                                                && x.ShareProject.ID == ProjectID select x).SingleOrDefault();
+                                                && x.ShareProject.ID == ProjectID select x).FirstOrDefault();
                     if(DeleteShare != null)
                     {
                         DB.ProjectShares.Remove(DeleteShare);

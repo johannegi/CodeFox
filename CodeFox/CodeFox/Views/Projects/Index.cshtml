@@ -3,15 +3,18 @@
     ViewBag.Title = "Your projects";
 }
 
-<h1 style="text-align:center">Projects</h1>
+<h1 id="HeaderTextProjectIndex">Projects</h1>
 
-<h2  style="text-align:center">Welcome @Html.DisplayFor(model => model.Name)!</h2>
+<h2 id="WelcomeTextProjectIndex">Welcome @Html.DisplayFor(model => model.Name)!</h2>
 
 <h2 class="ProjectsCaption"><i class="ProjectArrow fa fa-caret-down" id="OwnedProjectIndex" aria-hidden="true"></i>My Projects</h2>
-<div class="OwnProjects col-sm-12 col-md-12 col-lg-12"> <!-- THIS IS THE DIV THAT CONTAINS ALL THE PROJECTS THAT THE USER CREATED-->
+<!-- THIS IS THE DIV THAT CREATES THE BORDER AROUND ALL THE PROJECTS THAT THE USER CREATED -->
+<div class="OwnProjects col-sm-12 col-md-12 col-lg-12"> 
     <div class="container">
-        <div class="Window row col-sm-12 col-md-12 col-lg-12">
-            <div class="col-sm-4 col-md-3 col-lg-2 Create Project thumbnail">
+        <!-- THIS IS THE DIV THAT CONTAINS ALL THE PROJECTS THAT THE USER CREATED -->
+        <div class="Window row col-sm-12 col-md-12 col-lg-12"> 
+            <!-- CREATE FILE WINDOW -->
+            <div class="col-sm-4 col-md-3 col-lg-2 Create Project thumbnail"> 
                 <br />
                 <br />
                 <img src="~/Content/Images/plus.png" data-hsolder-rendered="true" onclick="location.href='@Url.Action("Create", "Projects")';return false;">
@@ -19,22 +22,25 @@
                     <h4>@Html.ActionLink("Create new", "Create", "Projects")</h4>
                 </div>
             </div>
-
+                <!-- THE LOOP THAT SHOWS ALL THE THE PROJECTS THAT THE USER CREATED -->
                 @foreach (var item in Model.Projects)
                 {
                     <div class="col-sm-4 col-md-3 col-lg-2 Project thumbnail">
                         <img src="~/Content/Images/tester.png" data-holder-rendered="true" onclick="location.href='@Url.Action("Index", "Editor", new { ID = item.ID })';return false;" />
-                        <!--<div>-->
+                        
                             <h4 class="ProjectName">@Html.ActionLink(HttpUtility.HtmlDecode(Html.DisplayFor(model => item.Name).ToString()), "Index", "Editor", new { ID = item.ID }, null)</h4>
+                            <!--MODIFIED DATE TO MATCH THE SCRIPT AND DISPLAY TIME SINCE MODIFIED-->
                             <p><b>Last updated:</b><br /> <time class="timeago" title="@item.DateModified.ToString("MM-dd-yyyyTHH':'mm':'ssZ")">@item.DateModified</time></p>
-
+                            <!--DROPDOWN WINDOW ON PROJECTS WHICH SHOWS DELETE, DETAILS AND ZIP -->
                             <div class="dropdown">
                                 <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
                                     <span class="glyphicon glyphicon-align-justify" aria-hidden="true"></span>
                                 </button>
                                 <ul class="dropdown-menu">
+                                    <!-- DATA-ID FETCHES THE PROJECT ID AND USES JAVASCRIPT TO CARRY OUT THE DELETE ACTION -->
                                     <li class="dropdown-item Delete" data-toggle="modal" data-id="@item.ID">Delete</li>
                                     <li class="dropdown-item">@Html.ActionLink("Export", "Export", "Projects", new { id = item.ID }, null)</li>
+                                    <!-- DATA-ID FETCHES THE PROJECT ID AND USES JAVASCRIPT TO CARRY OUT THE README ACTION WHICH SHOWS THE README FILE --> 
                                     <li class="dropdown-item SelectDropDown" data-toggle="modal"  data-id="@item.ID">Details</li>
                                 </ul>
                             </div>
@@ -50,25 +56,31 @@
 @if (Model.SharedProjects.Count != 0)
 {
     <h2 class="ProjectsCaption"><i class="ProjectArrow fa fa-caret-down" aria-hidden="true"></i>Projects Shared With Me</h2>
-    <div class="SharedProjects col-sm-12 col-md-12 col-lg-12">
+    <!-- THIS IS THE DIV THAT CONTAINS ALL THE SHARED PROJECTS -->
+    <div class="SharedProjects col-sm-12 col-md-12 col-lg-12">  
         <div class="container">
                 <div class="row SearchResult">
+                    <!-- THE LOOP THAT SHOWS ALL THE SHARED PROJECTS THAT THE USER HAS -->
                     @foreach (var item in Model.SharedProjects)
                     {
+                        <!-- THE DIV OF EACH PROJECT -->
                         <div class="col-sm-4 col-md-3 col-lg-2 Project thumbnail">
                             <img src="~/Content/Images/tester.png" data-holder-rendered="true" onclick="location.href='@Url.Action("Index", "Editor", new { ID = item.ID })';return false;" />
                             <h4 class="ProjectName">@Html.ActionLink(HttpUtility.HtmlDecode(Html.DisplayFor(model => item.Name).ToString()), "Index", "Editor", new { ID = item.ID }, null)</h4>
-                            <div class="JsOnHover">
+                            <div>
                                 <div><b>Owned by:</b><br />@item.Owner.Username</div>
+                                <!--MODIFIED DATE TO MATCH THE SCRIPT AND DISPLAY TIME SINCE MODIFIED-->
                                 <p><b>Last updated:</b><br /> <time class="timeago" title="@item.DateModified.ToString("MM-dd-yyyyTHH':'mm':'ssZ")">@item.DateModified</time></p>
-                                <div class="dropdown">
+                                <!--DROPDOWN WINDOW ON PROJECTS WHICH SHOWS DELETE, DETAILS AND ZIP -->
+                                 <div class="dropdown"> 
                                     <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
                                         <span class="glyphicon glyphicon-align-justify" aria-hidden="true"></span>
                                     </button>   
                                     <ul class="dropdown-menu">
                                         <li class="dropdown-item">@Html.ActionLink("Export", "Index", "Editor", new { id = item.ID }, null)</li>
                                         <li href="#my_modal" class="dropdown-item SelectDropDown" data-toggle="modal" data-id="@item.ID">Details</li>
-                                        <li class="dropdown-item LeaveProjectDropDown" data-toggle="modal" data-id="@item.ID">Leave Project</li>
+                                        <!-- DATA-ID FETCHES THE PROJECT ID AND USES JAVASCRIPT TO CARRY OUT THE README ACTION WHICH SHOWS THE README FILE -->
+                                        <li class="dropdown-item LeaveProjectDropDown" data-toggle="modal" id="@item.ID">Leave Project</li>
                                     </ul>
                                 </div>
                             </div>
@@ -79,7 +91,7 @@
         </div>
 }
 
-
+<!-- THIS IS THE MODAL THAT SHOWS THE README FILE OF THE PROJECT -->
 <div class="modal" id="OpenModalDetails">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -105,13 +117,10 @@
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
             </div>
         </div>
-        <!-- /.modal-content -->
     </div>
-    <!-- /.modal-dialog -->
 </div>
-<!-- /.modal -->
 
-
+ <!-- THIS IS THE MODAL THAT SHOWS THE PROJECT THAT THE USER WANTS TO DELETE -->
 <div class="modal" id="OpenModalDelete">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -124,6 +133,7 @@
                 </div>
             </div>
             <div class="modal-footer">
+                <!-- USING USED TO PASS INFORMATION TO THE CONTROLLER -->
                 @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "DeleteForm" }))
                 {
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -131,13 +141,11 @@
                 }
             </div>
         </div>
-        <!-- /.modal-content -->
     </div>
-    <!-- /.modal-dialog -->
 </div>
-<!-- /.modal -->
 
-<div class="modal" id="OpenModalLeave">
+ <!-- THIS IS THE MODAL THAT ALLOWS THE USER TO LEAVE PROJECT HE HAS BEEN SENT("SHARED PROJECTS")-->
+<div class="modal" id="OpenModalLeave"> 
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -150,6 +158,7 @@
                 </div>
             </div>
             <div class="modal-footer">
+                <!-- USING USED TO PASS INFORMATION TO THE CONTROLLER -->
                 @using (Html.BeginForm(null, null, FormMethod.Post, new { id="LeaveProjectForm"}))
                 {
                     <input type="hidden" value="@Model.ID" class="ProjectID" />
@@ -158,20 +167,16 @@
                 }
             </div>
         </div>
-        <!-- /.modal-content -->
     </div>
-    <!-- /.modal-dialog -->
 </div>
-<!-- /.modal -->
 
 @section scripts
 {
     <!-- SCRIPTS TO ADD ACE EDITOR -->
     <script src="@Url.Content("~/Scripts/AceEditor/ace.js")" type="text/javascript" charset="utf-8"> </script>
     <script src="@Url.Content("~/Scripts/AceEditor/ext-modelist.js")" type="text/javascript" charset="utf-8"></script>
-    <!-- SCRIPTS TO INCLUDE TIMEAGO JQUERY PLUGIN AND SCRIPTS TO ADD MODALS TO THE PROJECT INDEX -->
-    <script src="@Url.Content("~/Scripts/jquery.timeago.js")" type="text/javascript" charset="utf-8"></script>   
+    <!-- SCRIPTS TO ADD MODALS TO THE PROJECT INDEX -->
     <script src="@Url.Content("~/Scripts/ProjectIndex.js")" type="text/javascript" charset="utf-8"></script>   
-   <script src="@Url.Content("~/Scripts/DeleteModal.js")" type="text/javascript" charset="utf-8"></script>
+    <script src="@Url.Content("~/Scripts/DeleteModal.js")" type="text/javascript" charset="utf-8"></script>
 }
 
