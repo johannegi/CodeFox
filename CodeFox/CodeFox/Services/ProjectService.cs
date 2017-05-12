@@ -238,6 +238,7 @@ namespace CodeFox.Services
             return false;
         }
 
+        //Removes a connection 
         public bool RemoveCollaborator(string Username, int? ProjectID)
         {
             if(ProjectID.HasValue && Username != "")
@@ -260,6 +261,7 @@ namespace CodeFox.Services
             return false;
         }
 
+        //Returns a list of all types for projects from specific path
         public List<string> GetTypeList()
         {
             string path = System.Web.HttpContext.Current.Server.MapPath("~/Content/Lists/ProjectTypes.txt");
@@ -267,6 +269,7 @@ namespace CodeFox.Services
             return listinn;
         }
 
+        //Deletes a Project and every connection to it
         public void DeleteProject(int? ProjectID)
         {
             if(!ProjectID.HasValue)
@@ -383,6 +386,7 @@ namespace CodeFox.Services
             return null;
         }
 
+        //Returns sorted list of project
         public List<Project> Sorted(string Method, bool Ascending)
         {
             const string DM = "Date Modified";
