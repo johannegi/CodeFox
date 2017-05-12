@@ -9,7 +9,7 @@ $(document).ready(function ()
         var prefix = $("#AddUsername").val();
         $.ajax({
             url: '/Editor/Autocomplete/',
-            data: { 'term': prefix },
+            data: { 'Term': prefix },
             method: 'POST',
             success: function (data)
             {
@@ -49,7 +49,7 @@ $(document).ready(function ()
         $.ajax({
             url: '/Editor/Share/',
             dataType: 'html',
-            data: AddAntiForgeryToken({ 'Username': AddUser, 'ProjectID': ProjectID }),
+            data: { 'Username': AddUser, 'ProjectID': ProjectID },
             method: 'POST',
             success: function (data)
             {
@@ -88,7 +88,7 @@ $(document).ready(function ()
             $.ajax({
                 url: '/Editor/DeleteShare/',
                 dataType: 'html',
-                data: AddAntiForgeryToken({ 'Username': RemoveUser, 'ProjectID': ProjectID }),
+                data: { 'Username': RemoveUser, 'ProjectID': ProjectID },
                 method: 'POST',
                 success: function (data)
                 {
@@ -128,17 +128,10 @@ $(document).ready(function ()
             document.getElementById("ShareSubmitButton").disabled = false;
         }
     });
-    // Link: http://stackoverflow.com/questions/4074199/jquery-ajax-calls-and-the-html-antiforgerytoken
-    // We found a way to pass parameters to function that validate AntiForgeryTokens. 
-    AddAntiForgeryToken = function (data)
-    {
-        data.__RequestVerificationToken = $('#ShareForm input[name=__RequestVerificationToken]').val();
-        return data;
-    };
 
     /**************************************************************REGISTER**************************************************************/
 
-    $('#RegisterForm').on('submit', function (e)
+    /*$('#RegisterForm').on('submit', function (e)
     {
         e.preventDefault();
         $('#DuplicateUsernameError').html('');
@@ -151,27 +144,31 @@ $(document).ready(function ()
             method: 'POST',
             success: function (data)
             {
+                console.log(data);
                 if (data == "success")
                 {
                     window.location.href = '/Projects';
                 }
-                else if(!data.Succeded && data.Errors == undefined)
-                {
-                    var message = '<li class="text-danger">Password and Confirm Password do not match</li>';
-                    $('#DuplicateUsernameError').append(message);
-                }
                 else if (!data.Succeded)
                 {
-                    var html = "";
-                    for (var i = 0; i < data.Errors.length; i++) {
-                        html += "<li class='text-danger'>";
-                        html += data.Errors[i];
-                        html += "</li>";
+                    if (data.Errors == undefined)
+                    {
+                        var message = '<li class="text-danger">Password and Confirm Password do not match</li>';
+                        $('#DuplicateUsernameError').append(message);
                     }
-                    $('#DuplicateUsernameError').append(html);
+                    else
+                    {
+                        var html = "";
+                        for (var i = 0; i < data.Errors.length; i++) {
+                            html += "<li class='text-danger'>";
+                            html += data.Errors[i];
+                            html += "</li>";
+                        }
+                        $('#DuplicateUsernameError').append(html);
+                    }
                 }
             }
         });
         return false;
-    });
+    });*/
 });

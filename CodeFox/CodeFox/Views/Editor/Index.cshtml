@@ -9,7 +9,7 @@
     <!-- Class created to construct the look of the buttons on EditorPage -->
     <!-- Nav bar where SAVE EXPORT SHARE ADD FILE CLOSE AND DELETE PROJECT WILL BE-->
     @Html.ActionLink("Export", "Export", "Projects", new { id = Model.ID }, new { @class = "btn btn-info" })
-    @Html.ActionLink("Share with your foxes!", "Share", "Editor", new { id = Model.ID }, new { @class = "btn btn-info" })
+    @Html.ActionLink("Share with your foxes!", "Share", "Editor", new { ID = Model.ID }, new { @class = "btn btn-info" })
     <a class="btn btn-info AddFileButton" data-toggle="modal">Add File</a>
     <a class="btn btn-info AddFolderButton" data-toggle="modal">Add Folder</a>
     @Html.ActionLink("Close", "Index", "Projects", new { area = "" }, new { @class = "btn btn-info" })
@@ -28,11 +28,13 @@
         <!-- DIV AROUND THE FILE TREE VIEW AND EDITOR-->
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h3 class="panel-title">FileName</h3> <p id="EditorInfo">Project info</p>
+            <p id="EditorInfo">Project info</p>
             </div>
-            <div id="Tree" class="col-lg-2 TheTree"></div>
+            <div class="Wrapper">
+                <div id="Tree" class="col-lg-2 TheTree"></div>
+                <div id="InfoView" class="col-lg-2 InfoView"><p>Changes</p></div>
+            </div>
             <div class="panel-body">
-
                 <pre id="Editor">@Model.CurrentOpenFile.Location</pre>
             </div>
         </div>

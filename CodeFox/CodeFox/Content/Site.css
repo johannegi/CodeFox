@@ -524,5 +524,17 @@ td.ShareUsername
 .TheTree
 {
     width: 200px;
+    height: 410px;
     overflow: auto;
+}
+
+.InfoView
+{
+    position: relative; 
+    width: 190px;
+    overflow: auto;
+    height: 300px;
+    clear:both;
+    border: 1px solid gray;
+    margin: 5px;
 }
