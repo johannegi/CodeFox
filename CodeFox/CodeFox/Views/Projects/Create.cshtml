@@ -66,10 +66,15 @@
                     data: form.serialize(),
                     method: 'POST',
                     success: function (data) {
-                        if (data == 'Error') {
+                        if (data == 'SameName') {
                             $('#ErrorCreateProject').html('You cannot have two projects with the same name');
                         }
-                        else {
+                        else if (data == 'Error')
+                        {
+
+                        }
+                        else
+                        {
                             window.location.href = '@Url.Action("Index","Projects")';
                         }
                     }
