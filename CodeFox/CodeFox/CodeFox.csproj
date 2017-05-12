@@ -263,7 +263,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
-    <Content Include="Scripts\codefox.js" />
+    <Content Include="Scripts\ShareProject.js" />
     <Content Include="Scripts\DeleteModal.js" />
     <Content Include="Scripts\EditorScripts.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />

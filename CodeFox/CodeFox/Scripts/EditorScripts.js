@@ -149,10 +149,13 @@ $(document).ready(function () {
             method: "POST",
             success: function (data) {
                 if (data == 'SameName') {
-                    $('#DuplicateName').html('This project has a file with the same name.');
+                    $('#ErrorLabel').html('This project has a file with the same name.');
+                }
+                else if(data == 'EmptyString')
+                {
+                    $('#ErrorLabel').html('You hve to enter a name');
                 }
                 else {
-                    console.log(form[0]);
                     CodeHub.server.onTreeChange(ProjectID, (CurrentUser + " added new file"), CurrentUser);
                     $('#OpenModalAddFile').modal('hide');
                     //window.location = '/Editor/Index/' + ProjectID;
@@ -182,8 +185,15 @@ $(document).ready(function () {
             data: form.serialize(),
             method: "POST",
             success: function (data) {
-                CodeHub.server.onTreeChange(ProjectID, (CurrentUser + " added new folder"), CurrentUser);
-                $('#OpenModalAddFolder').modal('hide');
+                if (data == 'EmptyString')
+                {
+                    $('#ErrorLabel').html('You hve to enter a name');
+                }
+                else
+                {
+                    CodeHub.server.onTreeChange(ProjectID, (CurrentUser + " added new folder"), CurrentUser);
+                    $('#OpenModalAddFolder').modal('hide');
+                }
             }
         });
         return false;

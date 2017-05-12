@@ -38,7 +38,6 @@ namespace CodeFox.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult Create(CreateProjectViewModel Model)
         {
             // If the Model is valid.
@@ -49,11 +48,12 @@ namespace CodeFox.Controllers
                 {
                     return RedirectToAction("Index");
                 }
-                //return Json("Error", JsonRequestBehavior.AllowGet); MUNA AÐ LAGA
+                return Json("SameName", JsonRequestBehavior.AllowGet);
             }
-            // If the model is not valid we return it to the original view.
-            Model.TypeList = PService.GetTypeList();
-            return View(Model);
+            else
+            {
+                return Json("Error", JsonRequestBehavior.AllowGet);
+            }
         }
 
         public ActionResult Delete(int? ID)
