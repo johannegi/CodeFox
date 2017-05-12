@@ -18,9 +18,19 @@ namespace CodeFox.Hubs
             Groups.Add(Context.ConnectionId, Convert.ToString(FileID));
         }
 
+        public void JoinProject(int ProjectID)
+        {
+            Groups.Add(Context.ConnectionId, Convert.ToString(ProjectID));
+        }
+
         public void OnChange(object ChangeData, int FileID, string Username)
         {
             Clients.Group(Convert.ToString(FileID), Context.ConnectionId).OnChange(ChangeData, Username);
+        }
+
+        public void OnTreeChange(int ProjectID, string ActionText, string Username)
+        {
+            Clients.Group(Convert.ToString(ProjectID)).OnTreeChange(ActionText, Username);
         }
     }
 }
