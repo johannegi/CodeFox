@@ -20,10 +20,11 @@ namespace CodeFox.Tests.Services
         {
             var MockDb = new MockDatabase();
 
+
             var P1 = new Project
             {
                 ID = 4,
-                Name = "Project1",
+                Name = "Project1"
             };
             MockDb.Projects.Add(P1);
             var P2 = new Project
@@ -140,10 +141,7 @@ namespace CodeFox.Tests.Services
         [TestMethod]
         public void Test()
         {
-
-            service.DeleteFolder(1);
-
-            Assert.AreEqual(1, 1);
+            
         }
 
     }

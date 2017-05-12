@@ -127,11 +127,11 @@ namespace CodeFox.Services
 
         public bool SaveFile(int ProjectID, int FileID, string NewText)
         {
-            File ToSave = DB.Files.Find(FileID);
+            File ToSave = GetFileByID(FileID); //DB.Files.Find(FileID);
             ToSave.Location = NewText;
             ToSave.DateModified = DateTime.Now;
 
-            Project TheProject = DB.Projects.Find(ProjectID);
+            Project TheProject = DB.Projects.Where(x => x.ID == ProjectID).FirstOrDefault(); //Find(ProjectID);
             TheProject.DateModified = DateTime.Now;
             if (DB.SaveChanges() == 0)
             {
@@ -190,7 +190,7 @@ namespace CodeFox.Services
 
         public File GetFileByID(int? ID)
         {
-            return DB.Files.Find(ID);
+            return DB.Files.Where(x => x.ID == ID).FirstOrDefault(); //Find(ID);
         }
 
         public List<string> GetTypeList()
