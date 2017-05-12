@@ -18,7 +18,8 @@ var LastLineInsert
 var LastLineRemove
 
 //When another user makes a change
-CodeHub.client.onChange = function (ChangeData, Username) {
+CodeHub.client.onChange = function (ChangeData, Username)
+{
     Silent = true;
     Editor.getSession().getDocument().applyDelta(ChangeData);
     if (ChangeData.action == 'insert')
@@ -75,11 +76,14 @@ CodeHub.client.onTreeChange = function (ActionText, Username)
 }
 
 //Sends changes with signalR to other users
-$.connection.hub.start().done(function () {
+$.connection.hub.start().done(function ()
+{
     CodeHub.server.joinFile(FileID);
     CodeHub.server.joinProject(ProjectID);
-    ace.edit("Editor").on('change', function (Obj) {
-        if (Silent) {
+    ace.edit("Editor").on('change', function (Obj)
+    {
+        if (Silent)
+        {
             return;
         }
         CodeHub.server.onChange(Obj, FileID, CurrentUser);
@@ -91,34 +95,40 @@ var TypingTimer;                //timer identifier
 var DoneTypingInterval = 500;  //time in ms
 
 //on keyup, start the countdown
-$('#Editor').on("keyup", function (Obj) {
+$('#Editor').on("keyup", function (Obj)
+{
     if (TypingTimer) clearTimeout(TypingTimer);
     TypingTimer = setTimeout(DoneTyping, DoneTypingInterval);
 });
 
 //on keydown, clear the countdown
-$('#Editor').on("keydown", function () {
+$('#Editor').on("keydown", function ()
+{
     clearTimeout(TypingTimer);
     var Selected = $('#Tree').jstree(true).get_selected('full', true)
     Selected = Selected[0]
-    if (Selected.type == 'file' || Selected.type == 'ReadMe') {
+    if (Selected.type == 'file' || Selected.type == 'ReadMe')
+    {
         $('#EditorInfo').text('File will save when you stop editing');
     }
 });
 
 //user is "finished typing," do something
-function DoneTyping() {
+function DoneTyping()
+{
     var Selected = $('#Tree').jstree(true).get_selected('full', true)
     Selected = Selected[0]
     var FileID = Number(Selected.id);
     var NewText = String(ace.edit("Editor").session.getValue());
-    if (Selected.type == 'file' || Selected.type == 'ReadMe') {
+    if (Selected.type == 'file' || Selected.type == 'ReadMe')
+    {
         $.ajax(
             {
                 url: '/Editor/SaveFile/',
                 data: { 'ProjectID': ProjectID, 'FileID': Number(Selected.id), 'NewText': NewText },
                 method: 'POST',
-                success: function (ReturnData) {
+                success: function (ReturnData)
+                {
                     $('#EditorInfo').text('File saved');
                 }
             });
@@ -126,33 +136,36 @@ function DoneTyping() {
 }
 
 var TreeData;
-$(document).ready(function () {
+$(document).ready(function ()
+{
     $('.AddFileButton').on('click', function()
     {
         $.ajax({
             url: '/Editor/AddFiles',
             data: { 'ID': ProjectID },
             method: "GET",
-            success: function (data) {
+            success: function (data)
+            {
                 $('.AddFilesContainer').html(data);
             }
         });
 
         $('#OpenModalAddFile').modal('show');
     })
-
-    $(document).on("click", ".CreateFile", function (e) {
-        var form = $('#AddFileForm');
+    // We had to use this method, because we render the partial view into the modal.
+    $(document).on("click", ".CreateFile", function ()
+    {
+        var Form = $('#AddFileForm');
         $.ajax({
             url: '/Editor/AddFiles',
-            data: form.serialize(),
+            data: Form.serialize(),
             method: "POST",
-            success: function (data) {
-                if (data == 'SameName')
+            success: function (Data) {
+                if (Data == 'SameName')
                 {
                     $('#ErrorLabel').html('This project has a file with the same name.');
                 }
-                else if(data == 'EmptyString')
+                else if(Data == 'EmptyString')
                 {
                     $('#ErrorLabel').html('You have to enter a name');
                 }
@@ -166,27 +179,31 @@ $(document).ready(function () {
         return false;
     });
 
-    $('.AddFolderButton').on('click', function () {
+    $('.AddFolderButton').on('click', function ()
+    {
         $.ajax({
             url: '/Editor/AddFolder',
             data: { 'ID': ProjectID },
             method: "GET",
-            success: function (data) {
-                $('.AddFolderContainer').html(data);
+            success: function (Data)
+            {
+                $('.AddFolderContainer').html(Data);
             }
         });
 
         $('#OpenModalAddFolder').modal('show');
     })
 
-    $(document).on("click", ".CreateFolder", function (e) {
-        var form = $('#AddFolderForm');
+    $(document).on("click", ".CreateFolder", function ()
+    {
+        var Form = $('#AddFolderForm');
         $.ajax({
             url: '/Editor/AddFolder',
-            data: form.serialize(),
+            data: Form.serialize(),
             method: "POST",
-            success: function (data) {
-                if (data == 'EmptyString')
+            success: function (Data)
+            {
+                if (Data == 'EmptyString')
                 {
                     $('#ErrorLabel').html('You have to enter a name');
                 }
@@ -205,7 +222,8 @@ $(document).ready(function () {
     url: '/Editor/GetTreeJson/',
     data: { 'ProjectID': ProjectID },
     method: 'POST',
-    success: function (ReturnData) {
+    success: function (ReturnData)
+    {
         TreeData = ReturnData;
         //Load JsTree
         $('#Tree').jstree({
@@ -236,25 +254,29 @@ $(document).ready(function () {
             },
             "plugins": ["contextmenu", "dnd", "types"],
             "contextmenu": {
-                "items": function (Node) {
+                "items": function (Node)
+                {
                     return {
                         "Rename": {
                             "separator_before": false,
                             "separator_after": false,
                             "label": "Rename",
                             //Right click on node to rename function
-                            "action": function () {
+                            "action": function ()
+                            {
                                 var NewName = prompt("Please enter new name", "");
                                 if (NewName != null && NewName != "")
                                 {
                                     //Rename File
-                                    if (Node.type == 'file') {
+                                    if (Node.type == 'file')
+                                    {
                                         $.ajax(
                                         {
                                             url: '/Editor/ChangeFileName/',
                                             data: { 'ProjectID': ProjectID, 'FileID': Number(Node.id), 'NewName': NewName },
                                             method: 'POST',
-                                            success: function (ReturnData) {
+                                            success: function (ReturnData)
+                                            {
                                                 if (ReturnData == 'SameName')
                                                 {
                                                     alert('A file in this project already has this name');
@@ -271,14 +293,15 @@ $(document).ready(function () {
                                             }
                                         });
                                     }
-                                        //Rename Folder
-                                    else if (Node.type != 'ReadMe') {
-                                        $.ajax(
-                                        {
+                                    //Rename Folder
+                                    else if (Node.type != 'ReadMe')
+                                    {
+                                        $.ajax({
                                             url: '/Editor/ChangeFolderName/',
                                             data: { 'ProjectID': ProjectID, 'FolderID': Number(Node.id), 'NewName': NewName },
                                             method: 'POST',
-                                            success: function (ReturnData) {
+                                            success: function (ReturnData)
+                                            {
                                                 $('#EditorInfo').text(Node.text + ' Renamed to ' + ReturnData.Name);
                                                 $("#Tree").jstree('set_text', Node, (ReturnData.Name));
                                                 CodeHub.server.onTreeChange(ProjectID, (CurrentUser + ' renamed ' + Node.text + ' to ' + ReturnData.Name), CurrentUser);
@@ -293,22 +316,28 @@ $(document).ready(function () {
                             "separator_before": false,
                             "separator_after": false,
                             "label": "Remove",
-                            "action": function () {
-                                if (Node.id == ReadMeID) {
+                            "action": function ()
+                            {
+                                if (Node.id == ReadMeID)
+                                {
                                     alert("You can't delete the read me file")
                                 }
-                                else if (Node.id == 'Project') {
+                                else if (Node.id == 'Project')
+                                {
                                     alert("You can't delete the project root")
                                 }
-                                else {
+                                else
+                                {
                                     //Delete File
-                                    if (Node.type == 'file' && confirm("Are you sure you want to delete " + Node.text + " ?") == true) {
+                                    if (Node.type == 'file' && confirm("Are you sure you want to delete " + Node.text + " ?") == true)
+                                    {
                                         $.ajax(
                                             {
                                                 url: '/Editor/DeleteFile/',
                                                 data: { 'FileID': Number(Node.id), 'ProjectID': ProjectID },
                                                 method: 'POST',
-                                                success: function (ReturnData) {
+                                                success: function (ReturnData)
+                                                {
                                                     $('#EditorInfo').text(Node.text + ' deleted');
                                                     $("#Tree").jstree('delete_node', Node);
                                                     $('#Tree').jstree(true).select_node(String(ReadMeID));
@@ -317,7 +346,8 @@ $(document).ready(function () {
                                             });
                                     }
                                         //Delete Folder
-                                    else if (Node.type != 'file' && confirm("Are you sure you want to delete " + Node.text + " and every file inside it ?") == true) {
+                                    else if (Node.type != 'file' && confirm("Are you sure you want to delete " + Node.text + " and every file inside it ?") == true)
+                                    {
                                         $.ajax(
                                             {
                                                 url: '/Editor/DeleteFolder/',
@@ -350,9 +380,11 @@ var Pos = 0;
 var newPos = 0;
 
 //When JsTree is loaded
-$("#Tree").on("loaded.jstree", function () {
+$("#Tree").on("loaded.jstree", function ()
+{
     $('#Tree').jstree(true).select_node(String(ReadMeID));
-    $("#Tree").on("select_node.jstree", function (Event, Node) {
+    $("#Tree").on("select_node.jstree", function (Event, Node)
+    {
         //When node is selected
         var Selected = $('#Tree').jstree(true).get_selected('full', true)
         Selected = Selected[0];
@@ -361,14 +393,16 @@ $("#Tree").on("loaded.jstree", function () {
         CodeHub.server.joinFile(FileID);
 
         //Open new file when selected
-        if (Selected.type == 'file' || Selected.type == 'ReadMe') {
+        if (Selected.type == 'file' || Selected.type == 'ReadMe')
+        {
             ace.edit("Editor").setReadOnly(false);
             $.ajax(
                 {
                     url: '/Editor/OpenNewFile/',
                     data: { 'FileID': Number(Selected.id) },
                     method: 'POST',
-                    success: function (ReturnData) {
+                    success: function (ReturnData)
+                    {
                         Silent = true;
                         ace.edit("Editor").setValue(ReturnData.Location);
                         var Modelist = ace.require("ace/ext/modelist")
@@ -379,19 +413,24 @@ $("#Tree").on("loaded.jstree", function () {
                     }
                 });
         }
-        else {
+        else
+        {
             ace.edit("Editor").setValue('');
             ace.edit("Editor").setReadOnly(true);
         }
 
     });
     //When node is dragged and moved
-    $("#Tree").bind('move_node.jstree', function (Event, Data) {
-        if (Data.parent != Data.old_parent) {
+    $("#Tree").bind('move_node.jstree', function (Event, Data)
+    {
+        if (Data.parent != Data.old_parent)
+        {
             //Move File
-            if (Data.node.type == 'file') {
+            if (Data.node.type == 'file')
+            {
                 var NewFolder = null;
-                if (Data.parent != 'Project') {
+                if (Data.parent != 'Project')
+                {
                     NewFolder = Number(Data.parent)
                 }
                 $.ajax(
@@ -399,7 +438,8 @@ $("#Tree").on("loaded.jstree", function () {
                     url: '/Editor/MoveFile/',
                     data: { 'ProjectID': ProjectID, 'FileID': Number(Data.node.id), 'NewFolderID': NewFolder },
                     method: 'POST',
-                    success: function () {
+                    success: function ()
+                    {
                         var NewParent = $('#Tree').jstree(true).get_node(Data.parent)
                         $('#EditorInfo').text(Data.node.text + ' Moved to folder ' + NewParent.text);
                         CodeHub.server.onTreeChange(ProjectID, (CurrentUser + ' moved ' + Data.node.text + ' to folder ' + NewParent.text), CurrentUser);
@@ -407,9 +447,11 @@ $("#Tree").on("loaded.jstree", function () {
                 });
             }
                 //Move Folder
-            else if (Data.node.type != 'ReadMe') {
+            else if (Data.node.type != 'ReadMe')
+            {
                 var NewFolder = null;
-                if (Data.parent != 'Project') {
+                if (Data.parent != 'Project')
+                {
                     NewFolder = Number(Data.parent)
                 }
                 $.ajax(
@@ -417,7 +459,8 @@ $("#Tree").on("loaded.jstree", function () {
                     url: '/Editor/MoveFolder/',
                     data: { 'ProjectID': ProjectID, 'FolderID': Number(Data.node.id), 'NewFolderID': NewFolder },
                     method: 'POST',
-                    success: function () {
+                    success: function ()
+                    {
                         var NewParent = $('#Tree').jstree(true).get_node(Data.parent)
                         $('#EditorInfo').text(Data.node.text + ' Moved to folder ' + NewParent.text);
                         CodeHub.server.onTreeChange(ProjectID, (CurrentUser + ' moved ' + Data.node.text + ' to folder ' + NewParent.text), CurrentUser);
