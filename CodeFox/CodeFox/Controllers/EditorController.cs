@@ -15,6 +15,7 @@ namespace CodeFox.Controllers
     [Authorize]
     public class EditorController : Controller
     {
+        // This controller talks to all the services, so we have an instance of each one.
         private ProjectService Pservice = new ProjectService(null);
         private FileService FService = new FileService(null);
         private FolderService FoService = new FolderService(null);
