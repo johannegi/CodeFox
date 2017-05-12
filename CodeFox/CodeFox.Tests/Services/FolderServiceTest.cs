@@ -20,18 +20,19 @@ namespace CodeFox.Tests.Services
         {
             var MockDb = new MockDatabase();
 
+
             var P1 = new Project
             {
-                ID = 1,
-                Name = "Project1",
+                ID = 4,
+                Name = "Project1"
             };
             MockDb.Projects.Add(P1);
-           /* var P2 = new Project
+            var P2 = new Project
             {
                 ID = 2,
                 Name = "Project2"
             };
-            MockDb.Projects.Add(P2);*/
+            MockDb.Projects.Add(P2);
 
             var F1 = new Folder
             {
@@ -67,6 +68,19 @@ namespace CodeFox.Tests.Services
             MockDb.Folders.Add(F4);
 
             service = new FolderService(MockDb);
+        }
+
+        [TestMethod]
+        public void TestGetFolderByID()
+        {
+            //Arrange
+            const int FolderID = 3;
+
+            //Act
+            Folder Result = service.GetFolderByID(FolderID);
+
+            //Assert
+            Assert.IsNotNull(Result);
         }
 
         [TestMethod]
@@ -122,16 +136,26 @@ namespace CodeFox.Tests.Services
         }
 
         [TestMethod]
-        public void TestAddFolder()
+        public void ChangeFoldersName()
         {
             //Arrange
-            
-
+            const int FolderID = 3;
+            const int ProjectID = 4;
+            Folder Folder3 = service.GetFolderByID(3);
+            string NewName = "KAlli";
             //Act
-            
+            Folder Renamed = service.ChangeFolderName(ProjectID, FolderID, NewName);
             
 
-            Assert.AreEqual(null, null);
+            Assert.AreEqual(Folder3.Name, NewName);
+            Assert.AreEqual(Folder3, Renamed);
         }
+
+        [TestMethod]
+        public void Test()
+        {
+            
+        }
+
     }
 }

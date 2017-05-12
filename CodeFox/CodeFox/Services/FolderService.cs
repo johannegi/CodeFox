@@ -11,11 +11,9 @@ namespace CodeFox.Services
     public class FolderService
     {
         private readonly IAppDataContext DB;
-        private readonly FileService FService;
         public FolderService(IAppDataContext context)
         {
             DB = context ?? new ApplicationDbContext();
-            FService = new FileService(context);
         }
         //private ApplicationDbContext DB = new ApplicationDbContext();
         
@@ -59,8 +57,8 @@ namespace CodeFox.Services
 
         public bool DeleteFolder(int FolderID)
         {
-            Folder TheFolder = DB.Folders.Find(FolderID);
-            Project TheProject = DB.Projects.Find(TheFolder.ProjectStructure.ID);
+            Folder TheFolder = GetFolderByID(FolderID); //DB.Folders.Find(FolderID);
+            Project TheProject = DB.Projects.Where( x => x.ID == TheFolder.ProjectStructure.ID).FirstOrDefault();
             if (TheFolder == null || TheProject == null)
             {
                 return false;
@@ -98,11 +96,11 @@ namespace CodeFox.Services
 
         public Folder ChangeFolderName(int ProjectID, int FolderID, string NewName)
         {
-            Folder ToRename = DB.Folders.Find(FolderID);
+            Folder ToRename = GetFolderByID(FolderID); //DB.Folders.Find(FolderID);
             ToRename.DateModified = DateTime.Now;
             ToRename.Name = NewName;
 
-            Project TheProject = DB.Projects.Find(ProjectID);
+            Project TheProject = DB.Projects.Where( x => x.ID == ProjectID).FirstOrDefault();
             TheProject.DateModified = DateTime.Now;
 
             DB.SaveChanges();
@@ -136,7 +134,7 @@ namespace CodeFox.Services
 
         public List<Folder> GetAllFoldersInProject(int? ProjectID)
         {
-            List<Folder> Returner = DB.Folders.Where(x => x.ProjectStructure.ID == ProjectID).ToList();
+            var Returner = DB.Folders.Where(x => x.ProjectStructure.ID == ProjectID).ToList();
             return Returner;
         }
     }
