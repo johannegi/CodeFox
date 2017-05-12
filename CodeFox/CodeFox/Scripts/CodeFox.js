@@ -131,7 +131,7 @@ $(document).ready(function ()
 
     /**************************************************************REGISTER**************************************************************/
 
-    $('#RegisterForm').on('submit', function (e)
+    /*$('#RegisterForm').on('submit', function (e)
     {
         e.preventDefault();
         $('#DuplicateUsernameError').html('');
@@ -144,27 +144,31 @@ $(document).ready(function ()
             method: 'POST',
             success: function (data)
             {
+                console.log(data);
                 if (data == "success")
                 {
                     window.location.href = '/Projects';
                 }
-                else if(!data.Succeded && data.Errors == undefined)
-                {
-                    var message = '<li class="text-danger">Password and Confirm Password do not match</li>';
-                    $('#DuplicateUsernameError').append(message);
-                }
                 else if (!data.Succeded)
                 {
-                    var html = "";
-                    for (var i = 0; i < data.Errors.length; i++) {
-                        html += "<li class='text-danger'>";
-                        html += data.Errors[i];
-                        html += "</li>";
+                    if (data.Errors == undefined)
+                    {
+                        var message = '<li class="text-danger">Password and Confirm Password do not match</li>';
+                        $('#DuplicateUsernameError').append(message);
                     }
-                    $('#DuplicateUsernameError').append(html);
+                    else
+                    {
+                        var html = "";
+                        for (var i = 0; i < data.Errors.length; i++) {
+                            html += "<li class='text-danger'>";
+                            html += data.Errors[i];
+                            html += "</li>";
+                        }
+                        $('#DuplicateUsernameError').append(html);
+                    }
                 }
             }
         });
         return false;
-    });
+    });*/
 });

@@ -13,6 +13,7 @@ namespace CodeFox.Models.ViewModels
         public List<string> TypeList;
 
         [Required]
+        [StringLength(35, ErrorMessage = "The {0} can only be {1} characters long.")]
         public string Name { get; set; }
 
         [Required]
